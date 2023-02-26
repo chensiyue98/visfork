@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 export default function Home() {
 	return (
@@ -11,15 +12,16 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<h1 className="text-xl">
+				<h1><GitHubIcon sx={{ fontSize: 70 }}/></h1>
+				<h3 className="text-xl underline">
 					<a href="./example">Example: d3 - stargazer counts of forks</a>
-				</h1>
-				<h1 className="text-xl">
+				</h3>
+				<h3 className="text-xl underline">
 					<a href="./api/forks?repo=iina/iina">Example: serverless api - fetch forks</a>
-				</h1>
-				<h1 className="text-xl">
+				</h3>
+				<h3 className="text-xl underline">
 					<a href="./api/hello">Example: serverless api - hello</a>
-				</h1>
+				</h3>
 			</main>
 		</>
 	);

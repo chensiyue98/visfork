@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import * as d3 from "d3";
+import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
 
 function GitHubForks() {
-	const [repoUrl, setRepoUrl] = useState("");
+	const [repo, setRepo] = useState("");
 	const [forks, setForks] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const chartRef = useRef(null); // Add a reference to the chart div
@@ -54,25 +56,13 @@ function GitHubForks() {
 			.attr("y", (d) => y(d.stargazers_count))
 			.attr("width", x.bandwidth())
 			.attr("height", (d) => height - y(d.stargazers_count));
-
-		// Add a download button
-		const svgNode = svg.node();
-		const svgString = new XMLSerializer().serializeToString(svgNode);
-		const imgData = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-			svgString
-		)}`;
-		const downloadLink = document.createElement("a");
-		downloadLink.setAttribute("href", imgData);
-		downloadLink.setAttribute("download", "chart.png");
-		downloadLink.innerHTML = "Download chart";
-		document.getElementById("download").appendChild(downloadLink);
 	}
 
 	async function handleSubmit(event) {
 		event.preventDefault();
 		try {
 			setIsLoading(true);
-			const response = await fetch(`/api/forks?repo=${repoUrl}`);
+			const response = await fetch(`/api/forks?repo=${repo}`);
 			const latestForks = await response.json();
 			setForks(latestForks);
 			createChart(latestForks); // Create the chart with the latest forks
@@ -85,28 +75,22 @@ function GitHubForks() {
 	}
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit}>
+		<div className="m-10">
+			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
 				<label htmlFor="inputField">GitHub Repository URL:</label>
-				<input
-					type="text"
-					id="inputField"
-					value={repoUrl}
-					onChange={(event) => setRepoUrl(event.target.value)}
-					defaultValue="iina/iina"
-				/>
-				<button type="submit">Submit</button>
+				<TextField id="outlined-basic" label="Owner/Repo" variant="outlined" value={repo} onChange={(event) => setRepo(event.target.value)} />
+				<Button variant="outlined" type="submit">
+					Submit
+				</Button>
 			</form>
 			{isLoading && <p>Loading...</p>}
 			<div ref={chartRef}></div>
-      <div id="chart"></div>
-			<div id="download"></div>
 
 			{forks.length > 0 && (
 				<ul>
 					{forks.map((fork) => (
 						<li key={fork.id}>
-							<a href={fork.html_url}>{fork.full_name}</a> (
+							<a className="underline text-blue-600" href={fork.html_url}>{fork.full_name}</a> (
 							{fork.stargazers_count} stargazers)
 						</li>
 					))}
