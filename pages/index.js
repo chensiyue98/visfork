@@ -17,10 +17,16 @@ export default function Home() {
 					<a href="./example">Example: d3 - stargazer counts of forks</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./api/forks?repo=iina/iina">Example: serverless api - fetch forks</a>
+					<a href="./example2">Example2</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./api/hello">Example: serverless api - hello</a>
+					<a href="./example3">Example3</a>
+				</h3>
+				<h3 className="text-xl underline">
+					<a href="./api/forks?repo=iina/iina">API Example: serverless api - fetch forks (10)</a>
+				</h3>
+				<h3 className="text-xl underline">
+					<a href="./api/hello">API Example: serverless api - hello</a>
 				</h3>
 			</main>
 		</>

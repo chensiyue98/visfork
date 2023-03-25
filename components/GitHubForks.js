@@ -78,7 +78,13 @@ function GitHubForks() {
 		<div className="m-10">
 			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
 				<label htmlFor="inputField">GitHub Repository URL:</label>
-				<TextField id="outlined-basic" label="Owner/Repo" variant="outlined" value={repo} onChange={(event) => setRepo(event.target.value)} />
+				<TextField
+					id="outlined-basic"
+					label="Owner/Repo"
+					variant="outlined"
+					value={repo}
+					onChange={(event) => setRepo(event.target.value)}
+				/>
 				<Button variant="outlined" type="submit">
 					Submit
 				</Button>
@@ -90,8 +96,10 @@ function GitHubForks() {
 				<ul>
 					{forks.map((fork) => (
 						<li key={fork.id}>
-							<a className="underline text-blue-600" href={fork.html_url}>{fork.full_name}</a> (
-							{fork.stargazers_count} stargazers)
+							<a className="underline text-blue-600" href={fork.html_url}>
+								{fork.full_name}
+							</a>{" "}
+							({fork.stargazers_count} stargazers)
 						</li>
 					))}
 				</ul>
