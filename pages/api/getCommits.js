@@ -4,9 +4,6 @@ export default async function (req, res) {
 	const { repo, branch_sha, branch_name } = req.query;
 
 	try {
-		// const response = await axios.get(
-		// 	`https://api.github.com/repos/${repo}/commits?sha=${branch_sha}`
-		// );
 		var query = ``;
 		if (branch_sha) {
 			query = `?sha=${branch_sha}`;
@@ -27,6 +24,7 @@ export default async function (req, res) {
 				// map parent shas to a array of strings
 				parentIds: commit.parents.map((parent) => parent.sha),
 				branch_name: branch_name,
+				branch_id: branch_sha,
                 node_id: commit.node_id,
                 author: commit.commit.author.name,
                 // Use the date from the committer, not the author

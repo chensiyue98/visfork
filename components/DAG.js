@@ -7,14 +7,15 @@ const DagComponent = ({ data }) => {
 	var isHorizontal = true;
 
 	useEffect(() => {
+		// clear the previous render
+		d3.select(svgRef.current).selectAll("*").remove();
 		console.log(data);
 
 		const dag = d3dag.dagStratify()(data);
+		console.log("DAG", dag);
 
-		console.log(dag);
-
-		const nodeRadius = 10;
-		const edgeRadius = 5;
+		const nodeRadius = 5;
+		const edgeRadius = 2;
 		const gridTweak = (layout) => (dag) => {
 			// Tweak allows a basis interpolation to curve the lines
 			// We essentially take the three point lines and make them five, with two points on either side of the bend
@@ -131,7 +132,7 @@ const DagComponent = ({ data }) => {
 			.attr("stroke", ({ source, target }) => {
 				// encodeURIComponents for spaces, hope id doesn't have a `--` in it
 				const gradId = encodeURIComponent(
-					`${source.data.id}--${target.data.id}`
+					`${source.data.branch_id}--${target.data.branch_id}`
 				);
 				const grad = defs
 					.append("linearGradient")
@@ -144,11 +145,11 @@ const DagComponent = ({ data }) => {
 				grad
 					.append("stop")
 					.attr("offset", "0%")
-					.attr("stop-color", colorMap.get(source.data.id));
+					.attr("stop-color", colorMap.get(source.data.branch_id));
 				grad
 					.append("stop")
 					.attr("offset", "100%")
-					.attr("stop-color", colorMap.get(target.data.id));
+					.attr("stop-color", colorMap.get(target.data.branch_id));
 				return `url(#${gradId})`;
 			});
 
@@ -165,7 +166,7 @@ const DagComponent = ({ data }) => {
 		nodes
 			.append("circle")
 			.attr("r", nodeRadius)
-			.attr("fill", (n) => colorMap.get(n.data.id));
+			.attr("fill", (n) => colorMap.get(n.data.branch_id));
 
 		// Add mouseover events
 		nodes
@@ -188,20 +189,12 @@ const DagComponent = ({ data }) => {
 				window.open(`${d.data.url}`);
 			});
 
-		const x = d3
-			.scaleBand()
-			.domain(data.map((d) => d.branch))
-			.range([0, width])
-			.padding(0.1);
-
-		svgSelection.append("g").call(d3.axisTop(x));
-
-		const y = d3
-			.scaleTime()
-			.domain(d3.extent(data, (d) => d.date))
-			.range([height, 0]);
-
-		svgSelection.append("g").call(d3.axisLeft(y));
+		const axes = svgSelection
+			.append("g")
+			.selectAll("circle")
+			.data(dag.descendants())
+			.attr("cx", (d) => d.x)
+			.attr("cy", (d) => d.y); // use y-coordinate of nodes;
 
 		const tooltip = d3
 			.select("body")
@@ -209,6 +202,12 @@ const DagComponent = ({ data }) => {
 			.attr("class", "tooltip")
 			.style("opacity", 0)
 			.style("position", "absolute");
+
+		// svgSelection.call(
+		// 	d3.zoom().on("zoom", (event) => {
+		// 		root.attr("transform", event.transform);
+		// 	})
+		);
 	}, [data]);
 
 	return <svg ref={svgRef} />;

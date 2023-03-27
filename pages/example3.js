@@ -22,6 +22,8 @@ export default function App() {
 			// Branches' commits
 			const response_branches = await fetch(`/api/getBranches?repo=${repo}`);
 			const branches = await response_branches.json();
+			console.log("branches", branches);
+
 			var count = 0;
 			for (const branch of branches) {
 				const response = await fetch(
@@ -29,7 +31,7 @@ export default function App() {
 				);
 				const branches_commits = await response.json();
 				tempData = [...tempData, ...branches_commits];
-				if (count == 10) {
+				if (count == 30) {
 					break;
 				} else {
 					count++;
