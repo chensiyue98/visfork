@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async function (req, res) {
 	const { repo, branch_sha, branch_name } = req.query;
-
+	
 	try {
 		var query = ``;
 		if (branch_sha) {

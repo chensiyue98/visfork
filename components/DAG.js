@@ -5,14 +5,15 @@ import * as d3dag from "d3-dag";
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	var isHorizontal = true;
+	console.log("DAG.js: data", data);
 
 	useEffect(() => {
 		// clear the previous render
 		d3.select(svgRef.current).selectAll("*").remove();
-		console.log(data);
+		console.log("DAG.js: parsed data", data);
 
 		const dag = d3dag.dagStratify()(data);
-		console.log("DAG", dag);
+		console.log("DAG.js: dag", dag);
 
 		const nodeRadius = 5;
 		const edgeRadius = 2;
@@ -97,12 +98,15 @@ const DagComponent = ({ data }) => {
 		);
 
 		const { width, height } = layout(dag);
-
 		const svgSelection = d3.select(svgRef.current);
-		svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
-		svgSelection.attr("width", width);
-		svgSelection.attr("height", height);
-		const defs = svgSelection.append("defs"); // For gradients
+
+		// svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
+		svgSelection.attr("width", 400);
+		svgSelection.attr("height", 600);
+
+		const graph = svgSelection.append("g");
+
+		const defs = graph.append("defs"); // For gradients
 
 		const steps = dag.size();
 		const interp = d3.interpolateRainbow;
@@ -120,7 +124,7 @@ const DagComponent = ({ data }) => {
 			.y((d) => d.y);
 
 		// Plot edges
-		svgSelection
+		graph
 			.append("g")
 			.selectAll("path")
 			.data(dag.links())
@@ -154,7 +158,7 @@ const DagComponent = ({ data }) => {
 			});
 
 		// Select nodes
-		const nodes = svgSelection
+		const nodes = graph
 			.append("g")
 			.selectAll("g")
 			.data(dag.descendants())
@@ -189,13 +193,6 @@ const DagComponent = ({ data }) => {
 				window.open(`${d.data.url}`);
 			});
 
-		const axes = svgSelection
-			.append("g")
-			.selectAll("circle")
-			.data(dag.descendants())
-			.attr("cx", (d) => d.x)
-			.attr("cy", (d) => d.y); // use y-coordinate of nodes;
-
 		const tooltip = d3
 			.select("body")
 			.append("div")
@@ -203,14 +200,16 @@ const DagComponent = ({ data }) => {
 			.style("opacity", 0)
 			.style("position", "absolute");
 
-		// svgSelection.call(
-		// 	d3.zoom().on("zoom", (event) => {
-		// 		root.attr("transform", event.transform);
-		// 	})
-		// );
+		const zoom = d3
+			.zoom()
+			.scaleExtent([0.1, 5])
+			.on("zoom", function (event) {
+				graph.attr("transform", event.transform);
+			});
+		svgSelection.call(zoom);
 	}, [data]);
 
-	return <svg ref={svgRef} />;
+	return <svg ref={svgRef} className="border-x-gray-500 border-solid border-2" />;
 };
 
 export default DagComponent;

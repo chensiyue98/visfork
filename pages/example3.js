@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
-import { data } from "autoprefixer";
 
 export default function App() {
 	const token = "Bearer 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";
@@ -19,36 +18,60 @@ export default function App() {
 		var tempData = [];
 		try {
 			setIsLoading(true);
-			// Branches' commits
-			const response_branches = await fetch(`/api/getBranches?repo=${repo}`);
-			const branches = await response_branches.json();
-			console.log("branches", branches);
+			// // Branches' commits
+			// const response_branches = await fetch(`/api/getBranches?repo=${repo}`);
+			// const branches = await response_branches.json();
+			// console.log("branches", branches);
 
-			var count = 0;
-			for (const branch of branches) {
-				const response = await fetch(
-					`/api/getCommits?repo=${repo}&branch_sha=${branch.commit.sha}&branch_name=${branch.name}`
-				);
-				const branches_commits = await response.json();
-				tempData = [...tempData, ...branches_commits];
-				if (count == 30) {
-					break;
-				} else {
-					count++;
-				}
-			}
-			// 去除具有重复id的数据；然后将tempData中的每一个parentIds与id匹配，如果出现不存在的parentIds，则将其parentIds修改为[]
-			tempData = tempData.filter((item, index, self) => {
-				return self.findIndex((t) => t.id === item.id) === index;
-			});
-			tempData = tempData.map((item) => {
-				item.parentIds = item.parentIds.filter((parent) => {
-					return tempData.some((item) => item.id === parent);
-				});
-				return item;
-			});
+			// var count = 0;
+			// for (const branch of branches) {
+			// 	const response = await fetch(
+			// 		`/api/getCommits?repo=${repo}&branch_sha=${branch.commit.sha}&branch_name=${branch.name}`
+			// 	);
+			// 	const branches_commits = await response.json();
+			// 	tempData = [...tempData, ...branches_commits];
+			// 	if (count == 2) {
+			// 		break;
+			// 	} else {
+			// 		count++;
+			// 	}
+			// }
 
-			setCommitData(tempData);
+			// // 去除具有重复id的数据；
+			// // tempData = tempData.filter((item, index, self) => {
+			// // 	return self.findIndex((t) => t.id === item.id) === index;
+			// // });
+
+			// // 合并相同id的数据
+			// tempData = tempData.reduce((uniqueData, item) => {
+			// 	const index = uniqueData.findIndex((t) => t.id === item.id);
+			// 	if (index === -1) {
+			// 		uniqueData.push(item);
+			// 	} else {
+			// 		uniqueData[index] = {
+			// 			...uniqueData[index],
+			// 			...item,
+			// 			parentIds: [
+			// 				...new Set([...uniqueData[index].parentIds, ...item.parentIds]),
+			// 			],
+			// 		};
+			// 	}
+			// 	return uniqueData;
+			// }, []);
+
+			// // 将tempData中的每一个parentIds与id匹配，如果出现不存在的parentIds，则将其parentIds修改为[]
+			// tempData = tempData.map((item) => {
+			// 	item.parentIds = item.parentIds.filter((parent) => {
+			// 		return tempData.some((item) => item.id === parent);
+			// 	});
+			// 	return item;
+			// });
+			
+			const response = await axios.get(`/api/getAll?repo=${repo}`);
+			console.log("response", response.data);
+
+			setCommitData(response.data);
+			// console.log("example3.js: commitData", commitData);
 		} catch (error) {
 			console.error(error);
 			alert(error.message);
@@ -57,7 +80,6 @@ export default function App() {
 			setIsSubmit(true);
 		}
 	}
-	console.log("commitData", commitData);
 
 	return (
 		<div className="p-10 flex flex-col items-center">
