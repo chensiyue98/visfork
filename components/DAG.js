@@ -207,7 +207,7 @@ const DagComponent = ({ data }) => {
 		// 	d3.zoom().on("zoom", (event) => {
 		// 		root.attr("transform", event.transform);
 		// 	})
-		);
+		// );
 	}, [data]);
 
 	return <svg ref={svgRef} />;
