@@ -181,7 +181,10 @@ const DagComponent = ({ data }) => {
 				tooltip.transition().duration(200).style("opacity", 0.9);
 				tooltip
 					.html(
-						`<p>Branch: ${d.data.branch_name}</p><p>Commit: ${d.data.id}</p><p>Date: ${d.data.date}</p>`
+						`<p>Repo: ${d.data.repo}</p>
+						<p>Branch: ${d.data.branch_name}</p>
+						<p>Commit: ${d.data.id}</p>
+						<p>Date: ${d.data.date}</p>`
 					)
 					.style("left", `${event.pageX - 200}px`)
 					.style("top", `${event.pageY - 200}px`);
