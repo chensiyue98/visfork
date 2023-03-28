@@ -2,9 +2,6 @@ import axios from "axios";
 
 export default async function (req, res) {
 	const { repo } = req.query;
-	let currentStep = parseInt(req.query.step || '1');
-	let state = req.query.state;
-	console.log(currentStep);
 
 	var tempData = [];
 	try {
@@ -125,17 +122,24 @@ async function getBranches(forks) {
 	return branches;
 }
 
+// async function getAllCommits(branches) {
+// 	var allCommits = [];
+// 	for (let i = 0; i < branches.length; i++) {
+// 		const branch = branches[i];
+// 		const commits = await getOneCommits(branch);
+// 		// const commits = await getOneCommitsGQL(branch);
+// 		allCommits = allCommits.concat(commits);
+// 	}
+// 	return allCommits;
+// }
+
 async function getAllCommits(branches) {
-	var allCommits = [];
-	for (let i = 0; i < branches.length; i++) {
-		const branch = branches[i];
-		const commits = await getOneCommits(branch);
-		// const commits = await getOneCommitsGQL(branch);
-		// console.log(commits_test);
-		allCommits = allCommits.concat(commits);
-	}
-	return allCommits;
-}
+	const allCommits = await Promise.all(branches.map(async (branch) => {
+	  const commits = await getOneCommits(branch);
+	  return commits;
+	}));
+	return allCommits.flat();
+  }
 
 async function getOneCommits(branch) {
 	var query = ``;
