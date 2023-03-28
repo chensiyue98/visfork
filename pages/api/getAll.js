@@ -150,7 +150,7 @@ async function getBranches(forks) {
 // 	return allCommits.flat();
 //   }
 async function getAllCommits(branches) {
-	const limit = pLimit(500); // limit concurrency to 500
+	const limit = pLimit(1000); // limit concurrency to 500
 	const allCommits = await Promise.all(
 		branches.map((branch) =>
 			limit(async () => {
