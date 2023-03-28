@@ -3,6 +3,9 @@ import pLimit from "p-limit";
 
 export default async function (req, res) {
 	const { repo } = req.query;
+	
+	const token = "Bearer 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";
+	axios.defaults.headers.common["Authorization"] = token;
 
 	var tempData = [];
 	try {
