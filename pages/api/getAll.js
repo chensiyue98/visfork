@@ -105,50 +105,30 @@ async function getForks(repo_data) {
 }
 
 async function getBranches(forks) {
-	var branches = [];
-	for (let i = 0; i < forks.length; i++) {
-		const fork = forks[i];
-		let response;
-		try {
-			response = await axios.get(
-				`https://api.github.com/repos/${fork.id}/branches`
-			);
-		} catch (error) {
-			continue;
-		}
-		const fork_branches = response.data;
-		// add a new line of data using fork.id to each branch
-		const fork_branches_nodes = fork_branches.map((branch) => {
-			return {
-				name: branch.name,
-				repo: fork.id,
-				sha: branch.commit.sha,
-				url: branch.commit.url,
-			};
-		});
-		branches = branches.concat(fork_branches_nodes);
-	}
-	return branches;
+	const limit = pLimit(1000); // limit concurrency to 500
+	const promises = forks.map((fork) =>
+		limit(async () => {
+			try {
+				const response = await axios.get(
+					`https://api.github.com/repos/${fork.id}/branches`
+				);
+				return response.data.map((branch) => ({
+					name: branch.name,
+					repo: fork.id,
+					sha: branch.commit.sha,
+					url: branch.commit.url,
+				}));
+			} catch (error) {
+				console.error(`Error getting branches for fork ${fork.id}: ${error}`);
+				return [];
+			}
+		})
+	);
+
+	const branches = await Promise.all(promises);
+	return branches.flat();
 }
 
-// async function getAllCommits(branches) {
-// 	var allCommits = [];
-// 	for (let i = 0; i < branches.length; i++) {
-// 		const branch = branches[i];
-// 		const commits = await getOneCommits(branch);
-// 		// const commits = await getOneCommitsGQL(branch);
-// 		allCommits = allCommits.concat(commits);
-// 	}
-// 	return allCommits;
-// }
-
-// async function getAllCommits(branches) {
-// 	const allCommits = await Promise.all(branches.map(async (branch) => {
-// 	  const commits = await getOneCommits(branch);
-// 	  return commits;
-// 	}));
-// 	return allCommits.flat();
-//   }
 async function getAllCommits(branches) {
 	const limit = pLimit(1000); // limit concurrency to 500
 	const allCommits = await Promise.all(
