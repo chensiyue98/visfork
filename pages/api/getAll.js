@@ -3,7 +3,7 @@ import pLimit from "p-limit";
 
 export default async function (req, res) {
 	const { repo } = req.query;
-	
+
 	const token = "Bearer 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";
 	axios.defaults.headers.common["Authorization"] = token;
 
@@ -108,9 +108,14 @@ async function getBranches(forks) {
 	var branches = [];
 	for (let i = 0; i < forks.length; i++) {
 		const fork = forks[i];
-		const response = await axios.get(
-			`https://api.github.com/repos/${fork.id}/branches`
-		);
+		let response;
+		try {
+			response = await axios.get(
+				`https://api.github.com/repos/${fork.id}/branches`
+			);
+		} catch (error) {
+			continue;
+		}
 		const fork_branches = response.data;
 		// add a new line of data using fork.id to each branch
 		const fork_branches_nodes = fork_branches.map((branch) => {
