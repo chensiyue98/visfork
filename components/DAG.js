@@ -8,12 +8,12 @@ const DagComponent = ({ data }) => {
 	console.log("DAG.js: data", data);
 
 	useEffect(() => {
+		var startTimer = new Date().getTime();
+
 		// clear the previous render
 		d3.select(svgRef.current).selectAll("*").remove();
-		console.log("DAG.js: parsed data", data);
 
 		const dag = d3dag.dagStratify()(data);
-		console.log("DAG.js: dag", dag);
 
 		const nodeRadius = 5;
 		const edgeRadius = 2;
@@ -136,7 +136,7 @@ const DagComponent = ({ data }) => {
 			.attr("stroke", ({ source, target }) => {
 				// encodeURIComponents for spaces, hope id doesn't have a `--` in it
 				const gradId = encodeURIComponent(
-					`${source.data.branch_id}--${target.data.branch_id}`
+					`${source.data.id}--${target.data.id}`
 				);
 				const grad = defs
 					.append("linearGradient")
@@ -149,11 +149,11 @@ const DagComponent = ({ data }) => {
 				grad
 					.append("stop")
 					.attr("offset", "0%")
-					.attr("stop-color", colorMap.get(source.data.branch_id));
+					.attr("stop-color", colorMap.get(source.data.id));
 				grad
 					.append("stop")
 					.attr("offset", "100%")
-					.attr("stop-color", colorMap.get(target.data.branch_id));
+					.attr("stop-color", colorMap.get(target.data.id));
 				return `url(#${gradId})`;
 			});
 
@@ -170,7 +170,7 @@ const DagComponent = ({ data }) => {
 		nodes
 			.append("circle")
 			.attr("r", nodeRadius)
-			.attr("fill", (n) => colorMap.get(n.data.branch_id));
+			.attr("fill", (n) => colorMap.get(n.data.id));
 
 		// Add mouseover events
 		nodes
@@ -210,9 +210,15 @@ const DagComponent = ({ data }) => {
 				graph.attr("transform", event.transform);
 			});
 		svgSelection.call(zoom);
+
+		var endTimer = new Date().getTime();
+		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
+		
 	}, [data]);
 
-	return <svg ref={svgRef} className="border-x-gray-500 border-solid border-2" />;
+	return (
+		<svg ref={svgRef} className="border-x-gray-500 border-solid border-2" />
+	);
 };
 
 export default DagComponent;

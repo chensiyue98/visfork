@@ -25,9 +25,6 @@ export default function Home() {
 				<h3 className="text-xl underline">
 					<a href="./api/forks?repo=iina/iina">API Example: serverless api - fetch forks (10)</a>
 				</h3>
-				<h3 className="text-xl underline">
-					<a href="./api/hello">API Example: serverless api - hello</a>
-				</h3>
 			</main>
 		</>
 	);

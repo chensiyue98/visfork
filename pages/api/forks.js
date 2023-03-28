@@ -3,8 +3,6 @@ import axios from "axios";
 export default async function (req, res) {
 	const { repo } = req.query;
 
-	console.log(repo);
-
 	try {
 		const response = await axios.get(
 			`https://api.github.com/repos/${repo}/forks?sort=stargazers`

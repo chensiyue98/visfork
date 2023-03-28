@@ -15,14 +15,10 @@ export default function App() {
 
 	async function handleSubmit(event) {
 		event.preventDefault();
-		var tempData = [];
 		try {
 			setIsLoading(true);
 			const response = await axios.get(`/api/getAll?repo=${repo}`);
-			console.log("response", response.data);
-
 			setCommitData(response.data);
-			// console.log("example3.js: commitData", commitData);
 		} catch (error) {
 			console.error(error);
 			alert(error.message);
