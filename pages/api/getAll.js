@@ -1,8 +1,6 @@
 import axios from "axios";
 import pLimit from "p-limit";
 
-const limit = pLimit(500);
-
 export default async function (req, res) {
 	const { repo } = req.query;
 
@@ -144,12 +142,17 @@ async function getBranches(forks) {
 // 	return allCommits.flat();
 //   }
 async function getAllCommits(branches) {
-	const allCommits = await Promise.all(branches.map(async (branch) => {
-	  const commits = await limit(() => getOneCommits(branch));
-	  return commits;
-	}));
+	const limit = pLimit(500); // limit concurrency to 500
+	const allCommits = await Promise.all(
+		branches.map((branch) =>
+			limit(async () => {
+				const commits = await getOneCommits(branch);
+				return commits;
+			})
+		)
+	);
 	return allCommits.flat();
-  }
+}
 
 async function getOneCommits(branch) {
 	var query = ``;
