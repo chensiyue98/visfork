@@ -16,11 +16,12 @@ export default function Home() {
 				<h3 className="text-xl underline">
 					<a href="./example">Example: d3 - stargazer counts of forks</a>
 				</h3>
+				
 				<h3 className="text-xl underline">
-					<a href="./example2">Example2</a>
+					<a href="./timeline">Timeline</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./example3">Example3</a>
+					<a href="./DEV_fork_network">Network</a>
 				</h3>
 				<h3 className="text-xl underline">
 					<a href="./api/forks?repo=iina/iina">API Example: serverless api - fetch forks (10)</a>

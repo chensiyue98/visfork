@@ -2,6 +2,12 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
 
+// TODO: 改为滚轮滚动，按钮缩放
+// Pannable Chart (https://observablehq.com/@d3/pannable-chart)
+// TODO: 初始位置在末尾
+// TODO: 水平布局 (Horizontal layout)
+// D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
+
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	var isHorizontal = true;
