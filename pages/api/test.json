@@ -1,0 +1,4306 @@
+[
+ {
+   "message": "Update README.md",
+   "class": "perfective"
+ },
+ {
+   "message": "updated rdf gems",
+   "class": "adaptive"
+ },
+ {
+   "message": "more TODOgit-svn-id: ae92b08b608af1c8cefa3e10d2325ea527204e07@14617 3eda493b-6a19-0410-b2e0-ec8ea4dd8fda",
+   "class": "perfective"
+ },
+ {
+   "message": "[DDW-331] network type and default value",
+   "class": "adaptive"
+ },
+ {
+   "message": "config/git-sync: add envvar prefix, fix README",
+   "class": "multi"
+ },
+ {
+   "message": "adplug: update homepageCloses Homebrew/homebrew#49965.Signed-off-by: Andrew Janke <02e0a999c50b1f88df7a8f5a04e1b76b35ea6a88@apjanke.net>",
+   "class": "adaptive"
+ },
+ {
+   "message": "disble this now to avoid a crashgit-svn-id: ae92b08b608af1c8cefa3e10d2325ea527204e07@19950 3eda493b-6a19-0410-b2e0-ec8ea4dd8fda",
+   "class": "corrective"
+ },
+ {
+   "message": "Clarify doctoring",
+   "class": "perfective"
+ },
+ {
+   "message": "Optimization",
+   "class": "adaptive"
+ },
+ {
+   "message": "minor changes in log-det",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove mentions on anonymity in debian folder.These should never have been there, bitcoin isnt anonymous withouta ton of work that virtually no users will ever be willing andcapable of doing.",
+   "class": "perfective"
+ },
+ {
+   "message": "Release 828",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add missing SAML property",
+   "class": "corrective"
+ },
+ {
+   "message": "undo_move with u keyAbstractUndoableMove.java - add methods: 'containsUnit', 'containsAnyUnits(Set<Unit> units)', and a convenience constructor. Update UndoableMove.java to use the convenience constructor.",
+   "class": "multi"
+ },
+ {
+   "message": "Updating ru.po - stylistics.[[originally from CVS; cvs2svn created svn r7003]]",
+   "class": "perfective"
+ },
+ {
+   "message": "Add Types.declare helper for better inheritance control",
+   "class": "perfective"
+ },
+ {
+   "message": "pcsclite: update to 1.8.20",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixes for failing tests",
+   "class": "corrective"
+ },
+ {
+   "message": "missing semicolon",
+   "class": "corrective"
+ },
+ {
+   "message": "Bug #3393[centreon-broker] Purge table 'logs' not donegit-svn-id: 25a0ac75d3222d69293b2750b310215dcabd6451@13112 6bcd3966-0018-0410-8128-fd23d134de7e",
+   "class": "corrective"
+ },
+ {
+   "message": "Add title for buttons optionalButtons in PrismObjectForm",
+   "class": "adaptive"
+ },
+ {
+   "message": "added a variant_verify to validate SVs",
+   "class": "adaptive"
+ },
+ {
+   "message": "(svn r19026) -Codechange: Move a constant computation out of the loop.",
+   "class": "perfective"
+ },
+ {
+   "message": "switch to git and simplify update algorithmgit-svn-id: f2acecaac6fbd5a03f3d4799db58dda434111981@25711 3eda493b-6a19-0410-b2e0-ec8ea4dd8fda",
+   "class": "multi"
+ },
+ {
+   "message": "resources fix",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #8471 from brianteeman/massmailBCC language string in Mass Mail",
+   "class": "adaptive"
+ },
+ {
+   "message": "[CSL-1901] Fix hscolour version.",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix a few low-hanging findbugs issues (#862)",
+   "class": "corrective"
+ },
+ {
+   "message": "require ToS for api (bug 777114)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add immutable.Map operations",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Add one use case for configdrive\"",
+   "class": "perfective"
+ },
+ {
+   "message": "Add test-cases for 32-bit and no-compressed oops scenarios.",
+   "class": "adaptive"
+ },
+ {
+   "message": "\"environ\" should now work together with NEB, courtesy of Olivierogit-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@11287 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "corrective"
+ },
+ {
+   "message": "PXE and SSH validate() method to check for a portThe PXE and SSH server depends on a MACAddress to work, before thevalidate() method of the PXE and SSH drivers didn't check whether thenode had a port associated with it or not making it possible to starta provision/power state change without and address that would fail. So,this patch is improving the validate() method of the PXE and SSH driverto check for a port.Closes-Bug: #1272045Change-Id: I1e8deb91558478973b280ed25bf3b90da4e2b045",
+   "class": "corrective"
+ },
+ {
+   "message": "fix spelling of function name in perl6multisub.pmc",
+   "class": "perfective"
+ },
+ {
+   "message": "Added missing import statement",
+   "class": "corrective"
+ },
+ {
+   "message": "Update example",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #645 from arvindsv/fix_dropdown_button_alignment#297 - Fix action button alignment.",
+   "class": "corrective"
+ },
+ {
+   "message": "[TASK] The Create.js update script is outdatedThis change updates the Create.js update script to matchtheir changed build process from cake to grunt.Besides that it follows their new naming scheme infilenames, but does NOT update Create.js yet.Change-Id: Ic091c13f938c116abac07225d6ff61674baca18bOriginal-Commit-Hash: 48cc273de2dc1e8f4d17c89a8632726368d9cc25",
+   "class": "adaptive"
+ },
+ {
+   "message": "Changing css class name, extracting component, adding unique key to elem",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1497 from ngokevin/commcreaterefactor the way comm notes/threads are created (precursor to bug 946459)",
+   "class": "perfective"
+ },
+ {
+   "message": "i40evf: support configurable crc strippingConfigurable CRC stripping needs to be supported in VF,and the configuration should be finally set in relevantRX queue context with PF host support.Signed-off-by: Helin Zhang <aba9dfdb1a6ec8bf1ff66b95272c029f8dfde1b1@intel.com>Acked-by: Konstantin Ananyev <cbd5212b59ab42a210d72992d23a3aa17cfd3eaf@intel.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "split up structural variation image and table",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix more link on history pageFix message in processBug: 63968Change-Id: If81fee954025b1ebc11d7d4a86eb70377b1f2233",
+   "class": "corrective"
+ },
+ {
+   "message": "Create a default English text table. (dm)git-svn-id: 30a5f035a20f1bc647618dbad7eea2a951b61b7c@4157 91a5dbb7-01b9-0310-9b5f-b28072856b6e",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1912 from jjgao/rcmerge hotfix to rc",
+   "class": "corrective"
+ },
+ {
+   "message": "pass non-simple structs always by reference2007-11-30  Juerg Billeter  <j@bitron.ch>* gobject/valaccodegenerator.vala,  gobject/valaccodegeneratorinvocationexpression.vala,  gobject/valaccodegeneratormethod.vala: pass non-simple structs always  by reference* tests/structs.exp, tests/structs.vala: test struct parameterssvn path=/trunk/; revision=742",
+   "class": "perfective"
+ },
+ {
+   "message": "remove EmailOwnerData property from interface",
+   "class": "adaptive"
+ },
+ {
+   "message": "INFUND-1443 Added link to print view",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove prompts from init command; Update template for Project Configuration File",
+   "class": "adaptive"
+ },
+ {
+   "message": "kernel: add missing CAN related config symbolSigned-off-by: Felix Fietkau <nbd@openwrt.org>git-svn-id: c673a1a018ba15e3442847f58d2337db82164816@47035 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "corrective"
+ },
+ {
+   "message": "cortex_a9: check if MMU is enabled on APB read/write memorySigned-off-by: Luca Ellero <1c37a17361538733629df6c45e64c006d75629a7@gmail.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "adding sample locations to carbon apps",
+   "class": "adaptive"
+ },
+ {
+   "message": "(read_minibuf): Make minibuffer frame visible when minibuffer activated.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Mark failed exports by shop",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixed labeling of adjoined plots",
+   "class": "corrective"
+ },
+ {
+   "message": "Add Atos bss web service support",
+   "class": "adaptive"
+ },
+ {
+   "message": "busybox: restore init scriptsSince the removal of the busybox menuconfig entries, the init scriptsfor cron, telnet and ntp are not packaged anymore. Unconditionallyship them from now on.Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>git-svn-id: c673a1a018ba15e3442847f58d2337db82164816@39123 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "corrective"
+ },
+ {
+   "message": "qemu: save image: Split out user provided XML checkerExtract code used to check save image XMLs provided by users to separateuse.",
+   "class": "perfective"
+ },
+ {
+   "message": "Deactivate negative dependencies generationWith current updater version this would expose bug. This commit will bereverted after updater fix for that is released.",
+   "class": "corrective"
+ },
+ {
+   "message": "* menu-bar.el: Don't make Services menu.",
+   "class": "adaptive"
+ },
+ {
+   "message": "More updates to Server and Bus: synchronous bus access works also for internal server.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update .gitignore (lib/hipe/boot_ebin)* ignore /lib/hipe/boot_ebin/hipe.app* ignore /lib/hipe/boot_ebin/hipe.appup",
+   "class": "adaptive"
+ },
+ {
+   "message": "refactored user serialization",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #701 from liveblog/feat/ads-vladFeat/ads vlad",
+   "class": "adaptive"
+ },
+ {
+   "message": "correct channel for video compression, updater, backup and LED color",
+   "class": "corrective"
+ },
+ {
+   "message": "extend test checks to check for weird behaviour",
+   "class": "adaptive"
+ },
+ {
+   "message": "[options] Fixed section IDs.",
+   "class": "corrective"
+ },
+ {
+   "message": "feat: design name form validation",
+   "class": "adaptive"
+ },
+ {
+   "message": "slw: Modify the power9 stop0_lite latency & residencyCurrently skiboot exposes the exit-latency for stop0_lite as 200ns andthe target-residency to be 2us.However, the kernel cpu-idle infrastructure rounds up the latency tomicroseconds and lists the stop0_lite latency as 0us, putting it onpar with snooze state. As a result, when the predicted latency issmall (< 1us), cpuidle will select stop0_lite instead of snooze. Thedifference between these states is that snooze doesn't require aninterrupt to exit from the state, but stop0_lite does. And the value200ns doesn't include the interrupt latency.This shows up in the context_switch2 benchmark(http://ozlabs.org/~anton/junkcode/context_switch2.c) where the numberof context switches per second with the stop0_lite disabled is foundto be roughly 30% more than with stop0_lite enabled.===============================================================================x latency_200ns_residency_2us+ latency_200ns_residency_2us_stop0_lite_disabled    N           Min           Max        Median           Avg        Stddevx 100        222784        473466        294510     302295.26       45380.6+ 100        205316        609420        385198     396338.72     78135.648Difference at 99.0% confidence94043.5 +/- 23276.231.1098% +/- 7.69983%(Student's t, pooled s = 63892.8)===============================================================================This can be correlated with the number of times cpuidle entersstop0_lite compared to snooze.===================================================================latency=200ns, residency=2us   stop0_lite enabled.* snooze usage      = 7* stop0 lite usage  = 3200324* stop1 lite usage  = 6 stop0_lite disabled* snooze usage: 287846* stop0_lite usage: 0* stop1_lite usage: 0==================================================================Hence, bump up the exit latency of stop0_lite to 1us. Since the targetresidency is chosen to be 10 times the exit latency, set the targetresidency to 10us.With these values, we see a 50% improvement in the number of contextswitches:=====================================================================x latency_200ns_residency_2us+ latency_1us_residency_10us    N           Min           Max        Median           Avg        Stddevx 100        222784        473466        294510     302295.26       45380.6+ 100        281790        710784        514878     510224.62     85163.252Difference at 99.0% confidence207929 +/- 24858.368.7835% +/- 8.22319%(Student's t, pooled s = 68235.5)=====================================================================The cpuidle usage statistics show that we choose stop0_lite less oftenin such cases.latency = 1us, residency = 10us    stop0_lite enabled* snooze usage      = 536808* stop0 lite usage  = 3* stop1 lite usage  = 7Reported-by: Anton Blanchard <14deb5e5e417133e888bf47bb6a3555c9bb7d81c@samba.org>Signed-off-by: Gautham R. Shenoy <c13571dbffa0eb89c7f8eebdce482897b0f5a685@linux.vnet.ibm.com>Signed-off-by: Vaidyanathan Srinivasan <c012decff9dffda4c10860ab2ba9eb53320d90bc@linux.vnet.ibm.com>Signed-off-by: Stewart Smith <ec31ab75ddf977353c8f660f92ea8b23f64aef25@linux.vnet.ibm.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "update ׳³ֲ³׳’ג‚¬ג€�׳²ֲ²ײ²ֲ®׳²ֲ²ײ²ֲ¡׳³ֲ³׳’ג‚¬ג€�׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ג€™׳’ג€�ֲ¬ײ²ֲ ׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳²ֲ²ײ²ֲ»׳³ֲ³׳’ג€�ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ¢׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳²ֲ²ײ²ֲ¨׳³ֲ³׳’ג‚¬ג€�׳²ֲ²ײ²ֲ©׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³ײ»ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ²ײ²ֲ½׳³ֲ³׳’ג‚¬ן¿½׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ®׳³ֲ³׳’ג‚¬ֲ¢׳²ֲ»׳’ג‚¬ֲ ׳³ג€™׳’ג€�ֲ¬ײ²ֲ¡׳³ֲ³׳’ג‚¬ן¿½׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³׳’ג‚¬ֲ¢׳²ֲ»׳’ג‚¬ֲ ׳³ג€™׳’ג€�ֲ¬ײ²ֲ ׳³ֲ³׳’ג‚¬ן¿½׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ג€™׳’ג€�ֲ¬ײ»ן¿½",
+   "class": "adaptive"
+ },
+ {
+   "message": "Weaken visibility for code generation to enable custom generators.This publicizes the code generation classes of jscompiler to enableother projects to layer custom code generation on top of the providedcode.-------------Created by MOE: https://github.com/google/moeMOE_MIGRATED_REVID=125203399",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1178 from joelddiaz/ssh-forwardAdd -A parameter to forward ssh agent",
+   "class": "adaptive"
+ },
+ {
+   "message": "Bump the version to 0.13dev",
+   "class": "adaptive"
+ },
+ {
+   "message": "Adapt to query buttons: click -> mouseUp",
+   "class": "adaptive"
+ },
+ {
+   "message": "ENG-4257: If serialized params is null, use the params to get thepartition param on replay.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Correct jq pattenr for detecting template change",
+   "class": "corrective"
+ },
+ {
+   "message": "Relocate reinit of CancellationTokenSource to ensure that it is always recreated.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[Ty][Debug] Extend json printing to symbolsSummary:Extend Ty json printing to symbols.This change will help print a more comprehensive Ty description with changesthat are coming later on `type-at-pos --json`.Reviewed By: samwgoldmanDifferential Revision: D7778306fbshipit-source-id: a993fb0edef1fbce62333eee8e119de063e59f4c",
+   "class": "adaptive"
+ },
+ {
+   "message": "del CSS from Fondo icon #1483",
+   "class": "adaptive"
+ },
+ {
+   "message": "[Code] Prep. for more GVars",
+   "class": "adaptive"
+ },
+ {
+   "message": "added Juan y yo",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add arch tagline",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into inclusive_exclusive",
+   "class": "merge"
+ },
+ {
+   "message": "8dec381 docs: fix unit tests in toh-pt6 (#24491)",
+   "class": "corrective"
+ },
+ {
+   "message": "`python-fill-paragraph' filling fixup when font-lock is disabled* progmodes/python.el (python-fill-paragraph): Makepython-fill-region in a multiline string work when font-lock isdisabled.Fixes: debbugs:7018",
+   "class": "corrective"
+ },
+ {
+   "message": "newlisp: style nit",
+   "class": "perfective"
+ },
+ {
+   "message": "Problem: testing scheduler by spawning a lot of nand gatesSolution: implement a computer from nand gatesDiscovered a problem with the scheduler, this commit communicatesthe issue.run `$ racket main.rkt agents/math/run.rkt` to reproduce",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge branch 'master' of https://github.com/compbiomed/celda",
+   "class": "merge"
+ },
+ {
+   "message": "fixed crazy containters",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix compiler warnings",
+   "class": "corrective"
+ },
+ {
+   "message": "[DDW-169] keep the installers directory in packaged app",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add support for workspaceRootFolderName variable in pythonPath",
+   "class": "adaptive"
+ },
+ {
+   "message": "bcm53xx: add D-Link DIR-885L DT patchWe don't build image for this device yet.Signed-off-by: Rafa׳³ֲ²ײ²ֲµ׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½ Mi׳³ֲ²ײ²ֲµ׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½ecki <zajec5@gmail.com>SVN-Revision: 48519",
+   "class": "adaptive"
+ },
+ {
+   "message": "main: display a warning when rebasing with uncommitted changesCloses #338Reported-by: ׳³ֲ³׳’ג‚¬ֲ¢׳²ֲ²ײ²ֲ­׳³ג€™׳’ג€�ֲ¬׳’ג‚¬ן¿½׳³ֲ³׳’ג€�ֲ¢׳²ֲ²ײ²ֲ¾׳³ן¿½ײ²ֲ¿ײ²ֲ½(Vdragon) <e322fc20a5af9a049ccfb0dd58e1433eb3757056@gmail.com>Cheered-on-by: Leho Kraav <8c39070891cef7ac3ddcd99d9a5708cda84cec0c@kraav.com>Signed-off-by: David Aguilar <9de348c050f7cd1ca590883733c4e531ce610bf4@gmail.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "LDEV-1099: Method name needs to be translated as the LookupDispatchAction class looks for the translated button name.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'ust_9151/add_capabilities_in_inventory_4_0_style_pr'",
+   "class": "merge"
+ },
+ {
+   "message": "Now electron_dynamics='cg' works properly.P.U.git-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@4249 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "corrective"
+ },
+ {
+   "message": "update",
+   "class": "adaptive"
+ },
+ {
+   "message": "bug fixed",
+   "class": "corrective"
+ },
+ {
+   "message": "Fixes to the Raptor to be more like OSI (Fix Courtesy of xGOOBERx)",
+   "class": "corrective"
+ },
+ {
+   "message": "dova: Do not support foreach without iterator",
+   "class": "adaptive"
+ },
+ {
+   "message": "streamfile: make options less crazyInstead of a (file, mode) tuple, move to \"streamfile\" as the path, and\"streamfile_append\" to specify if we should append or not.Leave the command-line options intact for now.",
+   "class": "adaptive"
+ },
+ {
+   "message": "disable offline check",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #4040 from AnalyticalGraphicsInc/czmlValidationAdd initial CZML validation document and spec that verifies correct loading",
+   "class": "adaptive"
+ },
+ {
+   "message": "Delete stray karma section of Stuart tank's default props, which shouldn't be there.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update some dependencies",
+   "class": "adaptive"
+ },
+ {
+   "message": "[MIN] Added requirements.txt for pip",
+   "class": "adaptive"
+ },
+ {
+   "message": "Support create a volume from image snapshotThe instance boot from volume, snapshot the instance will createa image in glance. The image size is 0, it just a link to thevolume snapshot. When the user create volume from the snapshotimage, in the current version, it will create a blank volume. sothe user is troubled. This patch fix it.The scheme: when the user create volume from snapshot image, theapi create interface will parse out the snapshot image correspondsto the volume snapshot id. Then create a volume from the volumesnapshot. So, the user can use this way to restore the instance'sbootable volume.Change-Id: Ic44dfae8bb187a5aa9c2c1f50f7b5dc0ef0f28f8Closes-Bug: #1560867",
+   "class": "corrective"
+ },
+ {
+   "message": "Fixed internal link in info box",
+   "class": "corrective"
+ },
+ {
+   "message": "(highlight-changes-rotate-faces): Don't setmodified flag of buffer.  Use `inhibit-modification-hooks'.",
+   "class": "perfective"
+ },
+ {
+   "message": "docs: Add a simple markdown-based help center.The plan is to use this for adding user documentation to Zulip.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove gitignore and add templates.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'wip/lantw/gspawn-declare-environ' into 'master'gspawn: Declare environSee merge request GNOME/glib!134",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #6891ad5aae1 constify missing catch cases (Philip Kaufmann)",
+   "class": "adaptive"
+ },
+ {
+   "message": "laying foundation for generic ft",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1270 from linas/singFix for bug #1268",
+   "class": "corrective"
+ },
+ {
+   "message": "implement support for default arguments and varargs in ScalarToTupleExpr lowering.There is an apparent case where sema isn't computing the varargs injection function when it should (example 'd'), I'll look at that next.Swift SVN r3028",
+   "class": "adaptive"
+ },
+ {
+   "message": "Roll back 6f3c1f843a as it changed behavior, and fix issue #225 better.",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix for cognito userpool domainname lookup (#393)",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #526 from jviereck/docsAdd some more docs to the Readme.md",
+   "class": "perfective"
+ },
+ {
+   "message": "Add web components and CDI injection",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add blendMode, visible, cacheAsBitmap export support for SWF assets",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #11674 from edx/revert-11433-smarnach/studio-add-xblockRevert \"Pass DOM element, not jQuery object to XBlock initialisation.\"",
+   "class": "corrective"
+ },
+ {
+   "message": "update release notes and roadmap",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1009 from input-output-hk/ajnsit/csm-148[CSM-148] All transactions have the same date and time",
+   "class": "adaptive"
+ },
+ {
+   "message": "Lint",
+   "class": "perfective"
+ },
+ {
+   "message": "New translations ApplicationResources.properties (Arabic)",
+   "class": "perfective"
+ },
+ {
+   "message": "put sheep in zoo and removed one outside",
+   "class": "adaptive"
+ },
+ {
+   "message": "[de]register-hostname-unresolve supported",
+   "class": "adaptive"
+ },
+ {
+   "message": "ChangeLog fix.",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #3214 from zooba/issue-2488-2682Fixes #2488 and #2682",
+   "class": "corrective"
+ },
+ {
+   "message": "Add a materials management pageBased off Aldo's work which is in a different branch",
+   "class": "adaptive"
+ },
+ {
+   "message": "[REF]actoring ETicket class and getModEticket method",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'patch-0.4.4' into develop",
+   "class": "merge"
+ },
+ {
+   "message": "Merge remote-tracking branch 'upstream/master' into flow-editor",
+   "class": "merge"
+ },
+ {
+   "message": "server replay: keep --kill active",
+   "class": "adaptive"
+ },
+ {
+   "message": "׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ»׳’ג‚¬ֲ ׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ²ײ²ֲ«׳³ֲ³ײ»ן¿½׳²ֲ²ײ²ֲ©׳²ֲ²ײ²ֲ³׳³ֲ³׳’ג‚¬ג€�׳²ֲ²ײ²ֲ´׳²ֲ²ײ²ֲ°׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ²ײ²ֲ¼׳³ֲ³׳’ג‚¬ן¿½׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳²ֲ²ײ²ֲ¸׳³ֲ³׳’ג‚¬ן¿½׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ®UA׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ³׳’ג‚¬ג€�׳³ֲ³׳’ג‚¬ן¿½׳²ֲ¶׳’ג‚¬ג„¢׳²ֲ²ײ²ֲ³׳³ֲ³׳’ג‚¬ן¿½׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳²ֲ²ײ²ֲ¯׳³ֲ³׳’ג‚¬ן¿½׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳³ג€™׳’ג€�ֲ¬׳’ג€�ֲ¢׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬ײ³ֲ·׳²ֲ²ײ²ֲ´׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬׳’ג‚¬ן¿½׳²ֲ²ײ²ֲ°Signed-off-by: AIZAWA Hina <07c779d48779c322a7c5324109202f9012f7aebf@bouhime.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "[IMP] Do not show TT in weekends if no entries- If no entries are in the weekends do not add to the dictionary.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(create_process) [OSF1]: Use setpgid, not setpgrp.",
+   "class": "adaptive"
+ },
+ {
+   "message": "llfuse: update to 1.3.5",
+   "class": "adaptive"
+ },
+ {
+   "message": "Rewrite and fix is_native_move().Report and patch by meSee gna bug #22026.[[originally from svn r24890]]",
+   "class": "multi"
+ },
+ {
+   "message": "better error message for super_mixin, when no mixin exists",
+   "class": "adaptive"
+ },
+ {
+   "message": "(diary-frame-parameters, calendar-frame-parameters)(calendar-and-diary-frame-parameters, calendar-after-frame-setup-hooks):Make defcustoms.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Mass deletion of exampels and resources...since these are all moved to the openpnm-examples repo.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Use the correct timezone when showing reminders",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix x86 backend for dispatch change, clean up assembler",
+   "class": "multi"
+ },
+ {
+   "message": "[CSL-1351] Bump pkgs/default.nix",
+   "class": "adaptive"
+ },
+ {
+   "message": "Do the actual checkout work.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(svn r27624) -Update from Eints:spanish (mexican): 24 changes by Absay",
+   "class": "perfective"
+ },
+ {
+   "message": "VFS-2180 Improve code quality",
+   "class": "perfective"
+ },
+ {
+   "message": "feat(xod-client): add custom scrollbar",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into hdr",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add header for new development",
+   "class": "adaptive"
+ },
+ {
+   "message": "gometalinter: check unkeyed composite literalsUpdate #538",
+   "class": "adaptive"
+ },
+ {
+   "message": "refactor(react): update toplogy api data",
+   "class": "perfective"
+ },
+ {
+   "message": "fix fortune test",
+   "class": "corrective"
+ },
+ {
+   "message": "net/qede/base: update MFW when default MTU is changedSend mailbox command to Management FW when MTU changes.Signed-off-by: Rasesh Mody <d75009eb0204fa4cf57714375498a356a2e6f144@cavium.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixing listening node",
+   "class": "corrective"
+ },
+ {
+   "message": "added parts attribute to jentil setup class",
+   "class": "adaptive"
+ },
+ {
+   "message": "vte3: update 0.52.0 bottle.",
+   "class": "adaptive"
+ },
+ {
+   "message": "gnus-notifications.el: Add defcustom for timeout and actions support",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix TypeError: 'NoneType' object is not iterable (#881)when can't check remote branches",
+   "class": "corrective"
+ },
+ {
+   "message": "Delay the start of the API server until the braille driver starts for the first time. (dm)",
+   "class": "corrective"
+ },
+ {
+   "message": "bring back ignore_unknown_sections because we need it in mc",
+   "class": "adaptive"
+ },
+ {
+   "message": "Adding review changes",
+   "class": "adaptive"
+ },
+ {
+   "message": "Sanitize drive letters for sysstat and sysopen on Windows",
+   "class": "adaptive"
+ },
+ {
+   "message": "kni: fix kernel FIFO synchronizationAdding memory barrier to make sure the values being syncedbefore updating fifo_write in kni_fifo_put and fifo_read inkni_fifo_get.Fixes: 3fc5ca2f6352 (\"kni: initial import\")Cc: stable@dpdk.orgSigned-off-by: Phil Yang <5a9b6465c065ff0e1fd5d2cb9eb2185e82f34247@arm.com>Reviewed-by: Honnappa Nagarahalli <01ccf438b971cc1d8919c8a7f18443cae9429d8b@arm.com>Reviewed-by: Gavin Hu <207ee22c2cf71e20c5b5df8395050c07c07d8709@arm.com>Reviewed-by: Ferruh Yigit <ba8734c3c506d2e3557bd4ac8fdaccd25bdb9aa7@intel.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #99 from mattzeunert/launch-chrome-with-puppeteerLaunch chrome with puppeteer",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added dummy 0/1 values. Will replace w/ real logic",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add conf file generator.Add oslo generator.py and generate_sample.sh similar to nova.These files provide generator functionality for creating a conf file.Fixes: bug #1191032Change-Id: I5a239e41f822e2f51c95d7a44e8d62c38c62c8ac",
+   "class": "adaptive"
+ },
+ {
+   "message": "Adding more fail-safes for stopping testsAfter a preview run, there were still some tests thatclaimed that their required ports were not available.This change moves `stop` from the framework test tothe benchmarker (since we don't need the test to stopanymore). Additionally, it adds another stop call toany place that checks whether the port is bound (read:before a test is started and after a test is stopped).",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix assignment",
+   "class": "corrective"
+ },
+ {
+   "message": "Comment change.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #570 in IFS/innovation-funding-service from feature/IFS-4232-eu2020-contact-details to development* commit 'd474d25211558a18625e17e6261dd9c5fe85d63b': (38 commits)  IFS-4232 Updated ATs  IFS-4232 PR comment updates  IFS-4232 Updated ATs  IFS-4232 Updated ATs  IFS-4232 fix validation issues  Merge branch 'development' of https://devops.innovateuk.org/code-repository/scm/ifs/innovation-funding-service into bugfix/IFS-4182-ise-in-view-finances  IFS-4232 fix validation  IFS-4232 address comments  IFS-4232 Contact details updates and form validation  IFS-4232 remove line spacing  IFS-4232 add validation messages  IFS-4232 tidy  IFS-4232 add validation for contact details  IFS-4232 add documentation and template changes  IFS-4232 fix unit tests  IFS-4232 remove view model, fix mapping error  IFS-4232 address comments  IFS-4232 tidy up  IFS-4232 fix unit tests  IFS-4232 update unit tests, ignore on one  ...",
+   "class": "multi"
+ },
+ {
+   "message": "libmount: improve apply_fstab debuggingSigned-off-by: Karel Zak <b517c2d99ca3f904174ad92ae4446c78e81c3cf1@redhat.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "More fat-link code removal",
+   "class": "perfective"
+ },
+ {
+   "message": "use cap to start the delayed_job workerthis replaces the approach of dynamically starting a worker when it is neededand then killing it off later. Currently our servers can handlean extra processing sticking around, and leaving it running like this is moreefficient and hopefully less error prone.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Missed a thing",
+   "class": "corrective"
+ },
+ {
+   "message": "Initial revision",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix #107",
+   "class": "corrective"
+ },
+ {
+   "message": "class MeasurementsExt moved to \"model\" package",
+   "class": "perfective"
+ },
+ {
+   "message": "BLASed KLLE a little",
+   "class": "adaptive"
+ },
+ {
+   "message": "add ns-metadata-proxy rootwrap filters to dhcp.filtersbug 1150628now that dhcp-agent also uses ns-metadata-proxy, we need to make surethose rootwrap filters are installed in scenarios where dhcp-agent isinstalled by l3-agent is not.Change-Id: I141b2291aceb93d650258ff1df1ef0122ce8da90",
+   "class": "adaptive"
+ },
+ {
+   "message": "openScale dev build 56 by Travis CI [skip ci]",
+   "class": "adaptive"
+ },
+ {
+   "message": "b00b9fe chore(README): update missing step in compiler-cli docs README",
+   "class": "perfective"
+ },
+ {
+   "message": "slugs for iarc rating constants",
+   "class": "adaptive"
+ },
+ {
+   "message": "Set resource extrastyles correctly in alio.tilespecReported by Sveinung Kvilhaugsvik <sveinung>See patch #6766[[originally from svn r31354]]",
+   "class": "corrective"
+ },
+ {
+   "message": "cmds: Add missing newlines to the suggested .gitignore rulesSigned-off-by: David Aguilar <9de348c050f7cd1ca590883733c4e531ce610bf4@gmail.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix bable plugin references",
+   "class": "corrective"
+ },
+ {
+   "message": "add debug drawing for p2 capsule shape",
+   "class": "adaptive"
+ },
+ {
+   "message": "Collapse multiple definitions of WP.com url",
+   "class": "perfective"
+ },
+ {
+   "message": "Corrected minor bug on getNameFromJID",
+   "class": "corrective"
+ },
+ {
+   "message": "SSH CA enhancements (#2442)* Use constants for storage paths* Upgrade path for public key storage* Fix calculateValidPrincipals, upgrade ca_private_key, and other changes* Remove a print statement* Added tests for upgrade case* Make exporting consistent in creation bundle* unexporting and constants* Move keys into a struct instead of plain string* minor changes",
+   "class": "multi"
+ },
+ {
+   "message": "Fix for a recent merge problem.",
+   "class": "corrective"
+ },
+ {
+   "message": "Activity Log: aggregated eventsRemoves the feature flag for aggregated events, allowingall sites to see aggregated events.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Moving vbmc from Hypervisor to Undercloud\"",
+   "class": "merge"
+ },
+ {
+   "message": "Merge pull request #5092 in SW/shopware from PT-8008/5.3/update-core-snippets to 5.3* commit 'e240a55b57166477305d27749989d3db6d5859fd':  PT-8008 - Update core snippets from crowdin",
+   "class": "adaptive"
+ },
+ {
+   "message": "introduce Behaviour actions",
+   "class": "adaptive"
+ },
+ {
+   "message": "Skip Multiple Linters system test due to unreliability (Symptom: executeCommand's await resolves prematurely). (#2609)",
+   "class": "corrective"
+ },
+ {
+   "message": "Add names to commands for readability when running.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into dataframe",
+   "class": "merge"
+ },
+ {
+   "message": "gio-2.0: Update to GLib master",
+   "class": "adaptive"
+ },
+ {
+   "message": "SW-4711 fix snippets in article list backend module",
+   "class": "corrective"
+ },
+ {
+   "message": "Sema: When validating members for layout, skip certain membersFor all types, we can safely skip nested nominal types andtypealiases.For a struct, we only have to look at VarDecls; methods neveraffect layout.Similarly for an enum, only EnumElementDecls matter.For a class, we still have to look at all methods and properties.Ideally, in non-optimized builds we would invoke virtual methodsby calling thunks, and only emit the thunks from the translationunit containing the class. Then the layout of a class willonly be necessary if you subclass the class.This should improve compiler scalability in multiple-frontendmode.",
+   "class": "adaptive"
+ },
+ {
+   "message": "clear the store db part code && add one TODO",
+   "class": "perfective"
+ },
+ {
+   "message": "(svn r25367) -Add: russian translation for cargodist",
+   "class": "perfective"
+ },
+ {
+   "message": "Area damage amount changedArea damage amount changed due to https://www.servuo.com/threads/hit-area-damage-amount.7180/",
+   "class": "adaptive"
+ },
+ {
+   "message": "(casify_object): Fix up int/EMACS_INT mixup.",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #725 from yichaoS/hotfixfixed issue #598, #720",
+   "class": "corrective"
+ },
+ {
+   "message": "Authentication check should not be done by rails when using Java WS",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #869 from africanmathsinitiative/mastermerge from main",
+   "class": "merge"
+ },
+ {
+   "message": "mailmap: set preferred spelling for my nameSigned-off-by: Daniel P. Berrang׳³ֲ²ײ²ֲ³׳²ֲ²ײ²ֲ© <bb938cf255e055ff3507f2627d214e8e62118fcf@redhat.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #3402 from hashicorp/leader-loopApplies leader loop fixes from Consul.",
+   "class": "corrective"
+ },
+ {
+   "message": "ComboProperty usage in IntensityDataItem revised.",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix a comment rot: cost 3.0 is not needed now for the ru dict",
+   "class": "perfective"
+ },
+ {
+   "message": "Fixed syntax error in composer.json",
+   "class": "corrective"
+ },
+ {
+   "message": "Start of updates to lino dev docs",
+   "class": "perfective"
+ },
+ {
+   "message": "Allow user to filter get all API endpoints on multiple object ids (e.g.?id=1,2,3).This allows for more efficient client applications since instead of hittingmultiple endpoints (get one for each item) or late filtering the whole get allresult set user now now pre-filter the get all and only get back the objectsthey are interested in.",
+   "class": "adaptive"
+ },
+ {
+   "message": "make atheros wifi cards used on arcaydian 4519 ifxmips based boards workSVN-Revision: 11676",
+   "class": "adaptive"
+ },
+ {
+   "message": "Wait for callback before setting",
+   "class": "corrective"
+ },
+ {
+   "message": "add complete mapping for designate",
+   "class": "adaptive"
+ },
+ {
+   "message": "renamed file",
+   "class": "perfective"
+ },
+ {
+   "message": "fix for bug https://bitbucket.org/darklightgames/darkesthour/issue/94/overhead-map-spams-thousands-of-accessed",
+   "class": "corrective"
+ },
+ {
+   "message": "[metrics] add \"L׳³ֲ²ײ²ֲ³׳²ֲ²ײ²ֲ©gislature de promulgation\"",
+   "class": "adaptive"
+ },
+ {
+   "message": "UNION attack SQLI challenge now solvable",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updated from global requirementsChange-Id: I721b27b36b21447161a34a6cf6788eac6dd145fc",
+   "class": "adaptive"
+ },
+ {
+   "message": "Runtime: Archive _SwiftNativeNSErrors as NSErrors._SwiftNativeNSError is a runtime-private subclass, and NSError's inherited NSCoding implementation doesn't handle the Swift payload of bridged errors. We can't really archive arbitrary Swift values anyway yet, so just archive bridged NSError subclasses as regular NSErrors. Fixes rdar://problem/23051728.",
+   "class": "corrective"
+ },
+ {
+   "message": "Rename the LogEntry field string to text. (dm)",
+   "class": "perfective"
+ },
+ {
+   "message": "Tooling: No need to run `bundle install` to make documentationWe do not use Ruby any more for `make jsduck`Change-Id: I50d207562e082a7cc9e2ca60c31cb0410d00a38c",
+   "class": "adaptive"
+ },
+ {
+   "message": "* progmodes/f90.el (f90-font-lock-keywords-2): Fix `enum'.",
+   "class": "corrective"
+ },
+ {
+   "message": "added update message",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix caching during portal creation",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #315 from kylekatarnls/patch-30zh-TW language",
+   "class": "merge"
+ },
+ {
+   "message": "the_platinum_searcher: update 2.1.5 bottle.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove include of non-existing file.",
+   "class": "corrective"
+ },
+ {
+   "message": "OperationTool",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updated scripts for updating skll models",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed exception message for missing task listener delegateExpression",
+   "class": "corrective"
+ },
+ {
+   "message": "fixed bug from previous commit",
+   "class": "corrective"
+ },
+ {
+   "message": "don't show import menu",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #6058 from gmarek/node_controller_default_behaviorRemove Node Controllers ability to pull status from Kubelet",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updating Node to 4.3.0 & 5.6.0 *SECURITY UPDATE*",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #784 from jerryshao/dev-metrics-servletAdd MetricsServlet for Spark metrics system",
+   "class": "adaptive"
+ },
+ {
+   "message": "ENG-5502: Hopefully fix IPC/Valgrind issue.",
+   "class": "corrective"
+ },
+ {
+   "message": "update release notes for 2.7",
+   "class": "perfective"
+ },
+ {
+   "message": "TMBackup: update plugin description",
+   "class": "perfective"
+ },
+ {
+   "message": "Add a spectrogram effect where falls are restricted to a speed ... makes the spectrogram less jumpy.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1365 from part-up/fix-meteor-packagesfix(meteor): Add winston to package.json",
+   "class": "corrective"
+ },
+ {
+   "message": "[Fix] made slidenodes compatible with node2",
+   "class": "corrective"
+ },
+ {
+   "message": "Scaling eglyx back down from 75 -> 10.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Refactoring of DetailFactory tests.Use custom assertions and inline all required dummy instances.",
+   "class": "perfective"
+ },
+ {
+   "message": "Adding Talk to site",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixed lag and synchronization issues in the multi-threaded battle calc. Also added methods to time how long it takes to copy the game data, and use fewer threads if this takes more than 5 seconds. (veqryn)git-svn-id: c1ba500aeec1d6140676cb07156a1e31a23423bf@4216 a4c711aa-641f-0410-879d-9b464e52b682",
+   "class": "multi"
+ },
+ {
+   "message": "[CSL-2043] Add NFData instances for Chrono",
+   "class": "adaptive"
+ },
+ {
+   "message": "new HashJoinNode.java plus corresponding planner changes",
+   "class": "adaptive"
+ },
+ {
+   "message": "r9066/sofa-dev : update ddMToMatrixFunctor",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add simple hexdump function - prints hex and ascii - detects duplicate all zero linesChange-Id: I557fed34f0f50ae256a019cf893004a0d6cbff7cSigned-off-by: Stefan Reinauer <0ab4fef0c228799b0c44e01c732054569b690b58@google.com>Reviewed-on: https://gerrit.chromium.org/gerrit/62655Reviewed-by: David Hendricks <3b0deacc4b5357f519084f1ea34bd42bf5d34545@chromium.org>Tested-by: Stefan Reinauer <0ab4fef0c228799b0c44e01c732054569b690b58@chromium.org>Commit-Queue: Stefan Reinauer <0ab4fef0c228799b0c44e01c732054569b690b58@chromium.org>Reviewed-on: http://review.coreboot.org/4392Tested-by: build bot (Jenkins)Reviewed-by: Patrick Georgi <cbb7353e6d953ef360baf960c122346276c6e320@georgi-clan.de>",
+   "class": "adaptive"
+ },
+ {
+   "message": "TextureUtils: Removed if statement to check if results from getRepresentation is valid, not needed since getRepresentation will in that case throw an exception",
+   "class": "perfective"
+ },
+ {
+   "message": "(vc-update-change-log): Restore previous default-directoryfor running rcs2log.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Try rebuilding to fix a path length problem",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge branch 'master' of https://github.com/yiisoft/yii2",
+   "class": "merge"
+ },
+ {
+   "message": "typo",
+   "class": "corrective"
+ },
+ {
+   "message": "1eba623 fix(compiler-cli): import routing module with forRoot (#16438)",
+   "class": "corrective"
+ },
+ {
+   "message": "kirkwood: fix pogo_e02 LED nameThe pogo_e02's dts file has its LEDs named \"pogo_e02:(...)\"Fix the status-LED's name for this device.Signed-off-by: Paul Wassi <d132f728ce6dd17e00632d6fe29a6078fa0ea3de@gmx.at>",
+   "class": "corrective"
+ },
+ {
+   "message": "Add a session handler test for when nothing is written",
+   "class": "adaptive"
+ },
+ {
+   "message": "add imagetag support for BT Voyager 2500V, patch from Daniel Dickinson (#5364)SVN-Revision: 16506",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into bugfix/fix_stats_when_passed_array",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1608 in SW/shopware from bugfix/next/sw-9606-fix-price-variation-bug-on-article-duplication to next* commit 'ff303134fcb947188adf3ad1c74703f7e5686d11':  SW-9606 - Fix price variation bug on duplicate articles",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #441 from sunny4381/shirasagi-440[#440] add `require jquery.form` to public.coffee.erb.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #47 from justindarc/masterAdded local file support to the multi-page viewer",
+   "class": "adaptive"
+ },
+ {
+   "message": "Trying to fix relative links",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1201 from cstrouse/add-bannerAdd banner package",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updating Gemfile.lock after running bundler",
+   "class": "adaptive"
+ },
+ {
+   "message": "Make functions invocation-directory and invocation-name obsolete* lisp/subr.el (invocation-directory, invocation-name):Mark the function versions as obsolete.  (Bug#10476)* lisp/startup.el (tty-handle-args):* lisp/term/common-win.el (x-handle-xrm-switch, x-handle-name-switch):* lisp/term/ns-win.el (top-level):* lisp/term/pc-win.el (top-level):* lisp/term/w32-win.el (window-system-initialization):* lisp/term/x-win.el (top-level, x-handle-parent-id)(x-handle-smid, window-system-initialization):* test/lisp/htmlfontify-tests.el (htmlfontify-bug25468):Use invocation-directory and invocation-name as variables.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #475 from srp33/BiomarkerBenchmark_GSE48391Migrated to fast-file format",
+   "class": "adaptive"
+ },
+ {
+   "message": "kubectl: make --container-port actually work for exposeEven if it was recently deprecated, it should work as expected.",
+   "class": "corrective"
+ },
+ {
+   "message": "mkdir mochiweb/ebin if not already",
+   "class": "adaptive"
+ },
+ {
+   "message": "IMAPServer:more work",
+   "class": "adaptive"
+ },
+ {
+   "message": "Group similar builds",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added missing ()CL-541",
+   "class": "corrective"
+ },
+ {
+   "message": "MixedBundle cosmeticsgit-svn-id: 862dfb0a87bde8384fe22bc4dc6968ec7c7ecd70@7090 a380766d-ff14-0410-b294-a243070f3f08",
+   "class": "perfective"
+ },
+ {
+   "message": "update",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix some docs",
+   "class": "perfective"
+ },
+ {
+   "message": "(defsetf): Improve argument/docstring consistency.",
+   "class": "perfective"
+ },
+ {
+   "message": "Add constants for actions and update actions to account for new constants",
+   "class": "perfective"
+ },
+ {
+   "message": "More code movementgit-svn-id: fc35eccb03ccef1c432fd0fcf5295fcceaca86a6@34112 bcba8976-2d24-0410-9c9c-aab3bd5fdfd6",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1879 from MatthiasMann/vacuum_chest_filters#991 add item filters, range and redstone control and to vacuum chest",
+   "class": "adaptive"
+ },
+ {
+   "message": "r-ebimetagenomics (#12339)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Emitter.setScale has a new 'rate' parameter which allows particles to change in scale over time, using any Easing value or timescale.Emitter.setAlpha has a new 'rate' parameter which allows particles to change alpha over time, using any Easing value or timescale.Emitter.bringToTop and Emitter.sendToBack are booleans that let you optionally set the display order of the Particle when emitted.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Properly use PrintStream in QueryCommand. PrintStream swallows all IOExceptions and so we need to check if any were encountered.--MOS_MIGRATED_REVID=119417412",
+   "class": "corrective"
+ },
+ {
+   "message": "Relocate shared  custom AttributeDefinitions in clustering/common.",
+   "class": "perfective"
+ },
+ {
+   "message": "For ENG-3877, increase timeouts in flaky TestExportToFileClient.testNoAutoDiscoveryIn an attempt to make the test less flaky increase the timeouts. Seemed to help on my desktop, but I only reproduced it once.",
+   "class": "corrective"
+ },
+ {
+   "message": "Save database after installing plugin xml",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #5175 from aguibert/arquillian-103Upgrade to arquillian-liberty-managed v1.0.3",
+   "class": "adaptive"
+ },
+ {
+   "message": "add more ruby artifact deps",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed LDAP activation on login to use new ldap_blocked state",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge \"Ensure the toast lasts for at least a second\"",
+   "class": "merge"
+ },
+ {
+   "message": "actual submodules",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1625 from adamabeshouse/api-callsMake batch API calls to reduce number of calls",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'develop' into flynn/feature/shadowing",
+   "class": "merge"
+ },
+ {
+   "message": "kat v2.4.0 update (#8263)* kat v2.4.0 update* kat 2.4.0 fix sha256",
+   "class": "multi"
+ },
+ {
+   "message": "Merge branch '5.0-wip' of github.com:zurb/foundation into 5.0-wip",
+   "class": "merge"
+ },
+ {
+   "message": "colors.py",
+   "class": "adaptive"
+ },
+ {
+   "message": "added the new caching infrastructure to the following modules: -> emoticons -> files -> gallery",
+   "class": "adaptive"
+ },
+ {
+   "message": "dashboard/app: fix purging of old crashesWe sorted by Report (which is a random int ID) instead of ReportLen.Sort by ReportLen (order is opposite of what of queryCrashesForBug uses).",
+   "class": "corrective"
+ },
+ {
+   "message": "Only define ICU constants in release builds",
+   "class": "adaptive"
+ },
+ {
+   "message": "#558: Sitesectomy",
+   "class": "adaptive"
+ },
+ {
+   "message": "sprocket-rails gem fixed",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix NPE in ActivityController.Using ActivityController.withApplication(Application) results in an NPEbecause the base context is null.Ensure that the Application object has a base context and is bound tothe proper resources.",
+   "class": "corrective"
+ },
+ {
+   "message": "ring: clarify preemptible nature of algorithmrte_ring implementation is not preemptible only under certaincircumstances. This clarification is helpful for data plane andcontrol plane communication using rte_ring.Signed-off-by: Honnappa Nagarahalli <01ccf438b971cc1d8919c8a7f18443cae9429d8b@arm.com>Reviewed-by: Gavin Hu <207ee22c2cf71e20c5b5df8395050c07c07d8709@arm.com>Reviewed-by: Ola Liljedahl <6d19e6e0076f8797cfccb58ffb99074265221b72@arm.com>Acked-by: Olivier Matz <dfcc1510895413197abb4336e39bb0a3906cba71@6wind.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "[Docs] Migrate CLI reference to reference guideThe CLI usage shouldn't probably be directly given into guides,but should instead be moved into reference.Change-Id: I7085591f147d7dc0ff2c63be3380a06e6387e6b9",
+   "class": "perfective"
+ },
+ {
+   "message": "update",
+   "class": "adaptive"
+ },
+ {
+   "message": "docs(README): update preview",
+   "class": "perfective"
+ },
+ {
+   "message": "removed extraneous IntIndex instance test",
+   "class": "adaptive"
+ },
+ {
+   "message": "Change classification select to checkboxes",
+   "class": "adaptive"
+ },
+ {
+   "message": "Automatic commit of package [rhncfg] release [5.10.77-1].",
+   "class": "adaptive"
+ },
+ {
+   "message": "atkmm: remove compiler flags found in the environment",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1422 from cBioPortal/study-view-refactoringInclude study view refactoring",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #444 from pubkey/greenkeeper/uglify-js-3.3.0Update uglify-js to the latest version ׳³ֲ³ײ²ֲ ׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬",
+   "class": "adaptive"
+ },
+ {
+   "message": "LEGO: check in for master to temporary branch.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Use $TMP (which defaults to /tmp) rather than /tmp as $TMP can be parameterized via runltp, et all.Signed-off-by: Garrett Cooper <94c72ae9cb99b268ef5bac9a1283c7f5ad375547@gmail.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "options: add a merge method to assimilate optionsFixes #953",
+   "class": "adaptive"
+ },
+ {
+   "message": "Move files of `cardano-sl-explorer-frontend` into `/frontend`",
+   "class": "perfective"
+ },
+ {
+   "message": "Fixed speech synthesis callback.",
+   "class": "corrective"
+ },
+ {
+   "message": "Altered show_widget rpc method to include percent_done field in objects in translation_languages array. This is to help HH out with 14300.",
+   "class": "adaptive"
+ },
+ {
+   "message": "examples/rxtx_callbacks: show use of callbacksExample showing how callbacks can be used to insert a timestampinto each packet on RX. On TX the timestamp is used to calculatethe packet latency through the app, in cycles.Signed-off-by: Bruce Richardson <66b9e8e8fbd5e9f41f91b0af050876182ce9d0e4@intel.com>Signed-off-by: John McNamara <af31595c36a4239b9676e9b3a777d3e2f15a6c4d@intel.com>Acked-by: Declan Doherty <b4388acd850cd8caad5000a112795063f04807ac@intel.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove the possibility to pass bindings to KeyParser init",
+   "class": "adaptive"
+ },
+ {
+   "message": "enable arvados-git-httpd and postgresql systemd services",
+   "class": "adaptive"
+ },
+ {
+   "message": "[FIX] Put '*' back after regression * The end of the \"star wars\";",
+   "class": "corrective"
+ },
+ {
+   "message": "Correct typo in erlsrv usage.",
+   "class": "corrective"
+ },
+ {
+   "message": "Take more passing tests off of the junit_iv2 blacklist.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Direct to S3 for index.yaml",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'peppe/common_test/log_header/OTP-14043' into maint* peppe/common_test/log_header/OTP-14043:  Add heading option to log functionsOTP-14043",
+   "class": "adaptive"
+ },
+ {
+   "message": "modules/coins.py.send should be checking user_coins before the send amount istaken away, not after",
+   "class": "corrective"
+ },
+ {
+   "message": "Version bump to 0.22.0.pre",
+   "class": "adaptive"
+ },
+ {
+   "message": "MRG",
+   "class": "adaptive"
+ },
+ {
+   "message": "Minor tweaks to dm code (doc fixes, rename method, etc.)TBR=dnj@chromium.org, vadimsh@chromium.orgBUG=Review-Url: https://codereview.chromium.org/2374433003",
+   "class": "perfective"
+ },
+ {
+   "message": "returned accidentally removed mock JDK",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #199 from 0xc0170/dev_nucleo_gcc_removal[fix] nucleo targets - gcc arm removal from targets.py",
+   "class": "corrective"
+ },
+ {
+   "message": "[Parser] Added statements",
+   "class": "adaptive"
+ },
+ {
+   "message": "; Auto-commit of loaddefs files.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add cypher for tag children",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #308 from MyEtherWallet/devop/clean-unused-filescleanup unused files, fixes #187",
+   "class": "perfective"
+ },
+ {
+   "message": "scssphp only runs on php 5.4 now",
+   "class": "adaptive"
+ },
+ {
+   "message": "agent plugin smart: fixed syntax error",
+   "class": "corrective"
+ },
+ {
+   "message": "No need to have extra message type variable",
+   "class": "perfective"
+ },
+ {
+   "message": "Safety for lups error [f=0028125] [cawidgets.lua] Error: Error in Update(): [string \"lups/lups.lua\"]:678: bad argument #2 to 'GetUnitLosState' (Invalid allyTeam)",
+   "class": "corrective"
+ },
+ {
+   "message": "*** empty log message ***",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix test case for pyfs",
+   "class": "corrective"
+ },
+ {
+   "message": "move blocks to crypto, add cfssl",
+   "class": "adaptive"
+ },
+ {
+   "message": "Maintain Serializable API compatibility by reverting back to java.io.Serializable for Broadcast and Accumulator.",
+   "class": "corrective"
+ },
+ {
+   "message": "HBASE-18950 Remove Optional parameters in AsyncAdmin interface",
+   "class": "adaptive"
+ },
+ {
+   "message": "ramips: rt305x: rewrite SoC detectionSVN-Revision: 30890",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'master' of //gitserver/git/Signum",
+   "class": "merge"
+ },
+ {
+   "message": "add compile test for perl code",
+   "class": "adaptive"
+ },
+ {
+   "message": "separating read, eval, expand, print",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #3976 from mtnbikenc/swap-updateMerged by openshift-bot",
+   "class": "adaptive"
+ },
+ {
+   "message": "closes #608",
+   "class": "corrective"
+ },
+ {
+   "message": "Extended std.cfg about more missing functions. Moved POSIX functions to posix.cfg. Extended posix.cfg about more memory allocating functions.",
+   "class": "perfective"
+ },
+ {
+   "message": "Added alt fire spread to M45 quadmount custom SpawnProjectile() function.Set AltFireSpread to higher value.Added a temp debug exec function to set alt fire spread.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Sync with latest oslo-incubatorPeriodic sync with latest oslo-incubator codeChange-Id: Ia18335278da4c25240e537d53687658fe4fbaa6a",
+   "class": "adaptive"
+ },
+ {
+   "message": "More work on distribution of matrices amongst processors.Option for blacs processor grid dimensions to be set from calling procedure.Produce desciption arrays only if processor is involved in storing the matrix/vector(this avoids warnings/errors from descinit).",
+   "class": "adaptive"
+ },
+ {
+   "message": "Refactor typechecking of array instantiation for performanceDefining the extractor object `ArrayInstantation` in `typed1` meantthat we needed to thread a `LazyRef` through to `typedApply`(even if we were dealing with a different AST node!).This commit moves the extractor to `TreeInfo` after extracting thecore part that relies on `Typer.this`.(cherry picked from commit d1c90ec3dec2bf72546edcda9e4f696882a7ec61)",
+   "class": "perfective"
+ },
+ {
+   "message": "mac80211: brcmfmac: rename 4.20 backport patchesInclude kernel version to help tracking changes.Signed-off-by: Rafa׳³ֲ²ײ²ֲµ׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½ Mi׳³ֲ²ײ²ֲµ׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½ecki <68396d1faf4100deae824f26e1be60d81c1ce164@milecki.pl>",
+   "class": "perfective"
+ },
+ {
+   "message": "fixed conflict while merging with master branch",
+   "class": "corrective"
+ },
+ {
+   "message": "rs4pi: allow multi OAR selection on dvhReport in UI",
+   "class": "adaptive"
+ },
+ {
+   "message": "Discard profile output in remote run module.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Change Commands to Sub-commands in help",
+   "class": "perfective"
+ },
+ {
+   "message": "[minor] graph fixes (#3711)",
+   "class": "corrective"
+ },
+ {
+   "message": "supporting subclasses. Not really happy with the `exception` in ActiveDocument",
+   "class": "adaptive"
+ },
+ {
+   "message": "ar71xx: initial support for Mikrotik RB751G-2HnD and RB751U-2HnDGreat collaboration on these two fantastic routers on the openwrt forum:https://forum.openwrt.org/viewtopic.php?id=32320Above all kudos to aryufan. Well done and thank you everyone else whocontributed.To-Do: LED for wlan is not yet activatedTo-Do: TxPower over 20dBm (RB751U) or 22dBm (RB751G) are not accepted bythe routerSigned-off-by: Hanno Schupp <hanno.schupp@gmail.com>[juhosg: fix line wrapped patch, fix checkpatch errors, add missingkernel patches]SVN-Revision: 31208",
+   "class": "adaptive"
+ },
+ {
+   "message": "Preventing splitters from being collapsed into window frame",
+   "class": "adaptive"
+ },
+ {
+   "message": "[BatchMode] Add driver::PerformJobsState logic for BatchJobs.",
+   "class": "adaptive"
+ },
+ {
+   "message": "*** empty log message ***",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix zmenus on updated repeat track",
+   "class": "corrective"
+ },
+ {
+   "message": "(Undo): Update undo limit values.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Updated doc with more info about functest_config.py JIRA: FUNCTEST-9\"",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'show_pending_warning' into 'master'Show warning when build is pending and there are not runnersThis change is based on: !1530.This resolves #2967.See merge request !1573",
+   "class": "adaptive"
+ },
+ {
+   "message": "-",
+   "class": "perfective"
+ },
+ {
+   "message": "Show \"real\" receipt number after adding payment instead of ID",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'hashcash' of git://github.com/martind/factor",
+   "class": "merge"
+ },
+ {
+   "message": "Capital letter in ParaCrystal name",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix templates.There was a merge issue with the new MEC stuff and Bazel.Bazel was missing some template generation that was necessary toproperly read a trace that was created with mid-execution capture.",
+   "class": "corrective"
+ },
+ {
+   "message": "refresh grub patchesSVN-Revision: 19704",
+   "class": "adaptive"
+ },
+ {
+   "message": "updating layout & appearance on monitoring by project",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updated templates for translation",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update ReadMe.md",
+   "class": "perfective"
+ },
+ {
+   "message": "...",
+   "class": "perfective"
+ },
+ {
+   "message": "Remove test dependencies between microprofile.config tests.Add necessary classes from com.ibm.ws.microprofile.config/test directoryto the config.1.2/test and config.1.3/test directory to make tests passwith having a runtime dependency on the test output from the configcomponent.",
+   "class": "corrective"
+ },
+ {
+   "message": "Snapshot implementation",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Add address scope to floating IPs in RPC response to L3 agent\"",
+   "class": "adaptive"
+ },
+ {
+   "message": "* allout-widgets.el (allout-widgets-tally) Initialize allout-widgets-tallyas a hash table rather than nil to prevent mode-line redisplay warnings.Also, clarify the module description and fix a comment typoo (sic).",
+   "class": "multi"
+ },
+ {
+   "message": "Eliminates debug code",
+   "class": "perfective"
+ },
+ {
+   "message": "include <cstdlib>",
+   "class": "adaptive"
+ },
+ {
+   "message": "issue #358: Rename all of the words depends-on-* to add-depends-on*",
+   "class": "perfective"
+ },
+ {
+   "message": "Factored out config parsing into subroutines to make the main script clearer",
+   "class": "perfective"
+ },
+ {
+   "message": "import seed urls but not solr query for twitter topics",
+   "class": "adaptive"
+ },
+ {
+   "message": "STYLE",
+   "class": "perfective"
+ },
+ {
+   "message": "vbox: Remove virConnectPtr from vboxError",
+   "class": "adaptive"
+ },
+ {
+   "message": "Handle unnamed modules during import",
+   "class": "adaptive"
+ },
+ {
+   "message": "Regenerated npm-shrinkwrap with new dependencies",
+   "class": "adaptive"
+ },
+ {
+   "message": "Adding merge stub, adding performance benchmark 'control'",
+   "class": "adaptive"
+ },
+ {
+   "message": "Issue #1862: Fix new NPE in ServerStartTest",
+   "class": "corrective"
+ },
+ {
+   "message": "Optimized image refreshing in OpenCLRenderFractalTemporarly disabled MarkRenderedTiles because it also slowed rendering.",
+   "class": "perfective"
+ },
+ {
+   "message": "ArchiveWidget: remove extra widgetI think this was left over during some editing phase; the widgetdoesn't seem to do anything.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add /admin/mv to move a file or a folder",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'mcount-fix' * pre-allocate shmem buffer in mcount_prepare() * fix recursion with filtered PLT functionsSigned-off-by: Namhyung Kim <5c915a589b3ddf58cebf14bec41bcc143b37ac3c@gmail.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "Restore switch compatibility for legacy Android",
+   "class": "adaptive"
+ },
+ {
+   "message": "Return local position from pick methods",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #14024 from edx/releaseMerging release into master for hotfix-2016-11-17",
+   "class": "corrective"
+ },
+ {
+   "message": "Line wrapping/copyright headers",
+   "class": "perfective"
+ },
+ {
+   "message": "Travis config added",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'axq-patch-1' into develop",
+   "class": "merge"
+ },
+ {
+   "message": "merged with master",
+   "class": "merge"
+ },
+ {
+   "message": "Merge branch 'issue-#51_integrate_risk_analysis_script' into issue-#51_icd9_support",
+   "class": "merge"
+ },
+ {
+   "message": "qscintilla2: make formula compatible with sandboxThe formula previously tried to create a symlink in the `qt` formulaprefix in order to make its Qt Designer plug-in discoverable. It nowplaces it in a shared location that will be automatically picked up.Closes Homebrew/homebrew#47245.Signed-off-by: Martin Afanasjew <54669547a225ff20cba8b75a4adca540eef25858@afanasjew.de>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Prevent Lisp nesting errors while bootstrapping.lisp/Makefile.in: Compile vc-arch.el before others; having it loadedfrom source while bootstrapping sometimes causes too deep nesting.(Perhaps it's time to increase max-lisp-eval-depth?)git-archimport-id: 6a009bcaac90060bfd81b04a308d5da0a17447a0@elte.hu--2004/emacs--multi-tty--0--patch-133",
+   "class": "corrective"
+ },
+ {
+   "message": "remove NC1018 plots, see who squawks",
+   "class": "adaptive"
+ },
+ {
+   "message": "updated default placeholder image",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix typos in benchmark_config file",
+   "class": "perfective"
+ },
+ {
+   "message": "fix the error (#10293)",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix migrations for Liquibase 3.6.xMake databases for changesets more explicit, since dbms=\"!sqlite\" does not appear to work anymore with Liquibase 3.6.x׳³ֲ³׳’ג‚¬ג„¢׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬׳²ֲ²ײ²ֲ¦",
+   "class": "corrective"
+ },
+ {
+   "message": "Replace PI with tags for selected tus from preview window.",
+   "class": "perfective"
+ },
+ {
+   "message": "add module coulomb_vcut for EXX div (G. Bussi, A. Ferretti, L. Martin-S)add plugins dir (and related modif to Makefile) for \"external applications\"add released wannier90 (from www.wannier90.org) in pluginssmall modif exx examplesmall bug fixed in nscf calc save_in_cbands for compilation with -DEXXgit-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@5927 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "multi"
+ },
+ {
+   "message": "Merge pull request #481 from alphagov/child_maintenance_calculator_v2_into_v1Child maintenance calculator - turn v2 files into v1 for Monday 29th deploy",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix ticket registries testsDue to autowired LogoutManager refactoring, all the ticket registriestests runtime classpath and scanned beens structure need to berefactored as well, in order to make the tests not fail theapplication context bootstrap phase",
+   "class": "corrective"
+ },
+ {
+   "message": " ENH: renamed datanode feature codenames",
+   "class": "perfective"
+ },
+ {
+   "message": "Rename libxml2 functions, and make parse tree format consistent with xml.el.* xml.c: Switch to GNU indentation.(make_dom): Change parse tree format to match xml.el.(Fxml_parse_html_string_internal): Rename from html-parse-string.(Fxml_parse_string_internal): Rename from xml-parse-string.* configure.in: Announce whether libxml2 is linked to.",
+   "class": "perfective"
+ },
+ {
+   "message": "Move externals/test_common.go into its own package (#9375)This is so that packages that want to use externals for proof checkingetc. don't have to pull in the large uidmap package.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1251 from tweichart/path_methodsminor change for getting the path",
+   "class": "adaptive"
+ },
+ {
+   "message": "Bind [?\\S-\\ ] to previous line command in Dired-like modes.* lisp/arc-mode.el (archive-mode-map):* lisp/dired.el (dired-mode-map):* lisp/proced.el (proced-mode-map):* lisp/vc/vc-dir.el (vc-dir-mode-map):Bind [?\\S-\\ ] to previous line command.(Bug#20790)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'development' of https://devops.innovateuk.org/code-repository/scm/ifs/innovation-funding-service into developmentFormer-commit-id: 4ef659f5540b1e9b3d650128c8743c686179885c",
+   "class": "merge"
+ },
+ {
+   "message": "small fixes and improvments",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix box-interventi",
+   "class": "corrective"
+ },
+ {
+   "message": "OO-971 throw BadRequest for unexpected message metadata states",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix hyperkit mounting.",
+   "class": "corrective"
+ },
+ {
+   "message": "Implement tripleo::network::os_net_config classThis class will be used on the undercloud to deploy os_net_config.Change-Id: I507c237a35250b660b37ea8cfc4e8e7f97ae21e2",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix unterminated string literal",
+   "class": "corrective"
+ },
+ {
+   "message": "Minor updatesgit-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@12843 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "adaptive"
+ },
+ {
+   "message": " # RTL Isis dropdown toggle icon should be aligned with other icons.",
+   "class": "corrective"
+ },
+ {
+   "message": "Regularize handling of group, delay, continuations",
+   "class": "adaptive"
+ },
+ {
+   "message": "HETS-108 Adding missing properties from data model",
+   "class": "corrective"
+ },
+ {
+   "message": "update post-release steps",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix width of simulationView component not being set correctlyCURA-5785",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #68 from gpospelov/MacBuildMac build",
+   "class": "adaptive"
+ },
+ {
+   "message": "SongWrapper#get: Take an optional default.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Disable flymake during testsFlymake complains about lintr not existing, which results in a lot ofunnecessary output in the travis tests. This stops that.",
+   "class": "corrective"
+ },
+ {
+   "message": "Add tests",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixes #8533: cpanm doesn't build on rhel 3 64 bits",
+   "class": "corrective"
+ },
+ {
+   "message": "ctor with two args added",
+   "class": "adaptive"
+ },
+ {
+   "message": "DM-10683: Manage BData-level retention information- Update Business Object Format Retention Information Put endpoint- Add Business Object Data Retention Information Put endpoint",
+   "class": "adaptive"
+ },
+ {
+   "message": "Improve settings currency prevent user error.",
+   "class": "multi"
+ },
+ {
+   "message": "Merge branch 'master' into fixes/git-path-find-button",
+   "class": "corrective"
+ },
+ {
+   "message": "testing with cssnext variables",
+   "class": "adaptive"
+ },
+ {
+   "message": "router/routertest: fixes opts router test",
+   "class": "corrective"
+ },
+ {
+   "message": "Fixing typos.",
+   "class": "perfective"
+ },
+ {
+   "message": "Changeog.",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix Dead Link In Documentation (#11760)* Dead linkUsed to link here:https://github.com/google/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.mdAssumed it should point here:https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md* Update two other dead links",
+   "class": "perfective"
+ },
+ {
+   "message": "gexiv2: rename python@2 dependency",
+   "class": "adaptive"
+ },
+ {
+   "message": "* s/hpux8.h (random, srandom): No need to define these to befoo_random and foo_srandom; autoconf should autodetect when thereal random functions are available.",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix build depends for wlcgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@512 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "corrective"
+ },
+ {
+   "message": "Added new test tasks to todo",
+   "class": "adaptive"
+ },
+ {
+   "message": "refresh pwm patchSVN-Revision: 32905",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove AthenzInstanceProviderService and related classes",
+   "class": "perfective"
+ },
+ {
+   "message": "Signup: Half fix signup flowDefer whole action creation, until a more robust solution is found/cc @ockham",
+   "class": "corrective"
+ },
+ {
+   "message": "add assertThrows testing utility functionThis is much easier to use than built-in JUnit method-level checks.",
+   "class": "perfective"
+ },
+ {
+   "message": "Add tests.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Issue #ISAICP-2671: fix conditions by label in Sparql queries",
+   "class": "corrective"
+ },
+ {
+   "message": "ramips: add initial support for 3.2SVN-Revision: 30476",
+   "class": "adaptive"
+ },
+ {
+   "message": "Players now mantle 25% faster",
+   "class": "perfective"
+ },
+ {
+   "message": "Show link button on dashboard",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/develop' into ISAICP-2369",
+   "class": "merge"
+ },
+ {
+   "message": "Revert \"[SPARK-2805] Upgrade to akka 2.3.4\"This reverts commit b9df8af62e8d7b263a668dfb6e9668ab4294ea37.",
+   "class": "corrective"
+ },
+ {
+   "message": "luck export update. 0-39 luck -> 0% height; 40-49 -> 50%bar; 50+ -> full bar",
+   "class": "adaptive"
+ },
+ {
+   "message": "[CommandLineParser] Improve help message, add automatic line wrap after max 80 characters",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1793 from openstacker/calico_fedoraAdd note for using calico on Fedora Atomic",
+   "class": "perfective"
+ },
+ {
+   "message": "IRGen: Don't hoist metadata for weakly linked typesrdar://46438608",
+   "class": "adaptive"
+ },
+ {
+   "message": "idiot",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #4011 from jsaalfeld/fix_wss_connectionfix #4010",
+   "class": "corrective"
+ },
+ {
+   "message": "Change status call to use addresses and remove version call",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update 2017-01-19-EdinburghSteeringCommittee.md",
+   "class": "perfective"
+ },
+ {
+   "message": "api: plan list route doesn't need admin token",
+   "class": "adaptive"
+ },
+ {
+   "message": "Issue #ISAICP-2262: write access checks for the new rdf entity permissions for owners.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Error handling - cleaning up constructors (#443)",
+   "class": "adaptive"
+ },
+ {
+   "message": "add brew_install_or_upgrade to deal with travis errors",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1137 from gpotter2/routes-genFix routes generators #1135",
+   "class": "corrective"
+ },
+ {
+   "message": "Wait for page load so we're not getting stale elementswhile producing products. Basically an attempt to fix:https://gitlab.com/gitlab-org/gitlab-qa/-/jobs/65016456Selenium::WebDriver::Error::StaleElementReferenceError:  stale element reference: element is not attached to the page documentin:``` rubyproduct :name do  Page::Project::Settings::Repository.act do    expand_protected_branches(&:last_branch_name)  endend```",
+   "class": "corrective"
+ },
+ {
+   "message": "Namespace Atum (#18752)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Set Summary state time from the stored schedule, refactor Summary and TimeRow",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #18263 from wilsonge/namespace-xmlAdd namespace definitions everywhere needed",
+   "class": "adaptive"
+ },
+ {
+   "message": "Crude base styles, factor out DropButton",
+   "class": "perfective"
+ },
+ {
+   "message": "style",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix a potential memory leak in menu/rmenu_xui.cpp in function rgui_init().",
+   "class": "corrective"
+ },
+ {
+   "message": "Removed ADMIN_MEDIA_PREFIX",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixes crash bug with FountainOfLife",
+   "class": "corrective"
+ },
+ {
+   "message": "update optionGroup Demo",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed minor issue on geolocation. fixes #771",
+   "class": "corrective"
+ },
+ {
+   "message": "Updating table styles- Added django template for the styleguide- Use \"striped\" instead of \"table-striped\"- Pulled in changes from sub-repositories",
+   "class": "adaptive"
+ },
+ {
+   "message": "[fix] gws/discussion : forum permission (#1863)",
+   "class": "corrective"
+ },
+ {
+   "message": "libglade-2.0.vapi: nullable arguments in register_widget",
+   "class": "adaptive"
+ },
+ {
+   "message": "* fixing bug #1484673",
+   "class": "corrective"
+ },
+ {
+   "message": "#3312 Billing Invoice - Save error msg Change-Id: I9b03dccc654d6c9b140174ec4638f2c6b2cb0dfc",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'feature/more_map_info' into collector",
+   "class": "merge"
+ },
+ {
+   "message": "!WTF! test it. it should be for #181",
+   "class": "corrective"
+ },
+ {
+   "message": "Update drf-nested-routers from 0.90.0 to 0.90.2",
+   "class": "adaptive"
+ },
+ {
+   "message": "Respond to comments (4)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added HAVE_PGSQL_STORAGE definition",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update the global value when the \"global_inherits_stack\" value changesCURA-1758",
+   "class": "adaptive"
+ },
+ {
+   "message": "py3: Port pure driver test to Python 3* Replace func.func_name with func.__name__: the func_name attribute  was removed in Python 3, whereas the __name__ attribute exists on  Python 2 and Python 3* Create INITIATOR_TARGET_MAP using list(set()) to get the same order  than the tested code. The exact order is not reliable, it depends  on the hash function which is now randomized by default on  Python 3. The hash function is also different between Python 2.7  and 3.4.* tox.ini: add test_pure to Python 3.4Blueprint cinder-python3Change-Id: I78601278259f1d34ad6ac3458d2dd0a3aca9d77a",
+   "class": "adaptive"
+ },
+ {
+   "message": "gputils: add, 1.0.5.1 (upstream 1.0.5-1)Signed-off-by: Icenowy Zheng <cf9dc3e94649e480c789a6b538c4d95e82540aa4@aosc.io>",
+   "class": "adaptive"
+ },
+ {
+   "message": "getty: set TERM=linux for the local gettys we configure",
+   "class": "adaptive"
+ },
+ {
+   "message": "(x-process-mouse-hook): Add defvar.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Simplify.",
+   "class": "perfective"
+ },
+ {
+   "message": "Pluginization of CP. Added calls to newly created plugin_something subroutines, needed by external modules to add extra possibly density-dependent terms to potential/energy/forces along the dynamics. In the actual un-patched state the new subroutines should do nothing and the new code should be identical to the old one.git-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@11784 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "adaptive"
+ },
+ {
+   "message": "Block more input during read_avail_input.src/keyboard.c (read_avail_input): Added BLOCK_INPUT.Return -1 when input is blocked or if we could not read inputand a display's input hook signalled an error.git-archimport-id: 6a009bcaac90060bfd81b04a308d5da0a17447a0@elte.hu--2004/emacs--multi-tty--0--patch-93",
+   "class": "adaptive"
+ },
+ {
+   "message": "Restructured project.",
+   "class": "perfective"
+ },
+ {
+   "message": "zsh_completion: complete only pids for systemd-coredumpctlInstead of completing the whole line, which doesn't work, only completethe pid, but still show the whole line so the user can see which commandwas which.Users can also let the parameter expansion sort the completion by dateinstead of by pid, by settingzstyle ':completion:*:*:systemd-coredumpctl:*' sort noso that the zshcompsys doesn't sort the _describe function for onlysystemd-coredumpctl.",
+   "class": "corrective"
+ },
+ {
+   "message": "changes to configure_UserData_table",
+   "class": "adaptive"
+ },
+ {
+   "message": "catch for Boolean:whilegit-svn-id: 862dfb0a87bde8384fe22bc4dc6968ec7c7ecd70@9384 a380766d-ff14-0410-b294-a243070f3f08",
+   "class": "adaptive"
+ },
+ {
+   "message": "Point proxy's Makefile to our Makefile(.git).",
+   "class": "adaptive"
+ },
+ {
+   "message": "(grep-tag-default): New function.(grep-default-command, grep-read-regexp): Use it.",
+   "class": "adaptive"
+ },
+ {
+   "message": "set CNA table initial page size to 25 for consistency",
+   "class": "adaptive"
+ },
+ {
+   "message": "(ftfont_open): Fix previous change.",
+   "class": "corrective"
+ },
+ {
+   "message": "Clean left_sidebar.html to use 4 space indentation.",
+   "class": "perfective"
+ },
+ {
+   "message": "Remove course details field character limits",
+   "class": "adaptive"
+ },
+ {
+   "message": "Express flags as bit shifts.For those of us robots who still have a little human blood.",
+   "class": "perfective"
+ },
+ {
+   "message": "Issue #2051385 by jhedstrom: Expand phpunit tests for \\Drupal\\Component\\PhpStorage.",
+   "class": "adaptive"
+ },
+ {
+   "message": "tree-wide: fix indentation",
+   "class": "perfective"
+ },
+ {
+   "message": "baytrail: allow downstream use of SSE instructionsIf a payload is compiled to use SSE instructions it willfault with an undefined opcode because SSE instructions weren'tenabled. Therefore enable SSE instructions at runtime.BUG=chrome-os-partner:22991BRANCH=NoneTEST=Built and booted with SSE enabled payload. No exceptions seen.Change-Id: I919c1ad319c6ce8befec5b4b1fd8c6343d51ccc1Signed-off-by: Aaron Durbin <af0622ab041e8b0f8e5819838dcc93898196e71f@chromium.org>Reviewed-on: https://chromium-review.googlesource.com/172642Reviewed-by: Stefan Reinauer <0ab4fef0c228799b0c44e01c732054569b690b58@google.com>Reviewed-on: http://review.coreboot.org/4881Tested-by: build bot (Jenkins)Reviewed-by: Alexandru Gagniuc <cf8ce030f4bdd6ce49a1b687c7c3ccfa8b34ced2@gmail.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "reduce REQUEUES_UNTIL_SLEEP",
+   "class": "adaptive"
+ },
+ {
+   "message": "Prevent middle click scrollingAdd call to preventDefault to stop middle click scrolling becoming active when using middle button to close a chat in Chrome.",
+   "class": "adaptive"
+ },
+ {
+   "message": "added ability to switch off JERM",
+   "class": "adaptive"
+ },
+ {
+   "message": "[licensing] [bug-fix] If site installed with a valid license, sync license.",
+   "class": "corrective"
+ },
+ {
+   "message": "Changed messages associated with 'grow run' command to log messages",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added timer control.",
+   "class": "adaptive"
+ },
+ {
+   "message": "DDPB-605 NDR visits care test step 5",
+   "class": "adaptive"
+ },
+ {
+   "message": "tests: More openmp/blocking tests",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixed bug concerning \"add tag\" button not showing.",
+   "class": "corrective"
+ },
+ {
+   "message": "Updated gitignore",
+   "class": "adaptive"
+ },
+ {
+   "message": "minor improvementgit-svn-id: 67138be12999c61558c3dd34328380c8e4523e73@1506467 13f79535-47bb-0310-9956-ffa450edef68",
+   "class": "perfective"
+ },
+ {
+   "message": "Modify CategoriesControllerCategory::batch",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Add function for Promise libraries pre-install\"",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add migration for developers can push to protected branches flag.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Moved the download appshare buttons to the bottom of the page",
+   "class": "adaptive"
+ },
+ {
+   "message": "[Numerics] fix valgrind-type problems in VI examples",
+   "class": "corrective"
+ },
+ {
+   "message": "Release Google Cloud 0.43.0* Spanner 1.0 release.",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix issue with field name and ID not being saved to all worksheets",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #23946 from zaytsev-victor/Fixed23940Fixed VS2017 crash with :: operator",
+   "class": "corrective"
+ },
+ {
+   "message": "(font-lock-keywords-alist): Mark as risky.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #2 from edanaher/fix-numlock-offSend numlock keypress when disabling the numpad layer.",
+   "class": "corrective"
+ },
+ {
+   "message": "decaf: Log the config path and game path.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update bsp.h",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #440 from databrary/kanishka-unit-test1Note question about identitySuperuser handling of ReIdentified identity",
+   "class": "adaptive"
+ },
+ {
+   "message": "examples/ip_pipeline: add hex parsingThis patch adds parse_hex_string function to parse hex string to uint8_tarray.Signed-off-by: Fan Zhang <b46d470dc79aa6fd718cd24d07380f6203b7fc3c@intel.com>Acked-by: Cristian Dumitrescu <25468b8a3698eeb3c368247f8635924bb4a1ce2c@intel.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Change prototype of resize_mini_window.Add prototype for resize_echo_area_axactly.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[scaladoc] Don't hide AnyRef's methods on the A...[scaladoc] Don't hide AnyRef's methods on the AnyRef page. This issueis reported at http://lampsvn.epfl.ch/trac/scala/ticket/3668. Review bydubochet.",
+   "class": "corrective"
+ },
+ {
+   "message": "auto upstream",
+   "class": "adaptive"
+ },
+ {
+   "message": "DOC: remove credential helper",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix max length",
+   "class": "corrective"
+ },
+ {
+   "message": "Finished integration OCPlanner with embodiment!",
+   "class": "adaptive"
+ },
+ {
+   "message": "(org-prepare-agenda-buffers): Also check for invisible heading.",
+   "class": "adaptive"
+ },
+ {
+   "message": "test: kprint test now cleans after run",
+   "class": "adaptive"
+ },
+ {
+   "message": "updated readme instructions to configure azure-jenkins plugins",
+   "class": "perfective"
+ },
+ {
+   "message": "Create RemoveUnusedCodeNameAnalyzerTestThis is a copy of NameAnalyzerTest that tests againstRemoveUnusedCode instead of NameAnalyzer.Failing test cases are disabled for now.They will be either enabled or removed as we decide whichparts of NameAnalyzer to implement in RemoveUnusedCode.-------------Created by MOE: https://github.com/google/moeMOE_MIGRATED_REVID=181681216",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #1569 from github/fixes/1550-async-initialize-GitHubPaneInitialize GitHubPane and menus asynchronously",
+   "class": "corrective"
+ },
+ {
+   "message": "nix @primer/next for now",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update Documentation to match Spring Cloud native profile behavior (#2208)",
+   "class": "perfective"
+ },
+ {
+   "message": "panda change for work",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #39 from CSIS-iLab/debt_cvsjAdd us-debt-holder highchart",
+   "class": "adaptive"
+ },
+ {
+   "message": "more doxygen cleanup",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #25 from github/feature/project-config-evaluationFeature/project config evaluation",
+   "class": "adaptive"
+ },
+ {
+   "message": "KOTOR: Use ScopedPtr in the area object classes",
+   "class": "adaptive"
+ },
+ {
+   "message": "Issue-#103:Add ReadoutUnit model in Assays app to allow users to define new readout unit",
+   "class": "adaptive"
+ },
+ {
+   "message": "updated Relay templates for 2017-04-01 API",
+   "class": "adaptive"
+ },
+ {
+   "message": "cleanup",
+   "class": "perfective"
+ },
+ {
+   "message": "Aligning provisioning test structure with our conventions. Minor cleanup.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'devel' into fix/remove-blog-last-updated",
+   "class": "corrective"
+ },
+ {
+   "message": "Fixed test segment displaying warnings",
+   "class": "corrective"
+ },
+ {
+   "message": "Adding template files for scheduler job and web app",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix typo",
+   "class": "perfective"
+ },
+ {
+   "message": "Rename RunStatus to Run",
+   "class": "perfective"
+ },
+ {
+   "message": "ops: make separate ops for resolutions and rekeysMake sure resolution ops continue to use the same op code as the oldgc op, so we don't break anything.  The \"new\" gc op code will be usedfor quota reclamation.Issue: KBFS-746",
+   "class": "perfective"
+ },
+ {
+   "message": "(gnus-1) <gnus-simple-splash>: Don't test for Xspecifically.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Data Layer: changes not.beenCalled to not.been.called on the data-layer tests",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #14494 from mehrdada/v1.10.xv1.10.x is now v1.10.0-pre1",
+   "class": "adaptive"
+ },
+ {
+   "message": "Change the background color when hovering over widgets.Subversion-branch: /trunk/chocolate-doomSubversion-revision: 2320",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix interface location, fix VSDebug build",
+   "class": "corrective"
+ },
+ {
+   "message": "added reverse_angle to circle layout",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"ovs: survive errors from check_ovs_status\"",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added Scala Proximity Statistician to avoid problem with class parameters in Go To Symbol action.(cherry picked from commit eae345c)",
+   "class": "adaptive"
+ },
+ {
+   "message": "erts: Fix end_per_testcase crash in local_trace_SUITE",
+   "class": "corrective"
+ },
+ {
+   "message": "change h4 to strong",
+   "class": "adaptive"
+ },
+ {
+   "message": "upgrading to bower version of inputs 1.6.0",
+   "class": "adaptive"
+ },
+ {
+   "message": "feat: Add ability to add/insert type parameters with a default type node.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Workaround a docker limitation on symlinks [skip ci]",
+   "class": "corrective"
+ },
+ {
+   "message": "updated documentation for Sungit-svn-id: e88a1e38e13faf406e05cc89eca8dd613216f6c4@796 434f946d-2f3d-0410-ba4c-cb9f52fb0dbf",
+   "class": "perfective"
+ },
+ {
+   "message": "Added troubleshoot sections in docs",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #173 from yohanboniface/bug-1010728-performance-statsFix wrong GROUP_BY on performance stats (bug 1010728)",
+   "class": "corrective"
+ },
+ {
+   "message": "[skip hazardlib]",
+   "class": "adaptive"
+ },
+ {
+   "message": "Compiler crasher 1293 no longer crashes after r26508.Swift SVN r26545",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #114 from dj-hedgehog/hedgehog-patch-2fixed required attributes & relationships in JSONAPI",
+   "class": "corrective"
+ },
+ {
+   "message": "Added deploy mode where we run strip_production_dataThis is what we want to do when we are re-starting staging aftercopying a snapshot from production",
+   "class": "adaptive"
+ },
+ {
+   "message": "(extend_face_to_end_of_line): Always add space glyph toempty row.  Fixes memory corruption revealed by 2006-03-02 change.(display_tool_bar_line): Skip empty tool-bar line if HEIGHT < 0.(tool_bar_lines_needed): Fix tool-bar display in case the tool-barwidth is exactly the same as the window width.  Don't count a finalempty tool-bar line (pass HEIGHT = -1 to display_tool_bar_line).",
+   "class": "corrective"
+ },
+ {
+   "message": "(Qmargin): Replacement for Qbitmap_area.(realize_basic_faces): Replace Qmargin for Qbitmap_area.(syms_of_xfaces): Ditto.",
+   "class": "adaptive"
+ },
+ {
+   "message": "New translations ja-JP.yml (Korean)",
+   "class": "perfective"
+ },
+ {
+   "message": "use es6 feature",
+   "class": "adaptive"
+ },
+ {
+   "message": "*** empty log message ***",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge master into python26",
+   "class": "merge"
+ },
+ {
+   "message": "[DEL] ׳³ֲ³׳’ג‚¬ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ»׳³ֲ³׳’ג‚¬ג€�׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ג€™׳’ג€�ֲ¬ײ²ֲ° print",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix hlint suggestions",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1974 from pculture/gh-1909Gh 1909",
+   "class": "adaptive"
+ },
+ {
+   "message": "Do not update the tools themselves each time on install android-sdk-tools",
+   "class": "adaptive"
+ },
+ {
+   "message": "Disallow reattaching COM events",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #7978 from jarvte/fix_cellular_no_pinCellular: state machine and easycellular now return error fast if sim׳³ֲ³׳’ג‚¬ג„¢׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬׳²ֲ²ײ²ֲ¦",
+   "class": "corrective"
+ },
+ {
+   "message": "JRuby 1.6.5.1",
+   "class": "adaptive"
+ },
+ {
+   "message": "Use monospace dmenu font. Mark non-regions as --.",
+   "class": "adaptive"
+ },
+ {
+   "message": "garcon: update to 0.2.1Signed-off-by: Andreas M׳³ֲ²ײ²ֲ³׳²ֲ²ײ²ֲ¼ller <d72a15aaaca3a7afa855175c72dc8d2e05931e32@googlemail.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Don't display file name with underscoresChange-Id: Iddc849bd16abbcb956d3d2bcdf17559b776e12a8",
+   "class": "adaptive"
+ },
+ {
+   "message": "wip",
+   "class": "adaptive"
+ },
+ {
+   "message": "vendor: update trezor-common",
+   "class": "adaptive"
+ },
+ {
+   "message": "Download archive update",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #7153 from thinkyhead/bf_czech_updateUpdated Czech language",
+   "class": "adaptive"
+ },
+ {
+   "message": "* xterm.c (x_draw_glyph_string): If a clipmask is specified, use it.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[Theme] Removed ThemeContextInterface::setTheme() method",
+   "class": "perfective"
+ },
+ {
+   "message": "UI fixes",
+   "class": "corrective"
+ },
+ {
+   "message": "Tweak TestPlansGroupBy to pass in spite of better diagnostics.",
+   "class": "corrective"
+ },
+ {
+   "message": "added mixins for linechart and barchart for use in the different chart components",
+   "class": "adaptive"
+ },
+ {
+   "message": "changed git submodule update to pull",
+   "class": "adaptive"
+ },
+ {
+   "message": "Use wait-for attribute for waiting data ready",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add help information for --nograb feature in TestContext",
+   "class": "adaptive"
+ },
+ {
+   "message": "Stub file for controlling ManageData buttons",
+   "class": "adaptive"
+ },
+ {
+   "message": "uml: remove 3.2 patchesSigned-off-by: Florian Fainelli <florian@openwrt.org>SVN-Revision: 36076",
+   "class": "adaptive"
+ },
+ {
+   "message": "hostapd: add missing ifdefSigned-off-by: Felix Fietkau <nbd@openwrt.org>git-svn-id: c673a1a018ba15e3442847f58d2337db82164816@41855 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge branch 'hidden-classes' of https://github.com/samth/pycket into hidden-classes",
+   "class": "merge"
+ },
+ {
+   "message": "updating Gnawed",
+   "class": "adaptive"
+ },
+ {
+   "message": "Multiple constructors in Coulomb potential",
+   "class": "perfective"
+ },
+ {
+   "message": "[package] mac80211/ath9k: disable leds on the ar9100 devicesgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@14330 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "adaptive"
+ },
+ {
+   "message": "scripts: find areas without maintainerThe section titles are filtered to print only those whichare not associated with an email address.Signed-off-by: Thomas Monjalon <ee2fa8b2681c737f775687e475dcbf2028a412f1@6wind.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "; Theme updates; * etc/themes/tsdh-light-theme.el (tsdh-light): Theme updates.",
+   "class": "adaptive"
+ },
+ {
+   "message": "make babel-transpiled overrides more inclusive and reduce conflicts with EE",
+   "class": "adaptive"
+ },
+ {
+   "message": "Integration compile fix",
+   "class": "corrective"
+ },
+ {
+   "message": "Improve Collection change tracking in the domain model.",
+   "class": "perfective"
+ },
+ {
+   "message": "HBASE-12944 Support patches to branches in precommit jenkins build (ADDENDUM to fix the script)",
+   "class": "multi"
+ },
+ {
+   "message": "(Menu) Cleanup",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/master' into master-next",
+   "class": "merge"
+ },
+ {
+   "message": "class library: recorder posts file name when stopping",
+   "class": "adaptive"
+ },
+ {
+   "message": "[auto] Update version.yml",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added conditions to recipe instance",
+   "class": "adaptive"
+ },
+ {
+   "message": "objective-caml: update 4.01.0 bottle.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Deactivating coverage in AppVeyor so it won't clash with coverage from Kokoro.Addressing review comments.",
+   "class": "corrective"
+ },
+ {
+   "message": "Removed style divs",
+   "class": "adaptive"
+ },
+ {
+   "message": "Export the address line 4, district and county fields when exporting addresses.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #274 from azuryy/masterFixed the example link in the Scala programing guid.The old link cannot access, I changed to the new one.",
+   "class": "perfective"
+ },
+ {
+   "message": "manager: rearrange order of mainloop, put gc/cleanup last to maximize reusing",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #475 from drrtuy/MCOL-1415MCOL-1415 ",
+   "class": "merge"
+ },
+ {
+   "message": "Merge remote branch 'badcarl/add_multiple_select'",
+   "class": "merge"
+ },
+ {
+   "message": "added a boolean to enable and disable Tab in different dialogs.",
+   "class": "adaptive"
+ },
+ {
+   "message": "LDEV-3224 Ability to change, add, remove questions even after student have reached it",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #12816 from mntechnique/hotfix-for-#12810Does not allow discount over 100% in POS",
+   "class": "corrective"
+ },
+ {
+   "message": "arch/x86/smbios: fix length calculation for SMBIOS type 17Different DIMM modules give different SMBIOS type 17 lengths, so wecan't use `meminfo->dimm_cnt*len' for entry struct size, otherwiseit'll give a wrong SMBIOS size when two or more different DIMMs areinstalled on the machine.Change-Id: I0e33853f6aa4b30da547eb433839a397d451a8cfSigned-off-by: Iru Cai <28d64d6302e984dbd4a9b3aad553cda84324983c@gmail.com>Reviewed-on: https://review.coreboot.org/14008Reviewed-by: Aaron Durbin <af0622ab041e8b0f8e5819838dcc93898196e71f@chromium.org>Tested-by: build bot (Jenkins)",
+   "class": "corrective"
+ },
+ {
+   "message": "Undo stray change committed by mistake.",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix PGO configure test",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge \"Fix pdf attachment show in messages when none is present\"",
+   "class": "corrective"
+ },
+ {
+   "message": "lisp/proced.el: new command proced-renice",
+   "class": "adaptive"
+ },
+ {
+   "message": "mb/iwill: Get rid of device_tUse of device_t has been abandoned in ramstage.Change-Id: I39fd521ac2f619ae7b5e12755f09bea5d782eae1Signed-off-by: Elyes HAOUAS <8ff076de3ddb9bc0ecb7617e6d38a85cb679c396@noos.fr>Reviewed-on: https://review.coreboot.org/26091Tested-by: build bot (Jenkins) <8254d1186852c26c9fb3d343db6a5be86317fea9@coreboot.org>Reviewed-by: Werner Zeh <bb02dc08ae95dfbe73b246df1cc99fff1006c38c@siemens.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "Fixed counts problems and changed warning message",
+   "class": "corrective"
+ },
+ {
+   "message": "Image consolidation:(struct mac_bitmap_record): Add file member.  Notcurrently used, but simplifies code sharing.",
+   "class": "perfective"
+ },
+ {
+   "message": "Skip Fable.Core version check",
+   "class": "adaptive"
+ },
+ {
+   "message": "working on 55 (6)",
+   "class": "adaptive"
+ },
+ {
+   "message": "[components] Clean up tags textfield and make focusable (#369)",
+   "class": "perfective"
+ },
+ {
+   "message": "openjpeg-legacy: import",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove Docker Cloud deploy optionfor being way too complicated compared to Heroku(closes #257)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added mitigation type unknown and apply it for very small hitsFixes #1593",
+   "class": "corrective"
+ },
+ {
+   "message": "Removed deprecated hub functions",
+   "class": "perfective"
+ },
+ {
+   "message": "Add Unicode support to :radix[] style numbers.Note that this doesn't change the characters you can use to specify theradix, just what characters you can use in the string supplied to thisadverbial form.",
+   "class": "adaptive"
+ },
+ {
+   "message": "mediatek/mt8183: Add DDR driver of memory test partWrite a range of memory with special pattern, and read it back to checkwhether the read value same as write.The test pattern include 8bit offset read write, 16 bit offset readwrite, 32bit offset read write, and cross testing.BUG=b:80501386BRANCH=noneTEST=Boots correctly on Kukui, and inits DRAM successfully with related     patches.Change-Id: I30d5fbd3db2acf36e3058ba4f34558b981fba78cSigned-off-by: Huayang Duan <7a98850685c9f583179d49305077ce5e016c443b@mediatek.com>Reviewed-on: https://review.coreboot.org/c/28845Reviewed-by: Hung-Te Lin <8a7fce4940baad93a69f5073b383c85deed9d9c4@chromium.org>Reviewed-by: You-Cheng Syu <a42aaeaf04886dfa82c4f85956f0944504bdfee0@google.com>Tested-by: build bot (Jenkins) <8254d1186852c26c9fb3d343db6a5be86317fea9@coreboot.org>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #2684 from mozilla/bugfix/2596-index-prio Detect docker container and switch between index ordering accordingly to install correct packages.",
+   "class": "corrective"
+ },
+ {
+   "message": "project should not respond to write_hooks any more",
+   "class": "adaptive"
+ },
+ {
+   "message": "done local planning",
+   "class": "adaptive"
+ },
+ {
+   "message": "delegate container_create to physical hostsThis eliminates the use of hostvars[] in container creation which allowsus to use templated variables, necessary for the fix for #1399427 whichhas already been merged.Notes:  * Creates containers in parallel.  * Improves flexability in container create as a specific group or container    can be targeted on the CLI.  * Syntax clean up.  * Adds option to specify the container volume group name.  * Removes the \"ignored\" failure note when running in an environment that does    not use LVM and have an LXC volume group.Closes-Bug: #1399427Change-Id: I4270a9d11039b62d631f82d24de7cc87d5f142c9",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1051 from lrytz/t6074SI-6074 disallow implicit enrichment with constructor",
+   "class": "adaptive"
+ },
+ {
+   "message": "doc: writing_udev_rules updated for the new command names",
+   "class": "perfective"
+ },
+ {
+   "message": "fix",
+   "class": "corrective"
+ },
+ {
+   "message": "Update CMake.Swift SVN r2100",
+   "class": "adaptive"
+ },
+ {
+   "message": "(create-glyph): Don't use slots that look like ASCII.",
+   "class": "adaptive"
+ },
+ {
+   "message": "core/commands2: Added logging",
+   "class": "adaptive"
+ },
+ {
+   "message": "adding packet error indicator in status barfixes #8",
+   "class": "adaptive"
+ },
+ {
+   "message": "AICA: remove the no-aica hackI won't be needing this anymore now that I have a working ARM7 implementationand a semi-working AICA implementation.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Clip iframes to clipping regions that consist of single rectangles.This is a prerequisite to solving servo/servo#9983.",
+   "class": "adaptive"
+ },
+ {
+   "message": "fetching human variation in batches after the data triple for e93",
+   "class": "adaptive"
+ },
+ {
+   "message": "     When imposing hermiticity in matdyn.x and dynmat.x codes in pwtools     routine dyndiag was actually computing the complex conjugate of     the dynamical matrix. Eigenvectors were therefore wrong, while     eigenvalues were fine.  Found by  Nicolas Mounetgit-svn-id: 5d23e60e07e2295b11e715623d9852ba2611792f@1581 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #463 from 7sharp9/patch-2Update targets.make",
+   "class": "adaptive"
+ },
+ {
+   "message": "[chore] Update lockfiles",
+   "class": "adaptive"
+ },
+ {
+   "message": "Reorganise repo/ files to match guidelines",
+   "class": "perfective"
+ },
+ {
+   "message": "Documentation enhancements",
+   "class": "perfective"
+ },
+ {
+   "message": "#632 Testing the branching model for project branches",
+   "class": "adaptive"
+ },
+ {
+   "message": ".gitignore",
+   "class": "adaptive"
+ },
+ {
+   "message": "better support for shadow blocks",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added GSoC message",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #8175 from hartbit/SR-2421[SR-2421] Remove variable_never_used fixit to work with two-stage let init",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #3516 from FinnStutzenstein/delegateDeleteAllow to delete own motions",
+   "class": "adaptive"
+ },
+ {
+   "message": "#NAME?",
+   "class": "corrective"
+ },
+ {
+   "message": "binutils: remove linaro version string, it confuses gcc lto support detectionSigned-off-by: Felix Fietkau <nbd@openwrt.org>SVN-Revision: 43004",
+   "class": "adaptive"
+ },
+ {
+   "message": "client/boot: Replace sb/sp qs redirection by a page.redirect()",
+   "class": "perfective"
+ },
+ {
+   "message": "Remove LESS and Stylus.The battle is over, let's focus on inline styles.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixes wrong flow shapers updateFlows with a drop verdict were never re-evaluated upon policies changes.This was preventing any blocked flow to be un-blocked.",
+   "class": "corrective"
+ },
+ {
+   "message": "fix test",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #912 from maxwellfundi/sdgHistogramOptionsNew sdgSimpleRegOptions",
+   "class": "adaptive"
+ },
+ {
+   "message": "ar71xx: change title and description for NAND subtargetThe nand subtarget supports Mikrotik boards only. Changethe title and the description to reflect that.Based on the patch by Stefan Agner:http://patchwork.openwrt.org/patch/4123/Signed-off-by: Gabor Juhos <juhosg@openwrt.org>SVN-Revision: 38508",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into cartopy",
+   "class": "merge"
+ },
+ {
+   "message": "CAS-1286: Extract the OAuth client support in its own module and upgrade to pac4jInitial commit",
+   "class": "perfective"
+ },
+ {
+   "message": "Added some more test data",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed 1 and 2 from email",
+   "class": "corrective"
+ },
+ {
+   "message": "implement hybridmaize dump for yieldfx project",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix Russian sample text unintentionally broken in 2008-08-23T03:19:53Z!cyd@stupidchicken.com.",
+   "class": "corrective"
+ },
+ {
+   "message": "fix by Jeff Bailey for my previous breakage of install target",
+   "class": "corrective"
+ },
+ {
+   "message": "fix loader to use new warc key",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #11 from nimble-platform/ExpSearch-Negotiation[Exp-Search] Adapt the Negotiation for a Product with Query Parameters",
+   "class": "adaptive"
+ },
+ {
+   "message": "Anthill_Commit",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #5932 from slavapestov/fix-compiler-crashersFix some compiler crashers",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #3301 from kevin-10/BugFixesBug fixes",
+   "class": "corrective"
+ },
+ {
+   "message": "Remove test for an old API corner case",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'develop' into fix--file-types-missing",
+   "class": "adaptive"
+ },
+ {
+   "message": "[resto druid] Started work on suggestions update",
+   "class": "adaptive"
+ },
+ {
+   "message": "Translation updated by Wouter Bolsterlee.2006-03-22  Vincent van Adrighem  <adrighem@gnome.org>* nl.po: Translation updated by Wouter Bolsterlee.",
+   "class": "perfective"
+ },
+ {
+   "message": "Fix broken @see links.",
+   "class": "corrective"
+ },
+ {
+   "message": "chore: add data for 2018-12-11",
+   "class": "adaptive"
+ },
+ {
+   "message": "xdisp.c (BUILD_COMPOSITE_GLYPH_STRING): Mark variables thatgcc -Wuninitialized cannot deduce are never used uninitialized.",
+   "class": "adaptive"
+ },
+ {
+   "message": "manager: enable keepalives on rcp connectionsVMs die frequently and it causes orphan tcp rpc connections on manager.",
+   "class": "adaptive"
+ },
+ {
+   "message": "1. adding support for \"supercard\" element.2. making somewhat simpler implementation of TOC3. some changes to make more compliant HTML4. some stylistic enhancementsgit-svn-id: 74e6431733c050716dad9223ffe8dd2aefa9cfba@12689 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "multi"
+ },
+ {
+   "message": "OpenCL: Fixed error with sharing a texture with a dimension of (0,0)",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #2248 from StackStorm/chatops/representation-2Representation testing and \"in\" fix",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix for hidden buffer and incorrect use of aria-hidden",
+   "class": "corrective"
+ },
+ {
+   "message": "updates poll dev seeds",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix wrong linphone submodule",
+   "class": "corrective"
+ },
+ {
+   "message": "Define new quasisyntax",
+   "class": "adaptive"
+ },
+ {
+   "message": "(eww-mode-map): Add a menu bar.",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed js for new addable fields",
+   "class": "corrective"
+ },
+ {
+   "message": "(DONTCOMPILE): Add various term files.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into splitter2",
+   "class": "merge"
+ },
+ {
+   "message": "remove requirement on CH exit",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix tests to insert user with correct e-mail to database",
+   "class": "corrective"
+ },
+ {
+   "message": "erts: Tweak ets grow/shrink to keep up at contention",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #554 from killme2008/master׳³ֲ³׳’ג‚¬ֲ¢׳²ֲ²ײ²ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³׳’ג‚¬ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ ׳³ֲ³׳’ג‚¬ן¿½׳²ֲ³ײ²ֲ·׳³ג€™׳’ג€�ֲ¬ײ»ן¿½׳³ֲ³׳’ג‚¬ֲ¢׳²ֲ²ײ²ֲ¼׳³ג€™׳’ג€�ֲ¬ײ²ֲ¢׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳³ן¿½ײ²ֲ¿ײ²ֲ½ include ׳³ֲ³׳’ג‚¬ג€�׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ¥׳³ֲ³ײ»ן¿½׳²ֲ²ײ²ֲ¯׳²ֲ²ײ²ֲ¢׳³ֲ³ײ»ן¿½׳²ֲ²ײ²ֲ¯׳²ֲ²ײ²ֲ´׳³ֲ³׳’ג‚¬ג€�׳²ֲ»׳�ֲ¿ֲ½׳³ן¿½ײ²ֲ¿ײ²ֲ½",
+   "class": "perfective"
+ },
+ {
+   "message": "; * admin/MAINTAINERS: Minor copyedits",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'metis_fixes'Conflicts:include/libmesh/Makefile.am",
+   "class": "corrective"
+ },
+ {
+   "message": "Removed SymbolMapper property from Brokerage base class",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #170 from SMRUCC/master Merge pull request #647 from xieguigang/master  ׳³ֲ³׳’ג‚¬ג„¢׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬׳²ֲ²ײ²ֲ¦",
+   "class": "merge"
+ },
+ {
+   "message": "Merge pull request #5738 from y-p/PR_json_pr_verBLD: ci/print_versions.py learned to output json",
+   "class": "adaptive"
+ },
+ {
+   "message": "whisper: polish the messages, fix some bugs, testsBugs fixed:  - Use randomly generated flags as the spec required.  - During envelope opening check the first bit only for signature.",
+   "class": "corrective"
+ },
+ {
+   "message": "Try fixing the table of contents.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #57 from kyoushuu/masterVarious fixes in resources, songs view and playback",
+   "class": "corrective"
+ },
+ {
+   "message": "postconf.py: compat hack for dialog(1) on CentOS 6.5",
+   "class": "corrective"
+ },
+ {
+   "message": "* xdisp.c (Vresize_mini_windows): Incredibly minor doc fix (Bug#3300).",
+   "class": "perfective"
+ },
+ {
+   "message": "core: unified cgroup hierarchy supportThis patch set adds full support the new unified cgroup hierarchy logicof modern kernels.A new kernel command line option \"systemd.unified_cgroup_hierarchy=1\" isadded. If specified the unified hierarchy is mounted to /sys/fs/cgroupinstead of a tmpfs. No further hierarchies are mounted. The kernelcommand line option defaults to off. We can turn it on by default assoon as the kernel's APIs regarding this are stabilized (but even thendownstream distros might want to turn this off, as this will break anytools that access cgroupfs directly).It is possibly to choose for each boot individually whether the unifiedor the legacy hierarchy is used. nspawn will by default provide thelegacy hierarchy to containers if the host is using it, and the unifiedotherwise. However it is possible to run containers with the unifiedhierarchy on a legacy host and vice versa, by setting the$UNIFIED_CGROUP_HIERARCHY environment variable for nspawn to 1 or 0,respectively.The unified hierarchy provides reliable cgroup empty notifications forthe first time, via inotify. To make use of this we maintain onemanager-wide inotify fd, and each cgroup to it.This patch also removes cg_delete() which is unused now.On kernel 4.2 only the \"memory\" controller is compatible with theunified hierarchy, hence that's the only controller systemd exposes whenbooted in unified heirarchy mode.This introduces a new enum for enumerating supported controllers, plus arelated enum for the mask bits mapping to it. The core is changed tomake use of this everywhere.This moves PID 1 into a new \"init.scope\" implicit scope unit in the rootslice. This is necessary since on the unified hierarchy cgroups mayeither contain subgroups or processes but not both. PID 1 hence has tomove out of the root cgroup (strictly speaking the root cgroup is theonly one where processes and subgroups are still allowed, but in orderto support containers nicey, we move PID 1 into the new scope in allcases.) This new unit is also used on legacy hierarchy setups. It'sactually pretty useful on all systems, as it can then be used to filterjournal messages coming from PID 1, and so on.The root slice (\"-.slice\") is now implicitly created and started (anddoes not require a unit file on disk anymore), sincethat's where \"init.scope\" is located and the slice needs to be startedbefore the scope can.To check whether we are in unified or legacy hierarchy mode we usestatfs() on /sys/fs/cgroup. If the .f_type field reports tmpfs we are inlegacy mode, if it reports cgroupfs we are in unified mode.This patch set carefuly makes sure that cgls and cgtop continue to workas desired.When invoking nspawn as a service it will implicitly create twosubcgroups in the cgroup it is using, one to move the nspawn processinto, the other to move the actual container processes into. This isdone because of the requirement that cgroups may either containprocesses or other subgroups.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Add address family to 'ip rule' calls\"",
+   "class": "adaptive"
+ },
+ {
+   "message": "comments",
+   "class": "adaptive"
+ },
+ {
+   "message": "updated hint, allow multiple lines in the filter box",
+   "class": "adaptive"
+ },
+ {
+   "message": "New version 6.7.3.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(feat) schedule push limit (#2245)",
+   "class": "adaptive"
+ },
+ {
+   "message": " Fixing docstring and adding DYSCO config file",
+   "class": "multi"
+ },
+ {
+   "message": "Trim JSONRPC events buffer when it's too large* lisp/jsonrpc.el (Version): Bump to 1.0.2(jsonrpc--events-buffer-scrollback-size): Newjsonrpc-connection slot.(jsonrpc--log-event): Use it to trim buffer.",
+   "class": "adaptive"
+ },
+ {
+   "message": "* lisp/dom.el (dom-previous-sibling): New function.",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed null pointer",
+   "class": "corrective"
+ },
+ {
+   "message": "ENG-7392: fix update query timeout test",
+   "class": "corrective"
+ },
+ {
+   "message": "n810: Add firmware generator hotplug scriptsSVN-Revision: 25384",
+   "class": "adaptive"
+ },
+ {
+   "message": "switch off peptide sequence for non-coding genes, but leave it oon for prediction transcripts",
+   "class": "adaptive"
+ },
+ {
+   "message": "[misc] Method to obtain the viewport coordinates from canvas coordinatesUses viewbox coordinates method and canvas cumulative offset",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix doctests",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'master' into sentinel_one_bug_fixes",
+   "class": "corrective"
+ },
+ {
+   "message": "Extract generic base query class for the UserQuery",
+   "class": "perfective"
+ },
+ {
+   "message": "Messed up (use message of prev and make prev be a fixup",
+   "class": "corrective"
+ },
+ {
+   "message": "Changed some Ottoman laws to reflect historyMore changes pending",
+   "class": "adaptive"
+ },
+ {
+   "message": "helios: Bug Fix to OMNI causal time lag inference scriptSigned-off-by: mandar2812 <f4263065d995d5d28c5fdfd80efbaa020bcb87bd@gmail.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "(svn r110) Added modified English town name generator",
+   "class": "adaptive"
+ },
+ {
+   "message": "ethdev: rename link speed constantsThe speed numbers ETH_LINK_SPEED_ are renamed ETH_SPEED_NUM_.The prefix ETH_LINK_SPEED_ is kept for AUTONEG and will be usedfor bit flags in next patch.Signed-off-by: Marc Sune <158229b45010c41ed02cba37180648366c7fcafa@gmail.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "dmtx-utils: migrate to boneyardCloses #8740.Signed-off-by: ilovezfs <fbd54dbbcf9e596abad4ccdc4dfc17f80ebeaee2@icloud.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "New translations en.json (Swedish)",
+   "class": "perfective"
+ },
+ {
+   "message": "Editor/UI: Scripts can now be removed.",
+   "class": "adaptive"
+ },
+ {
+   "message": "0.13.43",
+   "class": "adaptive"
+ },
+ {
+   "message": "DATIS export",
+   "class": "adaptive"
+ },
+ {
+   "message": "add Task",
+   "class": "adaptive"
+ },
+ {
+   "message": "0c6fa1d refactor(ivy): update parameter for executeInitHooks to be more accurate (#27965)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove lib-src/fakemail.c.* lib-src/fakemail.c: Remove file.* lib-src/Makefile.in (UTILITIES): Remove fakemail${EXEEXT}.(fakemail${EXEEXT}): Remove rule.* lib-src/makefile.w32-in ($(BLD)/fakemail.exe, fakemail)($(BLD)/fakemail.$(O)): Remove.* lisp/mail/sendmail.el (sendmail-program): Fall back to just \"sendmail\".* lisp/mail/feedmail.el: Update commentary.* doc/emacs/ack.texi (Acknowledgments): Remove fakemail.c.* etc/NEWS: Mention this.* INSTALL: Remove fakemail.",
+   "class": "adaptive"
+ },
+ {
+   "message": "upgrade",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/bootstrap' into bootstrap",
+   "class": "merge"
+ },
+ {
+   "message": "* doc/emacs/regs.texi (Bookmarks): Small fixes related to saving.  (Bug#10058)",
+   "class": "corrective"
+ },
+ {
+   "message": "moved creatures.xml into the new subfolder creatures (no changes to the content of the file)",
+   "class": "perfective"
+ },
+ {
+   "message": "libtensorflow 1.10.0Closes #30984.Signed-off-by: FX Coudert <c329953660db96eae534be5bbf1a735c2baf69b5@gmail.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge current S2_5 en_GB translation for core strings (r28135). trunk stats:freeciv: 86%: 5728 translated, 556 fuzzy, 351 untranslated.[[originally from svn r28140]]",
+   "class": "perfective"
+ },
+ {
+   "message": "Specify .combatant-portrait-caption color",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add diagnostic tests",
+   "class": "adaptive"
+ },
+ {
+   "message": "#NAME?",
+   "class": "adaptive"
+ },
+ {
+   "message": "Address failing e2e tests.",
+   "class": "corrective"
+ },
+ {
+   "message": "refactor(main): use fsrepo to load config",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'ENG-7176' of https://github.com/VoltDB/voltdb into ENG-7176",
+   "class": "merge"
+ },
+ {
+   "message": "Merge pull request #10492 from practicalswift/swiftc-28794-swift-type-transformrec-llvm-function-ref-llvm-optional-swift-type-swift-typebas",
+   "class": "merge"
+ },
+ {
+   "message": "Add constants for mouse buttons 4&5",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/develop' into feature-input-style",
+   "class": "merge"
+ },
+ {
+   "message": "Merge pull request #99 from MrCreosote/dev-queueMake TypeFileStorage version aware",
+   "class": "adaptive"
+ },
+ {
+   "message": "v 5.0.11",
+   "class": "adaptive"
+ },
+ {
+   "message": "re-introduced breakpoint alignments for SVs",
+   "class": "adaptive"
+ },
+ {
+   "message": "Refactor search logic to support regex`crew search` use to only return a single result if your query stringmatched a package name exactly.`crew search` now supports regex.chronos@localhost / $ crew search ^libFound libpcap, version 1.8.1Found libjpeg, version 9.1Found libunwind, version 1.1Found libxslt, version 1.1.28Found libffi, version 3.0.13-1Found libssh2, version 1.4.3Found libtool, version 2.4.6Found libpipeline, version 1.4.1Found libevent, version 2.0.22Found libxml2, version 2.9.2Found libgd, version 2.0.33Found libtiff, version 4.0.7Found libpng, version 1.6.26Found libsigsegv, version 2.10",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #2587 from quintel/power-to-change-nameschanged PtX to power-to-X",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add new prop for navbar: arrowMobile",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix build",
+   "class": "corrective"
+ },
+ {
+   "message": "Apply SA naming convention (constraints/indexes)- Add migration to rename existing constraints/indexes- Remove some hardcoded names for indexes- Use the correct names for items where a custom name is needed",
+   "class": "perfective"
+ },
+ {
+   "message": "Refactor ration view with header/detail format",
+   "class": "perfective"
+ },
+ {
+   "message": "Added support for units that transform in to other units.See gna bug #13890[[originally from svn r15930]]",
+   "class": "adaptive"
+ },
+ {
+   "message": "[omap35xx] Add kernel patch to expose omap3 die id via sysfsgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@25112 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix rotated pick in 2D test part 2.",
+   "class": "corrective"
+ },
+ {
+   "message": "bindings: Update GIR-based bindings",
+   "class": "adaptive"
+ },
+ {
+   "message": "Retain historical playtime for caves, synchronize it in the background, introduce concept of migrations, recoverInto helper.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[#1559] Limit number of projects on list widget to 100",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #3521 from Azure/restapi_auto_monitor/resource-manager[AutoPR] monitor/resource-manager",
+   "class": "merge"
+ },
+ {
+   "message": "ignore cargo",
+   "class": "adaptive"
+ },
+ {
+   "message": "Put the \"too many template params\" warning in the analyzer checks instead of the linter checks.-------------Created by MOE: https://github.com/google/moeMOE_MIGRATED_REVID=149673824",
+   "class": "adaptive"
+ },
+ {
+   "message": "Moved the HCs to post_check() in GenericRunnable",
+   "class": "perfective"
+ },
+ {
+   "message": "Update CHANGELOG.md",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add devise authentication",
+   "class": "adaptive"
+ },
+ {
+   "message": "Surya/core 9183/additional imptofu rpcs (#14910)Surya/core 9183/additional imptofu rpcs (#14910)",
+   "class": "multi"
+ },
+ {
+   "message": "Docs: Recommend forum for model-related questions.",
+   "class": "perfective"
+ },
+ {
+   "message": "Test for jpegPhoto schema",
+   "class": "adaptive"
+ },
+ {
+   "message": "emulate IE8 if possible",
+   "class": "adaptive"
+ },
+ {
+   "message": "stress-enosys: add pket_get and pkey_setSigned-off-by: Colin Ian King <d100aa70785e45ee8deab668147d941941915c21@canonical.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Core: Compile fix for XCode",
+   "class": "corrective"
+ },
+ {
+   "message": "[ar71xx] EHCI driver: add AR913x supportgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@13519 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix tempwhitelist bug",
+   "class": "corrective"
+ },
+ {
+   "message": "v5.0.1",
+   "class": "adaptive"
+ },
+ {
+   "message": "BatchHeader validatorCloses #19, closes #15, closes #14",
+   "class": "adaptive"
+ },
+ {
+   "message": "Allow input masking for single line text entry. Closes #166.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Clean up logs",
+   "class": "perfective"
+ },
+ {
+   "message": "chkrootkit 0.52Closes #14514.Signed-off-by: ilovezfs <fbd54dbbcf9e596abad4ccdc4dfc17f80ebeaee2@icloud.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": " # [#26318] CSS for system message should be the same in installation screen and the rest?. Thanks Rouven.git-svn-id: 18e04b58169eb5c65245ae16c7324e17a4d46a4c@21992 6f6e1ebd-4c2b-0410-823f-f34bde69bce9",
+   "class": "adaptive"
+ },
+ {
+   "message": "OAK-3853: Improve SegmentGraph resilienceBetter naming of nodesgit-svn-id: 67138be12999c61558c3dd34328380c8e4523e73@1724122 13f79535-47bb-0310-9956-ffa450edef68",
+   "class": "perfective"
+ },
+ {
+   "message": "changed path to integration tests",
+   "class": "adaptive"
+ },
+ {
+   "message": "Sema: Remove unused inExpression parameter from ASTContext::getBridgedToObjC(), NFCProgress on <rdar://problem/21215099>.Swift SVN r29968",
+   "class": "perfective"
+ },
+ {
+   "message": "Update Greek translation",
+   "class": "perfective"
+ },
+ {
+   "message": "version number updategit-svn-id: de9bbed4c30e0eb58fe8e7d66f5c80b71699a07c@381 bf01a9d7-0df3-0310-8ad4-b1c94d9ae2d5",
+   "class": "adaptive"
+ },
+ {
+   "message": "- use XPachCache in Model.java- fixed examples",
+   "class": "multi"
+ },
+ {
+   "message": "adds ARV4519PW/ARV7519PWSigned-off-by: Andrej Vla׳³ֲ²ײ²ֲµ׳²ֲ²ײ²ֲ¡i׳³ֲ²ײ²ֲ´׳³ג€™׳’ג€�ֲ¬ײ²ֲ¡ <andrej.vlasic0@gmail.com>SVN-Revision: 31069",
+   "class": "adaptive"
+ },
+ {
+   "message": "Expose ports' physical network attribute in APIIn change Ib22753aa6ae0fedce7fb9ecf63f135fda0185c5b the port data modelwas updated to include a physical_network field, but this was notexposed to the user by the REST API. This change exposes thephysical_network field in the REST API.The port CRUD notification object has been updated to include thephysical_network field.The API reference and user guide have been updated to includeinformation about the ports' physical network field.The API microversion has been bumped to 1.34. During a rolling upgradefrom Ocata when the API service is pinned, the port physical networkfield is hidden from API responses, and API requests including the fieldare rejected.Change-Id: I7023a1d6618608c867c31396fa677d3016ca493ePartial-Bug: #1666009",
+   "class": "adaptive"
+ },
+ {
+   "message": "feat(tracker): ondataAdded trigger",
+   "class": "adaptive"
+ },
+ {
+   "message": "build: do not call initramfs build from within the image builderSigned-off-by: Felix Fietkau <nbd@openwrt.org>git-svn-id: c673a1a018ba15e3442847f58d2337db82164816@45837 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "adaptive"
+ },
+ {
+   "message": "[IMP] ׳³ֲ³ײ»ן¿½׳²ֲ²ײ²ֲ¾׳³ג€™׳’ג€�ֲ¬ײ²ֲ¦׳³ֲ³׳’ג‚¬ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ©׳³ֲ³׳’ג‚¬ג€�׳³ג€™׳’ג€�ֲ¬ײ²ֲ¢׳²ֲ²ײ²ֲ°׳³ֲ³׳’ג€�ֲ¢׳³ג€™׳’ג€�ֲ¬ײ²ֲ¡׳³ן¿½ײ²ֲ¿ײ²ֲ½׳³ֲ³׳’ג‚¬ֲ¢׳³ן¿½ײ²ֲ¿ײ²ֲ½׳²ֲ²ײ²ֲ¯׳³ֲ³׳’ג‚¬ן¿½׳²ֲ²ײ²ֲ»׳²ֲ²ײ²ֲ¥׳³ֲ³ײ»ן¿½׳²ֲ²ײ²ֲ¾׳³ג€™׳’ג€�ֲ¬׳�ֲ¿ֲ½׳³ֲ³׳’ג‚¬ֲ¢׳³ג€™׳’ג€�ֲ¬ײ²ֲ¦׳²ֲ²ײ²ֲ¥",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update academic_processing_profile.php",
+   "class": "adaptive"
+ },
+ {
+   "message": "MRG",
+   "class": "adaptive"
+ },
+ {
+   "message": "Travis limits",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'master' into noarch",
+   "class": "merge"
+ },
+ {
+   "message": "BUG: bug in partial setting of with a DatetimeIndex (GH9478)BUG: bug in taking a view with an Index (and addtl testing)",
+   "class": "corrective"
+ },
+ {
+   "message": "Add type, id, and info to the generated xml.Add xml tests for fieldToDom.Update workspace tests to pass with new changes.",
+   "class": "adaptive"
+ },
+ {
+   "message": "rmail generate autoloads to non-versioned file.* lisp/Makefile.in: Add rmail-loaddefs.el to autogenel.* lisp/mail/rmail.el: Remove autoloads, add require.* lisp/mail/rmailedit.el,lisp/mail/rmailkwd.el,  lisp/mail/rmailmm.el,lisp/mail/rmailmsc.el,  lisp/mail/rmailsort.el,lisp/mail/rmailsum.el,  lisp/mail/undigest.el: Update file-local.* test/lisp/mail/rmail-tests.el:",
+   "class": "adaptive"
+ },
+ {
+   "message": "Print out full input options from metadata at -vv verbosity level.",
+   "class": "adaptive"
+ },
+ {
+   "message": "scripts/upgrade-zulip-from-git: Don't cache the repo URL, only the contentsWe document the `deployment.git_repo_url` setting in `/etc/zulip/zulip.conf`to control where this script fetches from, and don't say that it'sonly read on the first such upgrade and cached thereafter.  The documentedbehavior seems like the right behavior.  So use the currently configuredURL every time, by writing it anew into the config of our cache repo.",
+   "class": "corrective"
+ },
+ {
+   "message": "[BUGFIX] No longer use invalid data in functional testThe MigrationStatusRepositoryTest used invalid fixture data, thedirection was filled with strings that were too long for the relatedDB column. On MySQL this is silently truncated, but on PostgreSQL itleads to an error.Now the expected class constants are used in the test.",
+   "class": "corrective"
+ },
+ {
+   "message": "bypass source code submission step for non-extension addon submissions (#9152)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #350 from substance/multi-click-selectionsFix selection issues with multiple clicks.",
+   "class": "corrective"
+ },
+ {
+   "message": "OAK-4725: Enable mmap mode by default for migration to SegmentNodeStoregit-svn-id: 67138be12999c61558c3dd34328380c8e4523e73@1758655 13f79535-47bb-0310-9956-ffa450edef68",
+   "class": "adaptive"
+ },
+ {
+   "message": "[TASK] Update built JavaScript/CSS filesSee https://jenkins.neos.io/job/Neos%20-%20Update%20built%20files/2944/",
+   "class": "adaptive"
+ },
+ {
+   "message": "working on #504",
+   "class": "adaptive"
+ },
+ {
+   "message": "ViewportDistorter, SphericMirrorCalculator",
+   "class": "adaptive"
+ },
+ {
+   "message": "travis: added travis test and a first nosetests",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix for issues #509 and #574",
+   "class": "corrective"
+ },
+ {
+   "message": "Bug fix of the recent commit.git-svn-id: 74e6431733c050716dad9223ffe8dd2aefa9cfba@6969 c92efa57-630b-4861-b058-cf58834340f0",
+   "class": "corrective"
+ },
+ {
+   "message": "removed themed from Message",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix last change in shr.el* lisp/net/shr.el (shr--have-one-fringe-p): Rename fromhave-fringes-p.  All callers changed.  Doc fix.  (Bug#21895)",
+   "class": "corrective"
+ },
+ {
+   "message": "Vss2Git",
+   "class": "perfective"
+ },
+ {
+   "message": "class library: Server - quit should not necessarily re-enable the status watcheradding another workaroundSigned-off-by: Tim Blechmann <5ee0edb9e2229c0838f1959779f1949031de0123@klingt.org>",
+   "class": "corrective"
+ },
+ {
+   "message": "Trying a different tack for parallelization.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[maven-release-plugin] prepare release killbill-0.18.21",
+   "class": "adaptive"
+ },
+ {
+   "message": "RET bound in Rmail summary.",
+   "class": "perfective"
+ },
+ {
+   "message": "Adds quick installation instructions in README.mdSo that if you are a rakudobrew user or simply don't have p6docavailable in your path can start straight away to use it. Refs toperl6/doc#1117 and eventually closes #1117 if accepted.",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1366 from qreal/text-language-fixesAdded ability to clear language toolbox state, shall used between launch...",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updated tempest isolation optionsThis change updates the way that the packages are installed in anisolated deployment. This ensures that our build packages are usedwithin the deployment while also allowing temptest to go online andconsume upstream packages from pypi. Additionally this updatestempest-lib which is needed to make keystone w/ fernet tokens go asthere is an upstream issues with date timestamps with all versionsof tempest-lib that will prohibit the use of fernet tokens.Change-Id: Ia479610b9ab69d64d1de756099d840b2ab331378Related-Bug: #1466010",
+   "class": "adaptive"
+ },
+ {
+   "message": "added charset test of CJK filenames",
+   "class": "adaptive"
+ },
+ {
+   "message": "honor FACEBOOK_PAGE/TWITTER_HANDLE settings (fixes #3)",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge branch 'develop' into feature/theme-store-master# Conflicts:#example/src/main/java/org/wordpress/android/fluxc/example/AppComponent.java#example/src/main/java/org/wordpress/android/fluxc/example/MainFragment.java#example/src/main/res/layout/fragment_main.xml#fluxc/src/main/java/org/wordpress/android/fluxc/module/ReleaseStoreModule.java",
+   "class": "merge"
+ },
+ {
+   "message": "CURA-5357 Prevent uninstall of plugins that are not-yet-installed",
+   "class": "corrective"
+ },
+ {
+   "message": "; Auto-commit of loaddefs files.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(gdb-var-create-handler)(gdb-var-evaluate-expression-handler, gdb-frame-handler)(gdb-var-list-children-handler, gdb-var-update-handler):Current buffer is already gdb-partial-output-buffer, don'tmake it current again.",
+   "class": "corrective"
+ },
+ {
+   "message": "Issue #2359071 by JeroenT, rpayanm: Remove drupal_wrap_mail",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix import (again)",
+   "class": "corrective"
+ },
+ {
+   "message": "yaida: added deleting_func_tail event log",
+   "class": "adaptive"
+ },
+ {
+   "message": "[sil-aa] Add predicates to SILType that will be used in TBAA so that TBAA does not need to touch the AST.We should never touch the AST from SIL if we don't need to. The specificadded methods are:1. SILType::isBuiltinNativeObjectType().2. SILType::isBuiltinRawPointerType().3. SILType::isBuiltinType().4. SILType::isBuiltinIntegerType().5. SILType::isBuiltinFloatType().6. SILType::isGenericType(). This supersedes the hasUnboundGenericsfunction in Local.h. After WWDC, we should remove that method but Idon't want to update random parts of the SILPasses.7. SILType::aggregateContainsRecord. Enables easy queries to determineif a SILType T1 contains a separate SILType T2 as a member.rdar://16651852Swift SVN r18147",
+   "class": "adaptive"
+ },
+ {
+   "message": "kapalin::tests failed",
+   "class": "corrective"
+ },
+ {
+   "message": "Also show the list of programs when the user has clicked on the channeltext.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fix python test.",
+   "class": "corrective"
+ },
+ {
+   "message": "Fixup test.",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/master'",
+   "class": "merge"
+ },
+ {
+   "message": "aet-67 reverting some formatting",
+   "class": "perfective"
+ },
+ {
+   "message": "x86/kvm_guest: add missing symbols for 3.3Signed-off-by: Stijn Tintel <stijn@linux-ipv6.be>Signed-off-by: Gabor Juhos <juhosg@openwrt.org>SVN-Revision: 35458",
+   "class": "corrective"
+ },
+ {
+   "message": "steer player ship movement by quaternion",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixed base_test.py [skip hazardlib]",
+   "class": "corrective"
+ },
+ {
+   "message": "Fix named let",
+   "class": "corrective"
+ },
+ {
+   "message": "Better abstraction for bytecode tests. Also organize some imports.",
+   "class": "perfective"
+ },
+ {
+   "message": "Update src/Core2D.Editor/Input/InputProcessor.cs",
+   "class": "adaptive"
+ },
+ {
+   "message": "libvirtd: enable virtlockd/virtlogd socket activation on installWhen someone does 'systemctl enable libvirtd.service' we shouldalso enable virtlockd.socket/virtlogd.socket, so that they canbe auto-activated if libvirtd tries to access the sockets.Without this, people have to manually enable the units themselvesvia 'systemctl enable virtdlogd.socket'.This also ensures that if distros uses  'systemctl preset' forenabling 'libvirtd.service', then the virtdlogd.socket getsenabled without having to wait for the distro to update theirpresets file.Signed-off-by: Daniel P. Berrange <bb938cf255e055ff3507f2627d214e8e62118fcf@redhat.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Revert indexing of ׳³ֲ³׳’ג‚¬ג„¢׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬׳³ן¿½ײ²ֲ¿ײ²ֲ½Texas operator׳³ֲ³׳’ג‚¬ג„¢׳³ג€™׳’ג‚¬ן¿½ײ²ֲ¬׳³ן¿½ײ²ֲ¿ײ²ֲ½Because some other resource may still use that term.",
+   "class": "corrective"
+ },
+ {
+   "message": "Add basic ConnectorManager",
+   "class": "adaptive"
+ },
+ {
+   "message": "xtables-addons: fix packaging of iptaccountgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@35831 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "corrective"
+ },
+ {
+   "message": "get Jupyter URL on deep learning VM",
+   "class": "adaptive"
+ },
+ {
+   "message": "Components: Fix failing test from changed React warning messageThese messages change over time and are difficult to maintain. Testinstead simply that it throws.",
+   "class": "corrective"
+ },
+ {
+   "message": "add Num.isNaN",
+   "class": "adaptive"
+ },
+ {
+   "message": "added bioconductor-triplex (#5804)",
+   "class": "adaptive"
+ },
+ {
+   "message": "SONAR-4191 Remove the 'any' value in multiple-value select boxes",
+   "class": "adaptive"
+ },
+ {
+   "message": "entered into RCS",
+   "class": "perfective"
+ },
+ {
+   "message": "(Defining Faces): Mention `mac', and add an xref to where window-system isdescribed.",
+   "class": "adaptive"
+ },
+ {
+   "message": "All on one line",
+   "class": "perfective"
+ },
+ {
+   "message": "Remove verify_html as it isn't supported in TinyMCE 4",
+   "class": "adaptive"
+ },
+ {
+   "message": "lumo: update 1.9.0 bottle.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(c-set-offset): Don't find a default syntactic element throughsyntactic analysis if called outside a CC Mode buffer.",
+   "class": "adaptive"
+ },
+ {
+   "message": "add API for stopping PFL generic worker threads",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'work-for-release-0.16.2' of github.com:killbill/killbill into work-for-release-0.16.2",
+   "class": "merge"
+ },
+ {
+   "message": "Merge pull request #4926 in SW/shopware from SW-18758/5.2/typo-fix-vector to 5.2* commit 'f997f284339276634751fba8bb7cc2f57e6856da':  SW-18758 - Fix translation typo in formatTypes/vector translation",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1454 from Matt-Westphal/masterInitial code for commerce/usageaggregates",
+   "class": "adaptive"
+ },
+ {
+   "message": "isPublic -> isActive",
+   "class": "perfective"
+ },
+ {
+   "message": "don't validate new example names, avoids a call to iterate_simulation_datafiles()",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update data submodule[ci skip]",
+   "class": "adaptive"
+ },
+ {
+   "message": "Convert CallOpenEntry to return object directly instead of error",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge branch 'develop'",
+   "class": "merge"
+ },
+ {
+   "message": "Merge branch 'master' into mohammad/new_contact_us_2",
+   "class": "merge"
+ },
+ {
+   "message": "Fix nodes count calculationFixes calculation of the nodes count for the composable roles.RHOSINFRA-980Change-Id: I5485c3661c5a193013c72cd8ea078db2777a8c1d(cherry picked from commit 6881e6a1b6e51d19f8eec6ba8c7b62a009f0170f)",
+   "class": "corrective"
+ },
+ {
+   "message": "port stm32f0x to gcc.",
+   "class": "adaptive"
+ },
+ {
+   "message": "*** empty log message ***",
+   "class": "adaptive"
+ },
+ {
+   "message": "Print fewer dots during training.PiperOrigin-RevId: 231289314",
+   "class": "adaptive"
+ },
+ {
+   "message": "Updated docs and build.",
+   "class": "multi"
+ },
+ {
+   "message": "change report constant",
+   "class": "perfective"
+ },
+ {
+   "message": "Fixing TOOLS-2718",
+   "class": "corrective"
+ },
+ {
+   "message": "pin gazel to v3",
+   "class": "adaptive"
+ },
+ {
+   "message": "API: referring to duplicate level name raises ValueError (#21678)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Contacts are now removed when they haven't been updated in awhile",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update README.md",
+   "class": "perfective"
+ },
+ {
+   "message": "Updates2005-12-05  Matthias Clasen  <mclasen@redhat.com>* gobject/tmpl/generic_values.sgml:* glib/tmpl/trees-nary.sgml:* glib/tmpl/linked_lists_double.sgml:* glib/tmpl/linked_lists_single.sgml:* glib/tmpl/memory_chunks.sgml:* glib/tmpl/allocators.sgml:* glib/tmpl/macros_misc.sgml: Updates* glib/Makefile.am: Ignore gmirroringtable.h",
+   "class": "adaptive"
+ },
+ {
+   "message": "(menu-bar-help-menu): Add item for report-emacs-bug.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Make the minor item augmentation chips rarer",
+   "class": "adaptive"
+ },
+ {
+   "message": "Lazily create codegen objectBefore this patch, we would always create the LlvmCodegen object inthe initialization of the runtime state, regardless of if we actuallycould use codegen. With this patch, the codegen object is created uponfirst use, so we save the overhead of loading and compiling the moduleif no codegen is used.Change-Id: I2bd6e046bf55fd0ba40441c524a0a0bcf133c17dReviewed-on: http://gerrit.sjc.cloudera.com:8080/4470Reviewed-by: Nong Li <99a5e5f8f5911755b88e0b536d46aafa102bed41@cloudera.com>Tested-by: jenkins",
+   "class": "adaptive"
+ },
+ {
+   "message": "fixed gui 2 spring",
+   "class": "corrective"
+ },
+ {
+   "message": "Add a new decorator that can be used to declaratively set options on the checker instance for CheckerTestCase.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Made a couple more small changes to the SBT build configuration file related to publishing the library.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #990 from yahoo/dybdahl/impreove-log-messagesDybdahl/impreove log messages",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update update_cb3.py",
+   "class": "adaptive"
+ },
+ {
+   "message": "use prop-types package. close #137",
+   "class": "perfective"
+ },
+ {
+   "message": "Generalize the regex determining the Xcode version.The current regex only matches a single digit for each component of the version (e.g. 9.2). This modifies it to match multiple digits in each component, so that e.g. 10.42 will be matched.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[hotfix] fixes and refactored Quoted Item Comparison report (#10954)",
+   "class": "multi"
+ },
+ {
+   "message": "conf: Introduce virStoragePoolLoadAllState && virStoragePoolLoadStateThese functions operate exactly the same as their network equivalentsvirNetworkLoadAllState, virNetworkLoadState.",
+   "class": "adaptive"
+ },
+ {
+   "message": "No need to excape the html since we will pass html",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove misplaced squirrel_coverity patch",
+   "class": "adaptive"
+ },
+ {
+   "message": "universe_create_galaxies.php: fix back-button errorMake sure 'galaxy_count' requested var is always available,otherwise links become stale.",
+   "class": "corrective"
+ },
+ {
+   "message": "Adds test for #attending method to event invitation mailer spec",
+   "class": "adaptive"
+ },
+ {
+   "message": "Don't move draw queue",
+   "class": "adaptive"
+ },
+ {
+   "message": "Remove container_registry method from project class",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/master'",
+   "class": "merge"
+ },
+ {
+   "message": "bugfixes with unit tests",
+   "class": "corrective"
+ },
+ {
+   "message": "docs(devops): update readme now ansible 2.0 is released",
+   "class": "perfective"
+ },
+ {
+   "message": "(ange-ftp-insert-file-contents): Don't changelast-coding-system-used by the call of ange-ftp-set-ascii-mode.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Fixes the example for navigateTo. (#1440)",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #2260 from edx/ned/edx-setup-pyAdd a setup.py so we can import top-level directories.",
+   "class": "adaptive"
+ },
+ {
+   "message": "FIX - change the scale speed step calculation to reduce the rounding error",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #14301 from edx/clee/return-all-courses-on-mobileMA-3091: Return non-mobile courses from the mobile enrollments API",
+   "class": "adaptive"
+ },
+ {
+   "message": "Archive old docs",
+   "class": "perfective"
+ },
+ {
+   "message": "arch/x86/acpi: Allow \"transparent\" ACPI device namesCertain devices, such as the northbridge on AMD Opteron systems,do not require a node in the ACPI device path.  Allow such devicesto be passed over by the ACPI path generator if the device-specificACPI name function returns a zero-length (non-NULL) string.Change-Id: Iffffc9a30b395b0bd6d60e411439a437e89f554eSigned-off-by: Timothy Pearson <c9764fede36570705a678af23b8eee20d698b600@raptorengineering.com>Reviewed-on: https://review.coreboot.org/19281Tested-by: build bot (Jenkins)Tested-by: Raptor Engineering Automated Test Stand <1505422b2465e9a84f6fdfaa161078890c593f06@raptorengineeringinc.com>Reviewed-by: Duncan Laurie <70662b43bc1a20b57ded72a2b08be88dd0da4841@chromium.org>Reviewed-by: Aaron Durbin <af0622ab041e8b0f8e5819838dcc93898196e71f@chromium.org>",
+   "class": "adaptive"
+ },
+ {
+   "message": "caveats: use Formula#full_name",
+   "class": "adaptive"
+ },
+ {
+   "message": "Cleanup",
+   "class": "perfective"
+ },
+ {
+   "message": "* lisp/textmodes/reftex-parse.el (reftex-what-macro)(reftex-context-substring): Let-bind forward-sexp-function to nilsince we don't need/want to treat \\begin...\\end as a block.Fixes: debbugs:7053",
+   "class": "corrective"
+ },
+ {
+   "message": "Designations of catalogs shouldn't be translate",
+   "class": "adaptive"
+ },
+ {
+   "message": "TDP-973: we save preparation name in state service instead of in localStorage",
+   "class": "adaptive"
+ },
+ {
+   "message": "fix replaceKeys handling: color reverts now, and specs are passed thru.git-svn-id: 862dfb0a87bde8384fe22bc4dc6968ec7c7ecd70@10091 a380766d-ff14-0410-b294-a243070f3f08",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge remote-tracking branch 'origin/develop' into develop",
+   "class": "merge"
+ },
+ {
+   "message": "[Behat][Promotion] Percentage discount promotions scenarios",
+   "class": "adaptive"
+ },
+ {
+   "message": "* coding.c (coding_set_destination): Use BEG_BYTE rather than hardcoding 1.(detect_coding_system):* lisp.h (detect_coding_system, chars_in_text, multibyte_chars_in_text)(string_char_to_byte, string_byte_to_char, insert_from_gap):* insdel.c (insert_from_gap):* fns.c (string_char_byte_cache_charpos, string_char_byte_cache_bytepos)(string_char_to_byte, string_byte_to_char, string_make_multibyte)(string_to_multibyte):* character.c (chars_in_text, multibyte_chars_in_text):* fileio.c (Finsert_file_contents): Use EMACS_INT for buffer positions.",
+   "class": "perfective"
+ },
+ {
+   "message": "added basic databse connectivity",
+   "class": "adaptive"
+ },
+ {
+   "message": "[CodeCompletion] Add throw/catch/try keywords to completionsWe don't seem to be exhaustive about expression keywords.Swift SVN r28719",
+   "class": "adaptive"
+ },
+ {
+   "message": "INTYG-2871: Namnbyte",
+   "class": "adaptive"
+ },
+ {
+   "message": "url-https.el: Remove (clashes with url-http on 8+3 systems).url-http.el: Move contents of url-https.el here.  Add autoloads.",
+   "class": "multi"
+ },
+ {
+   "message": "Add support for the n516SVN-Revision: 19987",
+   "class": "adaptive"
+ },
+ {
+   "message": "Jetpack: Action and data-layer for changing connection owner (#25314)Adds a redux action and data layer handlers for calling the Jetpack REST API to change the connection owner. The new API was added in Jetpack 6.2.No visual differences.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add test to ensure `Zap` does not have an `uninstall_phase`.",
+   "class": "adaptive"
+ },
+ {
+   "message": "(read_minibuf, get_minibuffer, read_minibuf_unwind, Fread_from_minibuffer,Ftry_completion, Fall_completions, Fcompleting_read, Fminibuffer_prompt_width,syms_of_minibuf): Don't use XFASTINT as an lvalue.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Add missing \"%s\" format to const error message in RBD storage driverWhen passing a const message string to the error reporting APIsRBD forgot to use \"%s\" to avoid GCC format string warningsSigned-off-by: Daniel P. Berrange <bb938cf255e055ff3507f2627d214e8e62118fcf@redhat.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "do not select wallet on 'ready' message",
+   "class": "adaptive"
+ },
+ {
+   "message": "PCI: Remove pci_put_phb()pci_{get,put}_phb() were introduced to increase/decrease refcount orsimilar thing to PHB. They should show up in pairs and some code isobvious breaking the semantics, but the logic is good as pci_put_phb()does nothing.As we do not maintain refcount for PHB and we should not have PHBunplugging in near future, it simply drops pci_put_phb(). No functionalchanges introduced.Signed-off-by: Gavin Shan <0398910e4f4970259b451f0f9d0686cc5e961b81@linux.vnet.ibm.com>Signed-off-by: Stewart Smith <ec31ab75ddf977353c8f660f92ea8b23f64aef25@linux.vnet.ibm.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "mbuf: add IGMP packet typeAdd support for IGMP packet type.Signed-off-by: Jerin Jacob <5bca7d2a432bc0f5422b70b2701a4e4fa32edd00@caviumnetworks.com>Acked-by: Honnappa Nagarahalli <01ccf438b971cc1d8919c8a7f18443cae9429d8b@arm.com>Acked-by: Andrew Rybchenko <ac94ab2a8fe9a9a087f6e24dcbc16626b52c07e8@solarflare.com>Acked-by: Olivier Matz <dfcc1510895413197abb4336e39bb0a3906cba71@6wind.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge pull request #3007 from openfoodfoundation/revert-2859-instagram_patternRevert \"Instagram pattern\"",
+   "class": "corrective"
+ },
+ {
+   "message": "Merged in changes from CVS HEADPatches applied: * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-22   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-23   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-24   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-25   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-26   Fix permission bogosities * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-27   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-28   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-29   Update from CVS * miles@gnu.org--gnu-2004/emacs--cvs-trunk--0--patch-30   Update from CVSgit-archimport-id: 6a009bcaac90060bfd81b04a308d5da0a17447a0@elte.hu--2004/emacs--multi-tty--0--patch-50",
+   "class": "multi"
+ },
+ {
+   "message": "Update AVS, use timeStamp for missed call message (#365)* Update AVS, use timeStamp for missed call message* use public avs, fix tests* Fix typo",
+   "class": "multi"
+ },
+ {
+   "message": "Merge pull request #2167 from AvaloniaUI/numergeSwitched to post-processing nuget packages from AggregatePackage SDK",
+   "class": "adaptive"
+ },
+ {
+   "message": "adding sound blocks (in progress) (#678)* play note block using scale and key* play sound and effects blocks* fixing sound menus* fixed sound menu in play sound* lint",
+   "class": "multi"
+ },
+ {
+   "message": "fix typo in my prev commitSVN-Revision: 2077",
+   "class": "perfective"
+ },
+ {
+   "message": "Fixed bug in bug-reporting code.",
+   "class": "corrective"
+ },
+ {
+   "message": "#121- Added i18n as a Proof of Concept",
+   "class": "adaptive"
+ },
+ {
+   "message": "LDEV-4451 Ability to save confidence levels in MCQAnd also return them to Scratchie on request.",
+   "class": "adaptive"
+ },
+ {
+   "message": "updating integer values in mesh free scaling studies to long to prevent integer wrap around for very large scaling studies",
+   "class": "adaptive"
+ },
+ {
+   "message": "Location fixChanged resource location from parameter to resourceGroup().location.Deleted location parameter from deployment template and parameter file.",
+   "class": "perfective"
+ },
+ {
+   "message": "Clean between builds",
+   "class": "adaptive"
+ },
+ {
+   "message": "More factory signature conversions",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #539 from laurentVeliscek/developAKCallbackInstrument more usable",
+   "class": "perfective"
+ },
+ {
+   "message": "Limit queues in SyncManager and BlockBodiesDownloader by memory cap",
+   "class": "adaptive"
+ },
+ {
+   "message": "[SPARK-15281][PYSPARK][ML][TRIVIAL] Add impurity param to GBTRegressor & add experimental inside of regression.py## What changes were proposed in this pull request?Add impurity param to  GBTRegressor and mark the of the models & regressors in regression.py as experimental to match Scaladoc.## How was this patch tested?Added default value to init, tested with unit/doc tests.Author: Holden Karau <holden@us.ibm.com>Closes #13071 from holdenk/SPARK-15281-GBTRegressor-impurity.",
+   "class": "adaptive"
+ },
+ {
+   "message": "Continued StelCore cleaning, migrated code from StelUI to StelCore.Cleaned Projector class. Improved mouse control.Fixed many bugs.",
+   "class": "multi"
+ },
+ {
+   "message": "AnnotationInfo inertia takes me into continuati...AnnotationInfo inertia takes me into continuations.And kept carrying me until I was carried away. The changes are mostly ofthe janitorial variety, just doing my part to make the interesting logicvisible without being buried in low level compiler plumbing.Added at least one seriously convenient convenience method:  tree modifyType fn  // equivalent to if (tree.tpe == null) tree else tree setType fn(tree.tpe)This is the analogue to the recently added:  symbol modifyInfo fn  // same ideaIt's like having our carpets steam cleaned when we can keep pushinguntil machinery stays in the machine and the relevant logic standsgloriously on top. You'll eventually exclaim, \"I didn't even know thesecarpets were that color!\"",
+   "class": "perfective"
+ },
+ {
+   "message": "helpful error message",
+   "class": "adaptive"
+ },
+ {
+   "message": "Vss2Git",
+   "class": "perfective"
+ },
+ {
+   "message": "mono 5.16.0.220Closes #34605.Signed-off-by: Igor Kapkov <0d4df9d1b72c344619dd6fe70145cbea1d37d4ef@me.com>",
+   "class": "adaptive"
+ },
+ {
+   "message": "IF user not in any group, add to default group",
+   "class": "adaptive"
+ },
+ {
+   "message": "[fix] signup",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #267 from QoboLtd/title-aliases-task-2520fixing description of the docblock (task #2520)",
+   "class": "perfective"
+ },
+ {
+   "message": "merged",
+   "class": "merge"
+ },
+ {
+   "message": "Allow StdlibCollectionUnittest to be built on Linux and FreeBSD",
+   "class": "adaptive"
+ },
+ {
+   "message": "Cleanup and remove depracated methods",
+   "class": "perfective"
+ },
+ {
+   "message": "Add organization name parameter for the dns name of the helm charts",
+   "class": "adaptive"
+ },
+ {
+   "message": ":art: Remove extra returns",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #3658 from anandpdoshi/anand-july-15[fix] Mozilla hack for images in table for print",
+   "class": "corrective"
+ },
+ {
+   "message": "CA can withdraw address during final checks",
+   "class": "adaptive"
+ },
+ {
+   "message": "(flymake-mode, flymake-mode-off): Fix unbalanced parentheses.From David Hunter (tiny change).",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #701 from trotha01/item70(#70) Changed 'Edit' to 'View and Edit'",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update Spanish translationSync with latest changes and tweak a string for clarity",
+   "class": "perfective"
+ },
+ {
+   "message": "debug print removal",
+   "class": "adaptive"
+ },
+ {
+   "message": "prepare test (WIP)",
+   "class": "adaptive"
+ },
+ {
+   "message": "Warm Theme added",
+   "class": "adaptive"
+ },
+ {
+   "message": "Move upcoming launches test into launches tests with all and previous launches",
+   "class": "perfective"
+ },
+ {
+   "message": "Removes primary keys and unique keys from xem_numbering table in cache.db",
+   "class": "adaptive"
+ },
+ {
+   "message": "Increase MaxConcurrentChecks to 2",
+   "class": "adaptive"
+ },
+ {
+   "message": "test.flac: add flac fixture.",
+   "class": "adaptive"
+ },
+ {
+   "message": "CustomerService in intergrationstests mit eingebaut. NullPointer behoben.[DWOSS-292]",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #21 from ministryofjustice/developadded environment variable to parameters.yml for ga code",
+   "class": "adaptive"
+ },
+ {
+   "message": "[refactor] address and contact list in customer, supplier, lead, sales person",
+   "class": "perfective"
+ },
+ {
+   "message": "stdlib: remove Set<T>.GeneratorTypeThis API was added by mistake, and the type alias should have beencalled ``Generator``.  In fact, a nested type alias is already inferredto satisfy the associated type ``Generator`` in Set's ``SequenceType``conformance.rdar://20171363Swift SVN r29796",
+   "class": "corrective"
+ },
+ {
+   "message": "Merge pull request #1733 from thescouser89/pr-1275-remake[PR-1275]Add ability to configure pod strt timeout",
+   "class": "adaptive"
+ },
+ {
+   "message": "updated packages.xml and postinstall with upstream changes for kde/kde5",
+   "class": "adaptive"
+ },
+ {
+   "message": "playing with PySide and possible first approach to a prototype GUI",
+   "class": "adaptive"
+ },
+ {
+   "message": "trivial: Fix a false-positive noticed by clang",
+   "class": "corrective"
+ },
+ {
+   "message": "doc: drop Ubuntu 11.04 (Natty Narwhal)",
+   "class": "perfective"
+ },
+ {
+   "message": "Add nonperforming-loans highchart in debt-gdp",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge branch 'stg', remote-tracking branch 'origin' into feature/AN-1602_create_manage_store_mvp_delete_create_store",
+   "class": "adaptive"
+ },
+ {
+   "message": "Merge \"Datacenter moid should not be tuple\"",
+   "class": "merge"
+ },
+ {
+   "message": ".travis.yml: only deploying if all tests pass",
+   "class": "adaptive"
+ },
+ {
+   "message": "add doc for #930",
+   "class": "perfective"
+ },
+ {
+   "message": "Show reclaim batch numbergit-svn-id: ae92b08b608af1c8cefa3e10d2325ea527204e07@21646 3eda493b-6a19-0410-b2e0-ec8ea4dd8fda",
+   "class": "adaptive"
+ },
+ {
+   "message": "Added two more missing files for OSX build",
+   "class": "corrective"
+ },
+ {
+   "message": "add test data for network module",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update the CopyCoreClrRuntime.ps1 script to use project.json instead of packages.config",
+   "class": "perfective"
+ },
+ {
+   "message": "Give StringProtocol.SubSequence a default of Substring to supress warning",
+   "class": "adaptive"
+ },
+ {
+   "message": "[modules] FIX data field name in VariationalSymplecticSolver",
+   "class": "corrective"
+ },
+ {
+   "message": "Jormungandr: enhance authentication process",
+   "class": "adaptive"
+ },
+ {
+   "message": "updates to embree2_to_embree3.patch",
+   "class": "adaptive"
+ },
+ {
+   "message": "search: various improvement* Move listing all formula names in the top to speed up shell script.* Simplify logic.* Only search PR and check bad regex for tty?, which will benefit to  shell script.Closes Homebrew/homebrew#44985.Signed-off-by: Xu Cheng <9a05244150b861e40c78843b801eed71bca54eac@me.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "ssl: Reenable padding check for TLS-1.0 and provide backwards compatible    disable option",
+   "class": "adaptive"
+ },
+ {
+   "message": "Update News.md",
+   "class": "adaptive"
+ },
+ {
+   "message": "(make_fixnum_or_float): New macro.",
+   "class": "adaptive"
+ },
+ {
+   "message": "[SettingsManager > Shrotcuts] Color of 'x' for deletion turns read when hovered",
+   "class": "adaptive"
+ },
+ {
+   "message": "[ClangImporter] For now, treat the runtime resources as user headers....so that the Clang module machinery will check that the generated pcmis up-to-date.We probably want this to be considered a system header in the long run,but this is a quick fix for those working on the standard library.<rdar://problem/16285900>Swift SVN r14926",
+   "class": "corrective"
+ },
+ {
+   "message": "console: spurious newline",
+   "class": "adaptive"
+ },
+ {
+   "message": "Feature/modul-29_navbar (#199)* Add mouseover support and some minor tweaks* add emit on click and remove scrollToSelected call on update* clean useless import* modul-29 - code review fix",
+   "class": "multi"
+ },
+ {
+   "message": "lib/edid.c: Fix mismatch between format string and variable typeUse 'd' instead of 'hhd' when printing absolute year of manufacture. Thisis the correct type in this case, as the result is autoatically promotedto int.Change-Id: Ice4155bb1a04f206ae55c45c260089d6971b77d1Signed-off-by: Alexandru Gagniuc <cf8ce030f4bdd6ce49a1b687c7c3ccfa8b34ced2@gmail.com>Reviewed-on: http://review.coreboot.org/7885Tested-by: build bot (Jenkins)Reviewed-by: Edward O'Callaghan <117173807d5a49976a891944633465c0daea7f98@alterapraxis.com>",
+   "class": "corrective"
+ },
+ {
+   "message": "removed redundant cast",
+   "class": "perfective"
+ },
+ {
+   "message": "Added icon_tag helper",
+   "class": "perfective"
+ },
+ {
+   "message": "qemuSetupCgroupForVcpu: s/virProcessInfoSetAffinity/virProcessSetAffinity/In the f56c773bf we've made the substitution but forgot to fix onecomment which is still referring to the old name. This may bepotentially misleading.Signed-off-by: Michal Privoznik <83d82aaba2eed257f4814b0c239c260c4caaadf0@redhat.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "[adm5120] remove some unused filesgit-svn-id: c673a1a018ba15e3442847f58d2337db82164816@10308 3c298f89-4303-0410-b956-a3cf2f4a3e73",
+   "class": "perfective"
+ },
+ {
+   "message": "Merge pull request #1391 from nandosousafr/developRemoves duplicated field pools in Get example",
+   "class": "adaptive"
+ },
+ {
+   "message": "API endpoints (#2011)* adding entity type endpoints + other endpoints that it directly needs* adding EntityTypeControllerTest. updating EntityTypeController* fixing tests + logs* adding logs. adding stub tests* adding 'add resourcetype' test* adding get resource type* get and post role with tests* adding relation type api* adding a bunch of licenses. commenting out dead tests. enabling all tests* properly using constant for status code* adding a bunch of TODOs and rearranged code* adding ruletype* adding rule type* correct class name* adding entity controller* correctly set entity controller WRITE mode* adding resource controller* adding resource assignment to entity. TODO: test* re-enabling disabled test and disabling broken test* adding delete url (not implemented yet)* adding relation controller* adding licenses* adding graph controllers to GraknEngineServer. adding missing commit statement. fixing resourceDataType jsonf* wip - role and relation type* fixing relationType endpoint* ResourceController -> AttributeController* ResourceTypeController -> AttributeTypeController* refactoring resource tests* refactoring names* fixing tests due to refactor* adding relationship controller test* adding a test: attribute to entity assignment* adding attributeType to entityType assignment test. adding a bunch of todo markers* updating class comments* reworked entity type and attribute type endpoints* update relationship type controller request body* update rule type controller request body* update response for attribute controller* update response for entity controller* update response for relationship controller* update logger classname* fixing tests* removing dead code as per findbugs suggestion* removing dead code as per PMD suggestion* renaming /graph endpoints into /api* mock commit* RuleType --> Rule* adding when / then clause to rule endpoint* remove extra whitespace* more informative logs* removing unused import* fix tests* introducing Keyspace.of() in controller.api.* tests* trigger test* ignoring a test* extracting endpoint urls into REST class* trigger test* updating class description* removing hardcoded parameters and json fields* LOG.info --> LOG.debug* from / toString() implementation is now based on QueryParser.DATA_TYPES* removing unneeded endpoint. there's one already for assigning entity-type / role to a relationship-type in relationship-type-controller* bugfix + new test for relating an entity + role to a relationship functionality* adding delete entity type, delete entity type - attribute type assignment, entity - attribute assignment* adding ignore test* pmd fix* pmd fix* fix test* fix test* refactor* removing unused import and tests",
+   "class": "multi"
+ },
+ {
+   "message": "[gardening] Remove redundant repetition of type names (DRY): RepeatedTypeName foo = dyn_cast<RepeatedTypeName>(bar)Replace `NameOfType foo = dyn_cast<NameOfType>(bar)` with DRY version `auto foo = dyn_cast<NameOfType>(bar)`.The DRY auto version is by far the dominant form already used in the repo, so this PR merely brings the exceptional cases (redundant repetition form) in line with the dominant form (auto form).See the [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es11-use-auto-to-avoid-redundant-repetition-of-type-names) for a general discussion on why to use `auto` to avoid redundant repetition of type names.",
+   "class": "perfective"
+ },
+ {
+   "message": "removed duplicated mock",
+   "class": "perfective"
+ },
+ {
+   "message": "Use repr() instead of backticks",
+   "class": "perfective"
+ },
+ {
+   "message": "Kill unused usercontrols",
+   "class": "perfective"
+ },
+ {
+   "message": "[B] Remove redundant button in predictive inputResolves #1048Plus sign next to the placeholder text in the Predictive Text Input was a button with no purpose so now it is an icon instead (visually identical).",
+   "class": "corrective"
+ },
+ {
+   "message": "SYMBOL had been added twice to selected2Content. Removed the duplicate.",
+   "class": "corrective"
+ },
+ {
+   "message": "vbox: Remove unused mediumEmptyRemove the setting since it's unused as of commit 34364df3 which shouldhave never copied it in from the old code which ended up getting removedas part of commit c7c286c6.",
+   "class": "perfective"
+ },
+ {
+   "message": "map.effects: use mergeMap instead of switchMap",
+   "class": "perfective"
+ },
+ {
+   "message": "qpm: use assert_predicate instead of File.exist?",
+   "class": "perfective"
+ },
+ {
+   "message": "Replaced activation_plotting.py with feature_map_plotting.py.",
+   "class": "perfective"
+ },
+ {
+   "message": "secret/consul: replace policy with roles, and prefix the token path",
+   "class": "perfective"
+ },
+ {
+   "message": "Describe frame-auto-hide-function and related issues.* buffers.texi (The Buffer List): Describe how bury-buffer dealswith the selected window.* windows.texi (Buffers and Windows): Reformulate text on howreplace-buffer-in-windows deals with a window.(Quitting Windows): Describe how quit-window deals with astandalone frame.  Describe new option frame-auto-hide-function.",
+   "class": "perfective"
+ },
+ {
+   "message": "kni: remove unnecessary ethtool filesSigned-off-by: Ferruh Yigit <ba8734c3c506d2e3557bd4ac8fdaccd25bdb9aa7@intel.com>Acked-by: Remy Horton <34c343e92f0e27f7a8e26a1d8d2146ae7c7dd1a3@intel.com>",
+   "class": "perfective"
+ },
+ {
+   "message": "(read-directory-name): New function.(cd): Use it instead of read-file-name.",
+   "class": "perfective"
+ },
+ {
+   "message": "ixgbe: fix bitfield assignation with clangCommit 1224decaa44 (\"support TCP segmentation offload\")changed the way the bitfields are assigned in ixgbe, example:  tx_offload_mask.l2_len = ~0;This result in a compilation error with clang:  error: implicit truncation from 'int' to bitfield    changes value from -1 to 127 [-Werror,-Wbitfield-constant-conversion]Replacing the '=' with a '|=' fixes the issue.Signed-off-by: Olivier Matz <dfcc1510895413197abb4336e39bb0a3906cba71@6wind.com>Acked-by: Bruce Richardson <66b9e8e8fbd5e9f41f91b0af050876182ce9d0e4@intel.com>",
+   "class": "corrective"
+ }
+]
