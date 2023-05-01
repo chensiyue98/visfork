@@ -1,0 +1,6 @@
+{
+	"builds": [
+		{ "src": "pages/api/*.py", "use": "@now/python" },
+		{ "src": "package.json", "use": "@now/next" }
+	]
+}
