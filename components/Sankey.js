@@ -3,7 +3,7 @@
 // https://observablehq.com/@d3/sankey-diagram
 import { SankeyChart } from "@d3/sankey";
 
-function SankeyChart(
+function customSankeyChart(
 	{
 		nodes, // an iterable of node objects (typically [{id}, …]); implied by links if missing
 		links, // an iterable of link objects (typically [{source, target}, …])
