@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
 export default function App() {
 	const token = "Bearer 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";
@@ -13,7 +15,13 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
 
-	async function handleSubmit(event) {
+	const fetcher = (url) => axios.get(url).then((res) => res.data);
+	const { data: dataMutation, trigger } = useSWRMutation(
+		"/api/getAll?repo=" + repo,
+		fetcher
+	);
+
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			setIsLoading(true);
@@ -26,7 +34,7 @@ export default function App() {
 			setIsLoading(false);
 			setIsSubmit(true);
 		}
-	}
+	};
 
 	return (
 		<div className="p-10 flex flex-col items-center">
@@ -40,6 +48,7 @@ export default function App() {
 					value={repo}
 					placeholder="facebook/react"
 					onChange={(event) => setRepo(event.target.value)}
+					required
 				/>
 				<Button variant="outlined" type="submit" size="small">
 					Submit
@@ -47,6 +56,17 @@ export default function App() {
 			</form>
 			<div>{isLoading && <CircularProgress />}</div>
 			<div>{isSubmit && <DagComponent data={commitData} />}</div>
+			<button
+				onClick={() => {
+					trigger();
+				}}
+			>
+				AnontherButton
+			</button>
+			{dataMutation &&
+				dataMutation.map((item) => {
+					return <div key={item.id}>{item.message}</div>;
+				})}
 		</div>
 	);
 }
