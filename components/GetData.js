@@ -17,7 +17,7 @@ async function getForks(repo_data) {
 	// filter the 10 most starred forks
 	const mostStarredForks = forks
 		// .sort((a, b) => b.stargazers_count - a.stargazers_count)
-		.slice(0, 20);
+		.slice(0, 10);
 	// Map a list of nodes
 	const forks_nodes = mostStarredForks.map((fork) => {
 		return {
