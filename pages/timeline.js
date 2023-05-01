@@ -18,7 +18,11 @@ export default function App() {
 	const fetcher = (url) => axios.get(url).then((res) => res.data);
 	const { data: dataMutation, trigger } = useSWRMutation(
 		"/api/getAll?repo=" + repo,
-		fetcher
+		fetcher,
+		{
+			loadingTimeout: 60000,
+			errorRetryCount: 1,
+		}
 	);
 
 	const handleSubmit = async (event) => {
