@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
-import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import getData from "@/components/GetData";
 
 export default function App() {
 	const token = "Bearer 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";
@@ -29,8 +29,10 @@ export default function App() {
 		event.preventDefault();
 		try {
 			setIsLoading(true);
-			const response = await axios.get(`/api/getAll?repo=${repo}`);
-			setCommitData(response.data);
+			// const response = await axios.get(`/api/getAll?repo=${repo}`);
+			const response = await getData(repo);
+			setCommitData(response);
+			console.log("response",response);
 		} catch (error) {
 			console.error(error);
 			alert(error.message);

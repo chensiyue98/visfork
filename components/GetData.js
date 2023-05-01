@@ -1,76 +1,6 @@
 import axios from "axios";
 import pLimit from "p-limit";
 
-export default async function (req, res) {
-	const { repo } = req.query;
-
-	const token = "Bearer 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";
-	axios.defaults.headers.common["Authorization"] = token;
-
-	var tempData = [];
-	try {
-		var timeStart = new Date().getTime();
-		console.log("From API getAll - " + repo);
-
-		// Get repo
-		const repo_data = await getRepo(repo);
-		var timeEnd = new Date().getTime();
-		console.log("Done: getRepo ", timeEnd - timeStart, "ms");
-
-		// Get forks
-		// const forks = await getForksGQL(repo_data);
-		const forks = await getForks(repo_data);
-		timeStart = new Date().getTime();
-		console.log("Done: getForks ", timeStart - timeEnd, "ms");
-
-		// Get branches of forks
-		const branches = await getBranches(forks);
-		timeEnd = new Date().getTime();
-		console.log("Done: getBranches ", timeEnd - timeStart, "ms");
-
-		// Get commits of branches
-		const commits = await getAllCommits(branches);
-		timeStart = new Date().getTime();
-		console.log("Done: getAllCommits ", timeStart - timeEnd, "ms");
-
-		// Clean up data
-		tempData = commits;
-		tempData = tempData.reduce((uniqueData, item) => {
-			const index = uniqueData.findIndex((t) => t.id === item.id);
-			if (index === -1) {
-				uniqueData.push(item);
-			} else {
-				uniqueData[index] = {
-					...uniqueData[index],
-					...item,
-					parentIds: [
-						...new Set([...uniqueData[index].parentIds, ...item.parentIds]),
-					],
-				};
-			}
-			return uniqueData;
-		}, []);
-		// 将tempData中的每一个parentIds与id匹配，如果出现不存在的parentIds，则将其parentIds修改为[]
-		tempData = tempData.map((item) => {
-			item.parentIds = item.parentIds.filter((parent) => {
-				return tempData.some((item) => item.id === parent);
-			});
-			return item;
-		});
-		timeEnd = new Date().getTime();
-		console.log("Done: clean up data ", timeEnd - timeStart, "ms");
-
-		// Log the number of each type of data
-		console.log(
-			`Repo: ${repo_data.full_name}, Forks: ${forks.length}, Branches: ${branches.length}, Commits: ${commits.length}, DAG: ${tempData.length}`
-		);
-
-		res.status(200).json(tempData);
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
-}
-
 async function getRepo(repo) {
 	const response = await axios.get(`https://api.github.com/repos/${repo}`);
 	const repo_data = response.data;
@@ -87,7 +17,7 @@ async function getForks(repo_data) {
 	// filter the 10 most starred forks
 	const mostStarredForks = forks
 		// .sort((a, b) => b.stargazers_count - a.stargazers_count)
-		.slice(0, 10);
+		.slice(0, 20);
 	// Map a list of nodes
 	const forks_nodes = mostStarredForks.map((fork) => {
 		return {
@@ -233,4 +163,72 @@ async function getOneCommitsGQL(branch) {
 		};
 	});
 	return nodes;
+}
+
+export default async function getData(repo) {
+	const token = "Bearer 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";
+	axios.defaults.headers.common["Authorization"] = token;
+
+	var tempData = [];
+	try {
+		var timeStart = new Date().getTime();
+		console.log("From getData - " + repo);
+
+		// Get repo
+		const repo_data = await getRepo(repo);
+		var timeEnd = new Date().getTime();
+		console.log("Done: getRepo ", timeEnd - timeStart, "ms");
+
+		// Get forks
+		// const forks = await getForksGQL(repo_data);
+		const forks = await getForks(repo_data);
+		timeStart = new Date().getTime();
+		console.log("Done: getForks ", timeStart - timeEnd, "ms");
+
+		// Get branches of forks
+		const branches = await getBranches(forks);
+		timeEnd = new Date().getTime();
+		console.log("Done: getBranches ", timeEnd - timeStart, "ms");
+
+		// Get commits of branches
+		const commits = await getAllCommits(branches);
+		timeStart = new Date().getTime();
+		console.log("Done: getAllCommits ", timeStart - timeEnd, "ms");
+
+		// Clean up data
+		tempData = commits;
+		tempData = tempData.reduce((uniqueData, item) => {
+			const index = uniqueData.findIndex((t) => t.id === item.id);
+			if (index === -1) {
+				uniqueData.push(item);
+			} else {
+				uniqueData[index] = {
+					...uniqueData[index],
+					...item,
+					parentIds: [
+						...new Set([...uniqueData[index].parentIds, ...item.parentIds]),
+					],
+				};
+			}
+			return uniqueData;
+		}, []);
+		// 将tempData中的每一个parentIds与id匹配，如果出现不存在的parentIds，则将其parentIds修改为[]
+		tempData = tempData.map((item) => {
+			item.parentIds = item.parentIds.filter((parent) => {
+				return tempData.some((item) => item.id === parent);
+			});
+			return item;
+		});
+		timeEnd = new Date().getTime();
+		console.log("Done: clean up data ", timeEnd - timeStart, "ms");
+
+		// Log the number of each type of data
+		console.log(
+			`Repo: ${repo_data.full_name}, Forks: ${forks.length}, Branches: ${branches.length}, Commits: ${commits.length}, DAG: ${tempData.length}`
+		);
+
+		return tempData;
+	} catch (error) {
+		throw new Error(error.message);
+	}
 }
