@@ -1,8 +1,7 @@
 {
 	"functions": {
 		"pages/api/**/*.py": {
-            "includeFiles": "{pages/api/**/*.py}",
-			"excludeFiles": "{node_modules/**/*,.next/**/*,.vercel/**/*}"
+            "includeFiles": "{pages/api/**/*.py}"
 		}
 	}
 }
