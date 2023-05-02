@@ -1,4 +1,14 @@
 {
+    "builds": [
+		{
+			"src": "pages/api/*.py",
+			"use": "@vercel/python"
+		},
+		{
+			"src": "package.json",
+			"use": "@vercel/next"
+		}
+	],
 	"functions": {
 		"pages/api/**/*.py": {
 			"excludeFiles": "{node_modules/**/*,.next/**/*,.vercel/**/*}"
