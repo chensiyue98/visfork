@@ -1,6 +1,6 @@
 {
 	"functions": {
-		"pages/api/**/*.py": {
+		"pages/api/*.py": {
             "includeFiles": "{pages/api/**/*.py}"
 		}
 	}
