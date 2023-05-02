@@ -1,12 +1,13 @@
 {
 	"builds": [
 		{
-			"src": "api/*.py",
+			"src": "pages/api/*.py",
 			"use": "@vercel/python"
 		},
 		{
 			"src": "package.json",
 			"use": "@vercel/next"
 		}
-	]
+	],
+	"routes": [{ "src": "/api/class", "dest": "/pages/api/class.py" }]
 }
