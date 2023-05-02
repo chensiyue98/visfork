@@ -1,6 +1,6 @@
 {
 	"functions": {
-		"api/**/*.py": {
+		"pages/api/**/*.py": {
 			"excludeFiles": "{node_modules/**/*,.next/**/*,.vercel/**/*}"
 		}
 	}
