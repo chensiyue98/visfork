@@ -1981,11 +1981,6 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-fasttextweb@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/fasttextweb/-/fasttextweb-1.0.4.tgz#81de0809ba38f103356592bfa438ba3381193e2a"
-  integrity sha512-cVrefhZ5b9pUFpMkLdvD01pTwCvonWG8JBe+9YahCMo8qswkQCJffSxlDgHClMdGuen5UNyQsXkb2Zy0JT/RQw==
-
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/file-entry-cache/-/file-entry-cache-6.0.1.tgz"
