@@ -30,6 +30,7 @@
 		"react-dom": "18.2.0",
 		"swr": "^2.1.5",
 		"tailwindcss": "^3.2.7",
-		"wink-naive-bayes-text-classifier": "^2.2.1"
+		"wink-naive-bayes-text-classifier": "^2.2.1",
+		"wink-nlp": "^1.13.1"
 	}
 }
