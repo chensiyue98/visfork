@@ -87,6 +87,8 @@ export default function Network() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+// DATA PROCESSING FUNCTIONS
+
 function authorsByDate(dateGroupedData, dateRange) {
 	const dateArray = [];
 	var cumulativeData = new Map();
@@ -161,6 +163,8 @@ function getDateRange(data) {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+// GRAPH FUNCTIONS
+
 function graph(eg, svgRef) {
 	const { nodes, links } = eg.data();
 	const simulation = eg.simulation();
@@ -169,8 +173,6 @@ function graph(eg, svgRef) {
 
 	let transform = d3.zoomIdentity;
 	transform.k = 3.45335823429766;
-
-	let started = false;
 
 	function zoomed(event) {
 		transform = event.transform;
@@ -194,6 +196,19 @@ function graph(eg, svgRef) {
 		.style("margin-left", "-14px");
 
 	const zoomG = svg.append("g").attr("transform", transform);
+
+	const zoomInButton = d3.select("#zoom-in");
+	const zoomOutButton = d3.select("#zoom-out");
+
+	zoomInButton.on("click", () => {
+		transform.k = transform.k * 1.2;
+		zoomG.attr("transform", transform);
+	});
+
+	zoomOutButton.on("click", () => {
+		transform.k = transform.k * 0.8;
+		zoomG.attr("transform", transform);
+	});
 
 	const linksGroup = zoomG.append("g"),
 		nodesGroup = zoomG.append("g");

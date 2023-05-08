@@ -15,16 +15,6 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
 
-	const fetcher = (url) => axios.get(url).then((res) => res.data);
-	const { data: dataMutation, trigger } = useSWRMutation(
-		"/api/getAll?repo=" + repo,
-		fetcher,
-		{
-			loadingTimeout: 60000,
-			errorRetryCount: 1,
-		}
-	);
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -32,7 +22,7 @@ export default function App() {
 			// const response = await axios.get(`/api/getAll?repo=${repo}`);
 			const response = await getData(repo);
 			setCommitData(response);
-			console.log("response",response);
+			console.log("response", response);
 		} catch (error) {
 			console.error(error);
 			alert(error.message);
@@ -40,6 +30,18 @@ export default function App() {
 			setIsLoading(false);
 			setIsSubmit(true);
 		}
+	};
+
+	const handleClick = () => {
+		// download commit data as json file
+		const element = document.createElement("a");
+		const file = new Blob([JSON.stringify(commitData)], {
+			type: "text/plain;charset=utf-8",
+		});
+		element.href = URL.createObjectURL(file);
+		element.download = "commit_data.json";
+		document.body.appendChild(element); // Required for this to work in FireFox
+		element.click();
 	};
 
 	return (
@@ -62,17 +64,7 @@ export default function App() {
 			</form>
 			<div>{isLoading && <CircularProgress />}</div>
 			<div>{isSubmit && <DagComponent data={commitData} />}</div>
-			<button
-				onClick={() => {
-					trigger();
-				}}
-			>
-				AnontherButton
-			</button>
-			{dataMutation &&
-				dataMutation.map((item) => {
-					return <div key={item.id}>{item.message}</div>;
-				})}
+			<button onClick={handleClick}>AnontherButton</button>
 		</div>
 	);
 }
