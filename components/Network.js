@@ -197,19 +197,6 @@ function graph(eg, svgRef) {
 
 	const zoomG = svg.append("g").attr("transform", transform);
 
-	const zoomInButton = d3.select("#zoom-in");
-	const zoomOutButton = d3.select("#zoom-out");
-
-	zoomInButton.on("click", () => {
-		transform.k = transform.k * 1.2;
-		zoomG.attr("transform", transform);
-	});
-
-	zoomOutButton.on("click", () => {
-		transform.k = transform.k * 0.8;
-		zoomG.attr("transform", transform);
-	});
-
 	const linksGroup = zoomG.append("g"),
 		nodesGroup = zoomG.append("g");
 
@@ -301,6 +288,7 @@ function graph(eg, svgRef) {
 		}
 
 		node.append("title").text((d) => d.id);
+
 	});
 
 	simulation.on("tick", () => {

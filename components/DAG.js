@@ -5,13 +5,13 @@ import * as d3dag from "d3-dag";
 // TODO: 改为滚轮滚动，按钮缩放
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // TODO: 初始位置在末尾
-// TODO: 水平布局 (Horizontal layout)
+// Done: Horizontal layout
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	var isHorizontal = true;
-	console.log("DAG.js: data", data);
+	// console.log("DAG.js: data", data);
 
 	useEffect(() => {
 		var startTimer = new Date().getTime();
@@ -22,7 +22,8 @@ const DagComponent = ({ data }) => {
 		const dag = d3dag.dagStratify()(data);
 
 		const nodeRadius = 5;
-		const edgeRadius = 2;
+		const edgeRadius = 3;
+
 		const gridTweak = (layout) => (dag) => {
 			// Tweak allows a basis interpolation to curve the lines
 			// We essentially take the three point lines and make them five, with two points on either side of the bend
@@ -104,14 +105,21 @@ const DagComponent = ({ data }) => {
 		);
 
 		const { width, height } = layout(dag);
+
 		const svgSelection = d3.select(svgRef.current);
-
+		svgSelection.attr("id", "svgSelection");
 		// svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
-		svgSelection.attr("width", 400);
-		svgSelection.attr("height", 600);
+		svgSelection.attr("width", height);
+		svgSelection.attr("height", 300);
 
-		const graph = svgSelection.append("g");
-
+		const graph = svgSelection
+			.append("g")
+			.attr("id", "graph")
+			// reverse x and y for horizontal layout
+			.attr("width", height)
+			.attr("height", width)
+			// centerize the graph in svgSelection
+			.attr("transform", `translate(0, ${(300 - width) / 2})`);
 		const defs = graph.append("defs"); // For gradients
 
 		const steps = dag.size();
@@ -126,8 +134,9 @@ const DagComponent = ({ data }) => {
 		const line = d3
 			.line()
 			.curve(d3.curveCatmullRom)
-			.x((d) => d.x)
-			.y((d) => d.y);
+			// reverse x and y for horizontal layout
+			.y((d) => d.x)
+			.x((d) => d.y);
 
 		// Plot edges
 		graph
@@ -138,7 +147,7 @@ const DagComponent = ({ data }) => {
 			.append("path")
 			.attr("d", ({ points }) => line(points))
 			.attr("fill", "none")
-			.attr("stroke-width", 3)
+			.attr("stroke-width", 2)
 			.attr("stroke", ({ source, target }) => {
 				// encodeURIComponents for spaces, hope id doesn't have a `--` in it
 				const gradId = encodeURIComponent(
@@ -170,7 +179,8 @@ const DagComponent = ({ data }) => {
 			.data(dag.descendants())
 			.enter()
 			.append("g")
-			.attr("transform", ({ x, y }) => `translate(${x}, ${y})`);
+			// reverse x and y for horizontal layout
+			.attr("transform", ({ y, x }) => `translate(${y}, ${x})`);
 
 		// Plot node circles
 		nodes
@@ -215,15 +225,65 @@ const DagComponent = ({ data }) => {
 			.on("zoom", function (event) {
 				graph.attr("transform", event.transform);
 			});
+
+		// Zooming and panning with mouse
 		svgSelection.call(zoom);
+
+		// Add a group for buttons
+		const buttonGroup = svgSelection.append("g").style("cursor", "pointer");
+		// Add a button for zooming in
+		const zoomInButton = buttonGroup
+			.append("g")
+			.attr("transform", "translate(10, 10)")
+			.on("click", () => {
+				graph.transition().duration(300).call(zoom.scaleBy, 1.2);
+				// zoom.scaleBy(graph.transition().duration(300), 1.2);
+			});
+		zoomInButton
+			.append("rect")
+			.attr("width", 30)
+			.attr("height", 30)
+			.attr("fill", "white")
+			.attr("stroke", "black");
+		zoomInButton
+			.append("text")
+			.attr("x", 15)
+			.attr("y", 15)
+			.attr("text-anchor", "middle")
+			.attr("alignment-baseline", "middle")
+			.text("+");
+		// Add a button for zooming out
+		const zoomOutButton = buttonGroup
+			.append("g")
+			.attr("transform", "translate(10, 50)")
+			.on("click", () => {
+				zoom.scaleBy(graph.transition().duration(300), 1 / 1.2);
+			});
+		zoomOutButton
+			.append("rect")
+			.attr("width", 30)
+			.attr("height", 30)
+			.attr("fill", "white")
+			.attr("stroke", "black");
+		zoomOutButton
+			.append("text")
+			.attr("x", 15)
+			.attr("y", 15)
+			.attr("text-anchor", "middle")
+			.attr("alignment-baseline", "middle")
+			.text("-");
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
-		
 	}, [data]);
 
 	return (
-		<svg ref={svgRef} className="border-x-gray-500 border-solid border-2" />
+		<div
+			id="overflow-container"
+			className="max-w-screen-xl overflow-x-scroll, overflow-y-scroll"
+		>
+			<svg ref={svgRef} className="border-4" />
+		</div>
 	);
 };
 

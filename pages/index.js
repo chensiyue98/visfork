@@ -21,10 +21,13 @@ export default function Home() {
 					<a href="./timeline">Timeline</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./DEV_fork_network">Network</a>
+					<a href="./fork_network">Network</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./api/forks?repo=iina/iina">API Example: serverless api - fetch forks (10)</a>
+					<a href="./wordcloud">DAG</a>
+				</h3>
+				<h3 className="text-xl underline">
+					<a href="./api/getLimit">API: fetch GitHub API usage</a>
 				</h3>
 			</main>
 		</>

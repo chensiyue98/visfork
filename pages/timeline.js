@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
-import useSWRMutation from "swr/mutation";
 import getData from "@/components/GetData";
 
 export default function App() {
@@ -44,6 +43,9 @@ export default function App() {
 		element.click();
 	};
 
+	// demo data from file
+	const demo = require("../public/commit_data_example.json");
+
 	return (
 		<div className="p-10 flex flex-col items-center">
 			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
@@ -62,9 +64,10 @@ export default function App() {
 					Submit
 				</Button>
 			</form>
-			<div>{isLoading && <CircularProgress />}</div>
-			<div>{isSubmit && <DagComponent data={commitData} />}</div>
-			<button onClick={handleClick}>AnontherButton</button>
+			<div id="loading">{isLoading && <CircularProgress />}</div>
+			<div id="submited">{isSubmit && <DagComponent data={commitData} />}</div>
+			<div id="demo" className="border-blue-500 border-4"><DagComponent data={demo} /></div>
+			{isSubmit && <button onClick={handleClick}>Download</button>}
 		</div>
 	);
 }
