@@ -4,6 +4,8 @@ import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
 import getData from "@/components/GetData";
 
+// TODO: parse url to owner/repo
+
 export default function App() {
 	const token = "Bearer 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";
 	axios.defaults.headers.common["Authorization"] = token;
@@ -43,6 +45,25 @@ export default function App() {
 		element.click();
 	};
 
+	const handleUpload = async () => {
+		// upload commit data from json file
+		const element = document.createElement("input");
+		element.type = "file";
+		element.accept = ".json";
+		element.onchange = async (event) => {
+			const file = event.target.files[0];
+			const reader = new FileReader();
+			reader.readAsText(file, "UTF-8");
+			reader.onload = async (readerEvent) => {
+				const content = readerEvent.target.result;
+				const data = JSON.parse(content);
+				setCommitData(data);
+				setIsSubmit(true);
+			};
+		};
+		element.click();
+	};
+
 	// demo data from file
 	const demo = require("../public/commit_data_example.json");
 
@@ -62,6 +83,10 @@ export default function App() {
 				/>
 				<Button variant="outlined" type="submit" size="small">
 					Submit
+				</Button>
+				or
+				<Button variant="outlined" size="small" onClick={handleUpload} title="Upload json file exported from this site">
+					upload json
 				</Button>
 			</form>
 			<div id="loading">{isLoading && <CircularProgress />}</div>

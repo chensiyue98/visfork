@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
 
 // TODO: 改为滚轮滚动，按钮缩放
+// TODO: 框选节点，高亮，显示信息
+// TODO: 合并节点
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // TODO: 初始位置在末尾
 // Done: Horizontal layout
@@ -10,16 +12,36 @@ import * as d3dag from "d3-dag";
 
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
-	var isHorizontal = true;
-	// console.log("DAG.js: data", data);
+	const zoomButtonRef = useRef(null);
 
 	useEffect(() => {
 		var startTimer = new Date().getTime();
 
 		// clear the previous render
 		d3.select(svgRef.current).selectAll("*").remove();
+		d3.select(zoomButtonRef.current).selectAll("*").remove();
 
 		const dag = d3dag.dagStratify()(data);
+
+		// Merge nodes with of the same month into one node
+		const mergeNodes = (dag) => {
+			const merged = new Map();
+			for (const node of dag) {
+				const date = new Date(node.data.date);
+				const month = date.getMonth();
+				const year = date.getFullYear();
+				const key = `${year}-${month}`;
+				if (merged.has(key)) {
+					merged.get(key).push(node);
+				} else {
+					merged.set(key, [node]);
+				}
+			}
+			return merged;
+		};
+
+		console.log("DAG.js: dag", dag);
+		console.log("DAG.js: merged", mergeNodes(dag));
 
 		const nodeRadius = 5;
 		const edgeRadius = 3;
@@ -112,6 +134,12 @@ const DagComponent = ({ data }) => {
 		svgSelection.attr("width", height);
 		svgSelection.attr("height", 300);
 
+		const brush = d3
+			.brush()
+			.on("start", brushStart)
+			.on("brush", brushed)
+			.on("end", brushEnd);
+
 		const graph = svgSelection
 			.append("g")
 			.attr("id", "graph")
@@ -120,6 +148,9 @@ const DagComponent = ({ data }) => {
 			.attr("height", width)
 			// centerize the graph in svgSelection
 			.attr("transform", `translate(0, ${(300 - width) / 2})`);
+
+		graph.call(brush);
+
 		const defs = graph.append("defs"); // For gradients
 
 		const steps = dag.size();
@@ -127,7 +158,8 @@ const DagComponent = ({ data }) => {
 		const colorMap = new Map();
 
 		for (const [i, node] of [...dag].entries()) {
-			colorMap.set(node.data.id, interp(i / steps));
+			// colorMap.set(node.data.id, interp(i / steps));
+			colorMap.set(node.data.repo, interp(i / steps));
 		}
 
 		// How to draw edges
@@ -164,11 +196,11 @@ const DagComponent = ({ data }) => {
 				grad
 					.append("stop")
 					.attr("offset", "0%")
-					.attr("stop-color", colorMap.get(source.data.id));
+					.attr("stop-color", colorMap.get(source.data.repo));
 				grad
 					.append("stop")
 					.attr("offset", "100%")
-					.attr("stop-color", colorMap.get(target.data.id));
+					.attr("stop-color", colorMap.get(target.data.repo));
 				return `url(#${gradId})`;
 			});
 
@@ -186,7 +218,7 @@ const DagComponent = ({ data }) => {
 		nodes
 			.append("circle")
 			.attr("r", nodeRadius)
-			.attr("fill", (n) => colorMap.get(n.data.id));
+			.attr("fill", (n) => colorMap.get(n.data.repo));
 
 		// Add mouseover events
 		nodes
@@ -194,7 +226,11 @@ const DagComponent = ({ data }) => {
 				d3.select(event.currentTarget)
 					.select("circle")
 					.attr("r", nodeRadius * 1.5);
-				tooltip.transition().duration(200).style("opacity", 0.9);
+				tooltip
+					.transition()
+					.duration(300)
+					.style("display", "block")
+					.style("opacity", 0.9);
 				tooltip
 					.html(
 						`<p>Repo: ${d.data.repo}</p>
@@ -202,10 +238,19 @@ const DagComponent = ({ data }) => {
 						<p>Commit: ${d.data.id}</p>
 						<p>Date: ${d.data.date}</p>`
 					)
-					.style("left", `${event.pageX - 200}px`)
-					.style("top", `${event.pageY - 200}px`);
+					.style("background-color", (n) =>
+						d3.color(colorMap.get(d.data.repo)).copy({ opacity: 0.5 })
+					)
+					.style("border-color", "black")
+					.style("border-width", "1px")
+					.style("border-style", "solid")
+					.style("border-radius", "5px")
+					.style("padding", "5px")
+					.style("left", `${event.pageX - 120}px`)
+					.style("top", `${event.pageY - 120}px`);
 			})
 			.on("mouseout", (event, d) => {
+				tooltip.transition().duration(300).style("display", "none");
 				d3.select(event.currentTarget).select("circle").attr("r", nodeRadius);
 			})
 			.on("click", (event, d) => {
@@ -223,21 +268,25 @@ const DagComponent = ({ data }) => {
 			.zoom()
 			.scaleExtent([0.1, 5])
 			.on("zoom", function (event) {
-				graph.attr("transform", event.transform);
+				svgSelection.attr("transform", event.transform);
 			});
 
 		// Zooming and panning with mouse
-		svgSelection.call(zoom);
+		// svgSelection.call(zoom);
 
 		// Add a group for buttons
-		const buttonGroup = svgSelection.append("g").style("cursor", "pointer");
+		const buttonGroup = d3
+			.select(zoomButtonRef.current)
+			.append("svg")
+			.style("cursor", "pointer");
 		// Add a button for zooming in
 		const zoomInButton = buttonGroup
 			.append("g")
 			.attr("transform", "translate(10, 10)")
 			.on("click", () => {
-				graph.transition().duration(300).call(zoom.scaleBy, 1.2);
-				// zoom.scaleBy(graph.transition().duration(300), 1.2);
+				zoom.scaleBy(svgSelection.transition().duration(300), 1.2);
+				// update the width of the graph
+				// svgSelection.attr("width", width * 1.2);
 			});
 		zoomInButton
 			.append("rect")
@@ -257,7 +306,8 @@ const DagComponent = ({ data }) => {
 			.append("g")
 			.attr("transform", "translate(10, 50)")
 			.on("click", () => {
-				zoom.scaleBy(graph.transition().duration(300), 1 / 1.2);
+				zoom.scaleBy(svgSelection.transition().duration(300), 1 / 1.2);
+				// svgSelection.attr("width", height / 1.2);
 			});
 		zoomOutButton
 			.append("rect")
@@ -273,16 +323,69 @@ const DagComponent = ({ data }) => {
 			.attr("alignment-baseline", "middle")
 			.text("-");
 
+		// allow user using draging to draw a rectangle and log the selected nodes
+
+		var brushSelection = [];
+
+		function brushStart(event) {
+			if (event.sourceEvent.type !== "end") {
+				brushSelection = [];
+			}
+		}
+
+		function brushed(event) {
+			if (event.sourceEvent.type !== "end") {
+				brushSelection = d3.brushSelection(this);
+			}
+		}
+
+		function brushEnd(event) {
+			if (event.sourceEvent.type === "mouseup") {
+				brushSelection = d3.brushSelection(this);
+				if (brushSelection) {
+					// get the selected nodes
+					const selectedNodes = nodes.filter((node) => {
+						const y = node.x + nodeRadius;
+						const x = node.y + nodeRadius;
+						return (
+							x >= brushSelection[0][0] &&
+							x <= brushSelection[1][0] &&
+							y >= brushSelection[0][1] &&
+							y <= brushSelection[1][1]
+						);
+					});
+					// highlight the selected nodes
+					svgSelection.selectAll("circle").attr("fill", (d) => {
+						// go through the selected nodes
+						for (let i = 0; i < selectedNodes._groups[0].length; i++) {
+							if (d === selectedNodes._groups[0][i].__data__) {
+								return "red";
+							}
+						}
+						return colorMap.get(d.data.repo);
+					});
+				}
+			}
+		}
+
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
 	}, [data]);
 
 	return (
-		<div
-			id="overflow-container"
-			className="max-w-screen-xl overflow-x-scroll, overflow-y-scroll"
-		>
-			<svg ref={svgRef} className="border-4" />
+		<div>
+			<div ref={zoomButtonRef} className="absolute top-0 z-10" />
+			<div
+				id="overflow-container"
+				className="max-w-screen-xl overflow-x-scroll, overflow-y-scroll"
+			>
+				<svg ref={svgRef} className="border-4" />
+			</div>
+			<div id="selected-nodes" className="border-4 h-80 overflow-y-auto">
+				Selected nodes
+				<div id="selected-nodes-list">
+				</div>
+			</div>
 		</div>
 	);
 };
