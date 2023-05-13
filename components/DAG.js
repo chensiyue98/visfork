@@ -13,6 +13,7 @@ import * as d3dag from "d3-dag";
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	const zoomButtonRef = useRef(null);
+	const [selectList, setSelectList] = useState([]);
 
 	useEffect(() => {
 		var startTimer = new Date().getTime();
@@ -364,6 +365,20 @@ const DagComponent = ({ data }) => {
 						}
 						return colorMap.get(d.data.repo);
 					});
+					// display the selected nodes in the selected nodes list
+					console.log(selectedNodes._groups[0]);
+					const selectedNodesList = d3.select("#selected-nodes-list");
+					selectedNodesList.selectAll("div").remove();
+					selectedNodesList
+						.selectAll("div")
+						.data(selectedNodes._groups[0])
+						.enter()
+						.append("div")
+						.text((d) => {
+							// console.log(d.__data__.data);
+							return d.__data__.data.repo;
+						});
+					setSelectList(selectedNodes._groups[0]);
 				}
 			}
 		}
@@ -371,6 +386,8 @@ const DagComponent = ({ data }) => {
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
 	}, [data]);
+
+	console.log("selectList: ", selectList);
 
 	return (
 		<div>
@@ -382,9 +399,10 @@ const DagComponent = ({ data }) => {
 				<svg ref={svgRef} className="border-4" />
 			</div>
 			<div id="selected-nodes" className="border-4 h-80 overflow-y-auto">
-				Selected nodes
-				<div id="selected-nodes-list">
-				</div>
+				<h3 className="font-bold">Selected Nodes</h3>
+				{/* divider */}
+				<hr className="my-2" />
+				<div id="selected-nodes-list"></div>
 			</div>
 		</div>
 	);
