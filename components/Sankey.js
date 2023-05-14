@@ -1,9 +1,28 @@
-// Copyright 2021 Observable, Inc.
+import * as d3Sankey from "d3-sankey";
+import * as d3 from "d3";
+
+export function parseData(data) {
+	const parsedData = [];
+	const counts = {};
+
+	for (let i = 0; i < data.length; i++) {
+		const name = data[i].repo;
+		const type = data[i].commit_type;
+		const key = name + "-" + type;
+
+		if (key in parsedData) {
+			parsedData[key].count++;
+		} else {
+			parsedData[key] = { name, type, count: 1 };
+		}
+	}
+	return Object.values(parsedData);
+}
+
+export // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/sankey-diagram
-import { SankeyChart } from "@d3/sankey";
-
-function customSankeyChart(
+function SankeyChart(
 	{
 		nodes, // an iterable of node objects (typically [{id}, …]); implied by links if missing
 		links, // an iterable of link objects (typically [{source, target}, …])

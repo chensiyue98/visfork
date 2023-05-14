@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, use } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
 import MessageCloud from "./MessageCloud";
+import * as d3Sankey from "d3-sankey";
+import { parseData, SankeyChart } from "./Sankey";
 
 // TODO: 改为滚轮滚动，按钮缩放
 // TODO: 框选节点，高亮，显示信息
@@ -14,6 +16,8 @@ import MessageCloud from "./MessageCloud";
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	const zoomButtonRef = useRef(null);
+	const sankeyRef = useRef(null);
+
 	const [selectList, setSelectList] = useState([]);
 	const [selectMessage, setSelectMessage] = useState("empty empty empty");
 
@@ -26,7 +30,7 @@ const DagComponent = ({ data }) => {
 
 		const dag = d3dag.dagStratify()(data);
 
-		// Merge nodes with of the same month into one node
+		//TODO: Merge nodes with of the same month into one node
 		const mergeNodes = (dag) => {
 			const merged = new Map();
 			for (const node of dag) {
@@ -399,10 +403,56 @@ const DagComponent = ({ data }) => {
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
 	}, [data]);
 
+	// draw sankey diagram (repo -> commit_type) when data is updated
+	useEffect(() => {
+		const graph = {
+			nodes: [
+				{ node: 0, name: "node0" },
+				{ node: 1, name: "node1" },
+				{ node: 2, name: "node2" },
+				{ node: 3, name: "node3" },
+				{ node: 4, name: "node4" },
+			],
+			links: [
+				{ source: 0, target: 2, value: 2 },
+				{ source: 1, target: 2, value: 2 },
+				{ source: 1, target: 3, value: 2 },
+				{ source: 0, target: 4, value: 2 },
+				{ source: 2, target: 3, value: 2 },
+				{ source: 2, target: 4, value: 2 },
+				{ source: 3, target: 4, value: 4 },
+			],
+		};
+		const sankeyData = parseData(data);
+		// console.log("sankeyData: ", sankeyData);
+		const nodes = [];
+		const nodeSet = new Set();
+		const links = [];
+		sankeyData.forEach((d) => {
+			// nodes are the unique repos and commit types
+			// format: {name: "repo_name"} or {name: "commit_type"}
+			// create a set to store the unique nodes
+			nodeSet.add(d.name);
+			nodeSet.add(d.type);
+
+			// links are the connections between repos and commit types
+			links.push({
+				source: d.name,
+				target: d.type,
+				value: d.count,
+			});
+		});
+
+		const chart = SankeyChart({links: links});
+		// remove the previous chart
+		d3.select("#sankey-diagram").selectAll("*").remove();
+		// chart is an svg element, append it to the div
+		d3.select("#sankey-diagram").append(() => chart);
+
+	}, [data]);
+
 	console.log("selectList: ", selectList);
-	console.log("selectMessage: ", selectMessage);
-
-
+	// console.log("selectMessage: ", selectMessage);
 
 	return (
 		<div>
@@ -413,13 +463,16 @@ const DagComponent = ({ data }) => {
 			>
 				<svg ref={svgRef} className="border-4" />
 			</div>
-			<div id="selected-nodes" className="border-4 h-80 overflow-y-auto">
+			<div id="selected-nodes" className="border-4 h-40 overflow-y-auto">
 				<h3 className="font-bold">Selected Nodes</h3>
 				{/* divider */}
 				<hr className="my-2" />
 				<div id="selected-nodes-list"></div>
 				{/* <div id="selected-word-cloud"></div> */}
-				<MessageCloud text={selectMessage} />
+			</div>
+			<MessageCloud text={selectMessage} />
+			<div id="sankey-diagram" className="border-4 h-auto border-green-500">
+
 			</div>
 		</div>
 	);

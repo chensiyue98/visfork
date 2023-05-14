@@ -1,5 +1,6 @@
 import axios from "axios";
 import pLimit from "p-limit";
+import Classify from "./Regex";
 
 async function getRepo(repo) {
 	const response = await axios.get(`https://api.github.com/repos/${repo}`);
@@ -102,8 +103,10 @@ async function getOneCommits(branch) {
 			date: commit.commit.committer.date,
 			url: commit.html_url,
 			message: commit.commit.message,
+			commit_type: Classify(commit.commit.message)
 		};
 	});
+
 	return nodes;
 }
 

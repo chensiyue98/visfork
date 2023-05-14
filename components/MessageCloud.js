@@ -16,8 +16,8 @@ const MessageCloud = (text) => {
 		console.log(data);
 		const fontFamily = "Arial, Helvetica, sans-serif";
 
-		const width = 500;
-		const height = 500;
+		const width = 300;
+		const height = 300;
 
 		console.log(width, height);
 		const maxFontSize = 60;
@@ -76,13 +76,13 @@ const MessageCloud = (text) => {
 	}, [text]);
 
 	return (
-		<>
+		<div>
 			<h1>Word Cloud</h1>
 
-			<svg ref={svgRef} style={{ width: "500px", height: "500px" }}>
+			<svg ref={svgRef} style={{ width: "300px", height: "300px" }}>
 				<g />
 			</svg>
-		</>
+		</div>
 	);
 };
 
@@ -126,41 +126,6 @@ function wordsFromText(text) {
 	}
 
 	return [freqTable.sort((a, b) => b.value - a.value), doc];
-}
-
-function classify(data) {
-	// classify the words by key words
-	const core_adaptive_terms = [
-		"add(?:s|ed|ing)?",
-		"creat(?:e|es|ing)",
-		"disabl(?:e|es|ed|ing)",
-		"implement(?:ed|s|ing)?",
-		"import(?:s|ed|ing)?",
-		"introduc(?:e|es|ed|ing)",
-		"port(?:s|ed|ing)?",
-		"provid(?:e|es|ed|ing)",
-		"updat(?:e|es|ed|ing)",
-		"upgrad(?:e|es|ed|ing)",
-		"(?:un)?hid(?:e|es|den)",
-		"allow(?:s|ed|ing)?",
-		"buil(?:t|ds|ing)",
-		"calibirat(?:e|es|ed|ing)",
-		"configure",
-		"deferr(?:ed|s|ing)?",
-		"enhanc(?:e|es|ed|ing)",
-		"extend(?:s|ed|ing)?",
-		"form(?:ed|s|ing)?",
-		"report(?:s|ed|ing)?",
-		"support(s|ed|ing)?",
-	];
-	const core_adaptive = new RegExp(core_adaptive_terms.join("|"), "i");
-
-	return data.map((d) => {
-		if (core_adaptive.test(d.text)) {
-			d.class = "core_adaptive";
-		}
-		return d;
-	});
 }
 
 export default MessageCloud;
