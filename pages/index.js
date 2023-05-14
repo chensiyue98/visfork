@@ -24,7 +24,7 @@ export default function Home() {
 					<a href="./fork_network">Network</a>
 				</h3>
 				<h3 className="text-xl underline">
-					<a href="./wordcloud">DAG</a>
+					<a href="./wordcloud">Wordcloud</a>
 				</h3>
 				<h3 className="text-xl underline">
 					<a href="./api/getLimit">API: fetch GitHub API usage</a>

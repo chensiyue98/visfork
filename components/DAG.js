@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
+import MessageCloud from "./MessageCloud";
 
 // TODO: 改为滚轮滚动，按钮缩放
 // TODO: 框选节点，高亮，显示信息
@@ -14,6 +15,7 @@ const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
 	const zoomButtonRef = useRef(null);
 	const [selectList, setSelectList] = useState([]);
+	const [selectMessage, setSelectMessage] = useState("empty empty empty");
 
 	useEffect(() => {
 		var startTimer = new Date().getTime();
@@ -379,6 +381,16 @@ const DagComponent = ({ data }) => {
 							return d.__data__.data.repo;
 						});
 					setSelectList(selectedNodes._groups[0]);
+
+					// concate the commit messages of the selected nodes, remove line breaks
+					const commitMessages = selectedNodes._groups[0].reduce(
+						(acc, cur) => {
+							return acc + cur.__data__.data.message + " ";
+						}
+						// remove line breaks
+					);
+					commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
+					setSelectMessage(commitMessages);
 				}
 			}
 		}
@@ -388,6 +400,9 @@ const DagComponent = ({ data }) => {
 	}, [data]);
 
 	console.log("selectList: ", selectList);
+	console.log("selectMessage: ", selectMessage);
+
+
 
 	return (
 		<div>
@@ -403,6 +418,8 @@ const DagComponent = ({ data }) => {
 				{/* divider */}
 				<hr className="my-2" />
 				<div id="selected-nodes-list"></div>
+				{/* <div id="selected-word-cloud"></div> */}
+				<MessageCloud text={selectMessage} />
 			</div>
 		</div>
 	);
