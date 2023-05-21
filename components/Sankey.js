@@ -211,6 +211,32 @@ function SankeyChart(
 			.attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
 			.text(({ index: i }) => Tl[i]);
 
+	// hover effect
+	node
+		.on("mouseover", function (d) {
+			d3.select(this).attr("stroke", "black");
+			d3.select(this).attr("stroke-width", 3);
+			d3.select(this).attr("stroke-opacity", 1);
+			d3.select(this).attr("stroke-linejoin", "round");
+		})
+		.on("mouseout", function (d) {
+			d3.select(this).attr("stroke", nodeStroke);
+			d3.select(this).attr("stroke-width", nodeStrokeWidth);
+			d3.select(this).attr("stroke-opacity", nodeStrokeOpacity);
+			d3.select(this).attr("stroke-linejoin", nodeStrokeLinejoin);
+		});
+
+	link
+		.on("mouseover", function (d) {
+			d3.select(this).attr("stroke", "black");
+			d3.select(this).attr("stroke-opacity", 1);
+		})
+		.on("mouseout", function (d) {
+			d3.select(this).attr("stroke", linkColor);
+			d3.select(this).attr("stroke-opacity", linkStrokeOpacity);
+		});
+
+
 	function intern(value) {
 		return value !== null && typeof value === "object"
 			? value.valueOf()

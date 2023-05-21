@@ -2,31 +2,34 @@ import React, { useRef, useEffect, useState, use } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
 import MessageCloud from "./MessageCloud";
-import * as d3Sankey from "d3-sankey";
 import { parseData, SankeyChart } from "./Sankey";
+import Network from "./Network";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-// TODO: 改为滚轮滚动，按钮缩放
-// TODO: 框选节点，高亮，显示信息
-// TODO: 合并节点
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
-// TODO: 初始位置在末尾
-// Done: Horizontal layout
+// TODO: 增加tag显示
+// TODO: 按日/周/月/年合并节点
+// TODO: 增加时间范围选择器
+// TODO: Seleted Nodes改为列表，选择一个节点，右侧显示该节点的信息
+// TODO: sankey图颜色对应
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
-	const zoomButtonRef = useRef(null);
-	const sankeyRef = useRef(null);
+	// const zoomButtonRef = useRef(null);
+
+	const [grouping, setGrouping] = useState("none");
 
 	const [selectList, setSelectList] = useState([]);
-	const [selectMessage, setSelectMessage] = useState("empty empty empty");
+	const [selectMessage, setSelectMessage] = useState("empty");
+	const [networkData, setNetworkData] = useState([]);
 
 	useEffect(() => {
 		var startTimer = new Date().getTime();
 
 		// clear the previous render
 		d3.select(svgRef.current).selectAll("*").remove();
-		d3.select(zoomButtonRef.current).selectAll("*").remove();
+		// d3.select(zoomButtonRef.current).selectAll("*").remove();
 
 		const dag = d3dag.dagStratify()(data);
 
@@ -46,8 +49,6 @@ const DagComponent = ({ data }) => {
 			}
 			return merged;
 		};
-
-		console.log("DAG.js: dag", dag);
 		console.log("DAG.js: merged", mergeNodes(dag));
 
 		const nodeRadius = 5;
@@ -69,19 +70,25 @@ const DagComponent = ({ data }) => {
 							y: middle.y,
 						},
 						middle,
-						{ x: middle.x, y: middle.y + nodeRadius },
+						{
+							x: middle.x,
+							y: middle.y + nodeRadius,
+						},
 						last
 					);
 				}
 			}
-			return { width, height };
+			return {
+				width,
+				height,
+			};
 		};
 
 		const gridCompact = (layout) => (dag) => {
 			// Tweak to render compact grid, first shrink x width by edge radius, then expand the width to account for the loss
 			// This could alos be accomplished by just changing the coordinates of the svg viewbox.
 			const baseLayout = layout.nodeSize([
-				nodeRadius + edgeRadius * 2,
+				nodeRadius + edgeRadius * 5,
 				(nodeRadius + edgeRadius) * 2,
 			]);
 			const { width, height } = baseLayout(dag);
@@ -93,7 +100,11 @@ const DagComponent = ({ data }) => {
 					point.x += nodeRadius;
 				}
 			}
-			return { width: width + 2 * nodeRadius, height: height };
+			// return { width: width +  2 * nodeRadius, height: height };
+			return {
+				width: width + 10 * nodeRadius,
+				height: height + 10 * nodeRadius,
+			};
 		};
 
 		const arrayEq = (left, right) =>
@@ -139,7 +150,7 @@ const DagComponent = ({ data }) => {
 		svgSelection.attr("id", "svgSelection");
 		// svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
 		svgSelection.attr("width", height);
-		svgSelection.attr("height", 300);
+		svgSelection.attr("height", width);
 
 		const brush = d3
 			.brush()
@@ -152,9 +163,9 @@ const DagComponent = ({ data }) => {
 			.attr("id", "graph")
 			// reverse x and y for horizontal layout
 			.attr("width", height)
-			.attr("height", width)
-			// centerize the graph in svgSelection
-			.attr("transform", `translate(0, ${(300 - width) / 2})`);
+			.attr("height", width);
+		// centerize the graph in svgSelection
+		// .attr("transform", `translate(0, ${(300 - width) / 2})`);
 
 		graph.call(brush);
 
@@ -246,7 +257,9 @@ const DagComponent = ({ data }) => {
 						<p>Date: ${d.data.date}</p>`
 					)
 					.style("background-color", (n) =>
-						d3.color(colorMap.get(d.data.repo)).copy({ opacity: 0.5 })
+						d3.color(colorMap.get(d.data.repo)).copy({
+							opacity: 0.5,
+						})
 					)
 					.style("border-color", "black")
 					.style("border-width", "1px")
@@ -271,67 +284,93 @@ const DagComponent = ({ data }) => {
 			.style("opacity", 0)
 			.style("position", "absolute");
 
-		const zoom = d3
-			.zoom()
-			.scaleExtent([0.1, 5])
-			.on("zoom", function (event) {
-				svgSelection.attr("transform", event.transform);
-			});
+		const monthEntries = mergeNodes(dag).keys();
+		// go through each node. if it's the first node of the month, add a label
+		for (const [i, node] of [...dag].entries()) {
+			// get the month of the current node
+			// var month = node.data.date.split("-")[0]+"-"+node.data.date.split("-")[1];
+			var date = new Date(node.data.date);
+			var key = date.getFullYear() + "-" + date.getMonth();
+			// set next to the first key of the entries
+			if (i === 0) {
+				var next = monthEntries.next().value;
+			}
+			if (next === key) {
+				graph
+					.append("text")
+					.attr("y", width)
+					.attr("x", node.y)
+					.attr("dy", "-10px")
+					.attr("text-anchor", "middle")
+					.attr("font-size", "0.8em")
+					// text color black
+					.attr("fill", "black")
+					.text(key);
 
-		// Zooming and panning with mouse
-		// svgSelection.call(zoom);
+				// add a line
+				graph
+					.append("line")
+					.attr("x1", node.y)
+					.attr("y1", node.x)
+					.attr("x2", node.y)
+					.attr("y2", node.x + width)
+					.attr("stroke-width", 2)
+					.attr("stroke", "black");
+
+				next = monthEntries.next().value;
+			}
+		}
 
 		// Add a group for buttons
-		const buttonGroup = d3
-			.select(zoomButtonRef.current)
-			.append("svg")
-			.style("cursor", "pointer");
+		// const buttonGroup = d3
+		// 	.select(zoomButtonRef.current)
+		// 	.append("svg")
+		// 	.style("cursor", "pointer");
 		// Add a button for zooming in
-		const zoomInButton = buttonGroup
-			.append("g")
-			.attr("transform", "translate(10, 10)")
-			.on("click", () => {
-				zoom.scaleBy(svgSelection.transition().duration(300), 1.2);
-				// update the width of the graph
-				// svgSelection.attr("width", width * 1.2);
-			});
-		zoomInButton
-			.append("rect")
-			.attr("width", 30)
-			.attr("height", 30)
-			.attr("fill", "white")
-			.attr("stroke", "black");
-		zoomInButton
-			.append("text")
-			.attr("x", 15)
-			.attr("y", 15)
-			.attr("text-anchor", "middle")
-			.attr("alignment-baseline", "middle")
-			.text("+");
+		// const zoomInButton = buttonGroup
+		// 	.append("g")
+		// 	.attr("transform", "translate(10, 10)")
+		// 	.on("click", () => {
+		// 		zoom.scaleBy(svgSelection.transition().duration(300), 1.2);
+		// 		// update the width of the graph
+		// 		// svgSelection.attr("width", width * 1.2);
+		// 	});
+		// zoomInButton
+		// 	.append("rect")
+		// 	.attr("width", 30)
+		// 	.attr("height", 30)
+		// 	.attr("fill", "white")
+		// 	.attr("stroke", "black");
+		// zoomInButton
+		// 	.append("text")
+		// 	.attr("x", 15)
+		// 	.attr("y", 15)
+		// 	.attr("text-anchor", "middle")
+		// 	.attr("alignment-baseline", "middle")
+		// 	.text("+");
 		// Add a button for zooming out
-		const zoomOutButton = buttonGroup
-			.append("g")
-			.attr("transform", "translate(10, 50)")
-			.on("click", () => {
-				zoom.scaleBy(svgSelection.transition().duration(300), 1 / 1.2);
-				// svgSelection.attr("width", height / 1.2);
-			});
-		zoomOutButton
-			.append("rect")
-			.attr("width", 30)
-			.attr("height", 30)
-			.attr("fill", "white")
-			.attr("stroke", "black");
-		zoomOutButton
-			.append("text")
-			.attr("x", 15)
-			.attr("y", 15)
-			.attr("text-anchor", "middle")
-			.attr("alignment-baseline", "middle")
-			.text("-");
+		// const zoomOutButton = buttonGroup
+		// 	.append("g")
+		// 	.attr("transform", "translate(10, 50)")
+		// 	.on("click", () => {
+		// 		zoom.scaleBy(svgSelection.transition().duration(300), 1 / 1.2);
+		// 		// svgSelection.attr("width", height / 1.2);
+		// 	});
+		// zoomOutButton
+		// 	.append("rect")
+		// 	.attr("width", 30)
+		// 	.attr("height", 30)
+		// 	.attr("fill", "white")
+		// 	.attr("stroke", "black");
+		// zoomOutButton
+		// 	.append("text")
+		// 	.attr("x", 15)
+		// 	.attr("y", 15)
+		// 	.attr("text-anchor", "middle")
+		// 	.attr("alignment-baseline", "middle")
+		// .text("-");
 
 		// allow user using draging to draw a rectangle and log the selected nodes
-
 		var brushSelection = [];
 
 		function brushStart(event) {
@@ -387,17 +426,23 @@ const DagComponent = ({ data }) => {
 					setSelectList(selectedNodes._groups[0]);
 
 					// concate the commit messages of the selected nodes, remove line breaks
-					const commitMessages = selectedNodes._groups[0].reduce(
-						(acc, cur) => {
-							return acc + cur.__data__.data.message + " ";
-						}
+					if (selectedNodes._groups[0].length > 0) {
+						const commitMessages = selectedNodes._groups[0].reduce(
+							(acc, cur) => {
+								return acc + cur.__data__.data.message + " ";
+							}
+						);
 						// remove line breaks
-					);
-					commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
-					setSelectMessage(commitMessages);
+						commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
+						setSelectMessage(commitMessages);
+					} else {
+						setSelectMessage("");
+					}
 				}
 			}
 		}
+
+		console.log("selected nodes: ", selectList);
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
@@ -405,27 +450,8 @@ const DagComponent = ({ data }) => {
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
 	useEffect(() => {
-		const graph = {
-			nodes: [
-				{ node: 0, name: "node0" },
-				{ node: 1, name: "node1" },
-				{ node: 2, name: "node2" },
-				{ node: 3, name: "node3" },
-				{ node: 4, name: "node4" },
-			],
-			links: [
-				{ source: 0, target: 2, value: 2 },
-				{ source: 1, target: 2, value: 2 },
-				{ source: 1, target: 3, value: 2 },
-				{ source: 0, target: 4, value: 2 },
-				{ source: 2, target: 3, value: 2 },
-				{ source: 2, target: 4, value: 2 },
-				{ source: 3, target: 4, value: 4 },
-			],
-		};
 		const sankeyData = parseData(data);
 		// console.log("sankeyData: ", sankeyData);
-		const nodes = [];
 		const nodeSet = new Set();
 		const links = [];
 		sankeyData.forEach((d) => {
@@ -443,36 +469,76 @@ const DagComponent = ({ data }) => {
 			});
 		});
 
-		const chart = SankeyChart({links: links});
+		const chart = SankeyChart(
+			{
+				links: links,
+			},
+			{
+				nodeGroup: (d) => d.id.split(/\W/)[0],
+			}
+		);
 		// remove the previous chart
 		d3.select("#sankey-diagram").selectAll("*").remove();
 		// chart is an svg element, append it to the div
 		d3.select("#sankey-diagram").append(() => chart);
-
 	}, [data]);
 
-	console.log("selectList: ", selectList);
-	// console.log("selectMessage: ", selectMessage);
+	// Network Graph
+	useEffect(() => {
+		// map author and repo data from the data into {"author": "name", "repo": "name"}
+		const n = data.map((d) => {
+			// keep the date and remove the time from the date
+			let date = d.date.split("T")[0];
+			// format the date from "2023-01-01" to "2023-01-01T00:00.000Z"
+			date = date + "T22:00:00.000Z";
+
+			return {
+				author: d.author,
+				repo: d.repo,
+				date: date,
+			};
+		});
+		setNetworkData(n);
+	}, [data]);
+	// console.log("network_data: ", networkData);
+
+	function handleGrouping(event, newGrouping) {
+		if (newGrouping !== null) {
+			setGrouping(newGrouping);
+		}
+	}
 
 	return (
 		<div>
-			<div ref={zoomButtonRef} className="absolute top-0 z-10" />
+			<ToggleButtonGroup value={grouping} exclusive onChange={handleGrouping} aria-label="Grouping Forks">
+				<ToggleButton value="none">
+					None
+				</ToggleButton>
+				<ToggleButton value="month">
+					Month
+				</ToggleButton>
+			</ToggleButtonGroup>
+			{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
 			<div
 				id="overflow-container"
 				className="max-w-screen-xl overflow-x-scroll, overflow-y-scroll"
 			>
 				<svg ref={svgRef} className="border-4" />
 			</div>
+			<div id="date-slider" className="border-4"></div>
 			<div id="selected-nodes" className="border-4 h-40 overflow-y-auto">
-				<h3 className="font-bold">Selected Nodes</h3>
-				{/* divider */}
+				<h3 className="font-bold"> Selected Nodes </h3> {/* divider */}{" "}
 				<hr className="my-2" />
-				<div id="selected-nodes-list"></div>
-				{/* <div id="selected-word-cloud"></div> */}
-			</div>
-			<MessageCloud text={selectMessage} />
-			<div id="sankey-diagram" className="border-4 h-auto border-green-500">
-
+				<div id="selected-nodes-list"> </div>{" "}
+				{/* <div id="selected-word-cloud"></div> */}{" "}
+			</div>{" "}
+			<MessageCloud text={selectMessage} />{" "}
+			<div
+				id="sankey-diagram"
+				className="border-4 h-auto border-green-500"
+			></div>
+			<div>
+				{networkData.length > 0 ? <Network data={networkData} /> : <div></div>}
 			</div>
 		</div>
 	);

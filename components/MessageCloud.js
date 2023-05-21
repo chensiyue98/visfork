@@ -10,16 +10,15 @@ const MessageCloud = (text) => {
 	useEffect(() => {
 		// object to text
 		text = text.text;
-		console.log(text);
+		// console.log(text);
 		const result = wordsFromText(text);
 		const data = result[0];
-		console.log(data);
+		// console.log(data);
 		const fontFamily = "Arial, Helvetica, sans-serif";
 
 		const width = 300;
 		const height = 300;
 
-		console.log(width, height);
 		const maxFontSize = 60;
 		const minFontSize = 20;
 
@@ -76,9 +75,9 @@ const MessageCloud = (text) => {
 	}, [text]);
 
 	return (
-		<div>
-			<h1>Word Cloud</h1>
-
+		<div className="border-orange-400 border-solid border-4">
+			<h1 className="font-bold">Word Cloud</h1>
+			<hr className="my-2" />
 			<svg ref={svgRef} style={{ width: "300px", height: "300px" }}>
 				<g />
 			</svg>

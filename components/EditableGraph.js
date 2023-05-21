@@ -10,9 +10,11 @@ function ConnectedGraphSimulation(simulation, data) {
 			"link",
 			d3.forceLink(data.links).id((d) => d.id)
 		) // attraction between linked nodes
-		.force("charge", d3.forceManyBody()) // repulsion between nodes
+		.force("charge", d3.forceManyBody().strength(-10)) // repulsion between nodes
 		.force("center", d3.forceCenter().strength(0.05)) // Maintains centrality of nodes
-		.alphaDecay(0.001); // increases time until graph "freezes"
+		.force("collide", d3.forceCollide().radius(10)) // prevents node overlap
+		.force("y", d3.forceY()) // sets x position of nodes
+		.alphaDecay(0.1); // increases time until graph "freezes"
 	// .restart(); // restarts sim (not needed?)
 }
 
@@ -134,7 +136,6 @@ export default function EditableGraph({
 			linkData = Array.isArray(linkData) ? linkData : [linkData];
 		}
 		linkData.forEach((linkDatum) => {
-			// TODO Differentiate between directed and undirected graphs
 			const linkIndex = data.links.findIndex(
 				(l) =>
 					l.source.id === (linkDatum.source.id || linkDatum.source) &&

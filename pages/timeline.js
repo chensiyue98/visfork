@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
 import getData from "@/components/GetData";
+import Cookies from "js-cookie";
 
 // TODO: parse url to owner/repo
+// TODO: add token input and save to cookie
 
 export default function App() {
-	const token = "Bearer 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";
-	axios.defaults.headers.common["Authorization"] = token;
+	// const token = "Bearer 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";
+	// axios.defaults.headers.common["Authorization"] = token;
 
 	const [commitData, setCommitData] = useState([]);
 
 	const [repo, setRepo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [token, setToken] = useState("Bearer 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");
+
+	useEffect(() => {
+		const savedToken = Cookies.get("token");
+		if (savedToken) {
+		  setToken(savedToken);
+		}
+	  }, [token]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -40,7 +50,7 @@ export default function App() {
 			type: "text/plain;charset=utf-8",
 		});
 		element.href = URL.createObjectURL(file);
-		element.download = "commit_data.json";
+		element.download = repo + "-commit_data.json";
 		document.body.appendChild(element); // Required for this to work in FireFox
 		element.click();
 	};
@@ -85,13 +95,20 @@ export default function App() {
 					Submit
 				</Button>
 				or
-				<Button variant="outlined" size="small" onClick={handleUpload} title="Upload json file exported from this site">
+				<Button
+					variant="outlined"
+					size="small"
+					onClick={handleUpload}
+					title="Upload json file exported from this site"
+				>
 					upload json
 				</Button>
 			</form>
 			<div id="loading">{isLoading && <CircularProgress />}</div>
 			<div id="submited">{isSubmit && <DagComponent data={commitData} />}</div>
-			<div id="demo" className="border-blue-500 border-4"><DagComponent data={demo} /></div>
+			<div id="demo" className="border-blue-500 border-4">
+				<DagComponent data={demo} />
+			</div>
 			{isSubmit && <button onClick={handleClick}>Download</button>}
 		</div>
 	);

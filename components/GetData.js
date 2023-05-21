@@ -79,10 +79,11 @@ async function getOneCommits(branch) {
 	if (branch.sha) {
 		query = `?sha=${branch.sha}`;
 	}
+	var perPage = 100; // Default 30, max 100
 
 	const response = await axios.get(
 		// `https://api.github.com/repos/${branch.repo}/commits${query}`
-		`https://api.github.com/repos/${branch.repo}/commits`
+`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}`
 	);
 
 	const commits = response.data;

@@ -1,21 +1,25 @@
 // TODO: Change color of nodes based on type of fork
 
 import EditableGraph, { drag } from "./EditableGraph";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 import * as d3 from "d3";
-import jsondata from "./test_data.json";
 import { Button, Slider } from "@mui/material";
+// import jsondata from "./test_data.json";
+// const data = jsondata;
 
-const eg = EditableGraph({ width: 800 });
+const eg = EditableGraph({ width: 1000 });
 
-export default function Network() {
+export default function Network(test_data) {
+
+	const data = test_data.data;
+
 	const [isPlay, setPlay] = useState(false);
 
 	const svgRef = useRef(null);
 	const eg_graph = graph(eg, svgRef);
 
-	const data = jsondata;
 	const [dateIdx, setDateIdx] = useState(0);
+
 	const dateGroupedData = d3.group(data, (d) => d.date);
 	const dateRange = getDateRange(data);
 	const authorData = authorsByDate(dateGroupedData, dateRange);
@@ -23,7 +27,6 @@ export default function Network() {
 	const connectionData = connectionsByDate(dateGroupedData, dateRange);
 
 	useEffect(() => {
-		console.log("dateIdx: ", dateIdx);
 		var nodes = repoData[dateIdx].concat(authorData[dateIdx]);
 		var links = connectionData[dateIdx].map((d) => ({
 			source: d[0].split(" | ")[0],
@@ -62,25 +65,33 @@ export default function Network() {
 	return (
 		<div className="p-10 flex flex-col items-center">
 			<h1 className="text-xl">Network Graph</h1>
-			<Slider
-				value={dateIdx}
-				onChange={handleSliderChange}
-				step={1}
-				max={dateRange.length - 1}
-			/>
-			<label>
-				{dateRange[dateIdx].toLocaleDateString("en-US", {
-					month: "long",
-					day: "numeric",
-					year: "numeric",
-				})}
-			</label>
-			<Button variant="outlined" className="m-5" onClick={handleButtonClick}>
-				{isPlay ? "Pause" : "Play"}
-			</Button>
-			<div className="border border-solid border-blue-500">
-				<svg ref={svgRef}></svg>
-			</div>
+			{dateRange && (
+				<>
+					<Slider
+						value={dateIdx}
+						onChange={handleSliderChange}
+						step={1}
+						max={dateRange.length - 1}
+					/>
+					<label>
+						{dateRange[dateIdx].toLocaleDateString("en-US", {
+							month: "long",
+							day: "numeric",
+							year: "numeric",
+						})}
+					</label>
+					<Button
+						variant="outlined"
+						className="m-5"
+						onClick={handleButtonClick}
+					>
+						{isPlay ? "Pause" : "Play"}
+					</Button>
+					<div className="border border-solid border-blue-500">
+						<svg ref={svgRef}></svg>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }
@@ -124,6 +135,7 @@ function reposByDate(dateGroupedData, dateRange) {
 			cumulativeData.set(key, cumulativeData.get(key) + 1);
 		});
 	});
+
 	return dateArray.map((d) =>
 		Array.from(d).map((t) => ({ id: t[0], type: "repo", count: t[1] }))
 	);
@@ -172,7 +184,7 @@ function graph(eg, svgRef) {
 	var mode = "Repo";
 
 	let transform = d3.zoomIdentity;
-	transform.k = 3.45335823429766;
+	transform.k = 3;
 
 	function zoomed(event) {
 		transform = event.transform;
@@ -288,7 +300,6 @@ function graph(eg, svgRef) {
 		}
 
 		node.append("title").text((d) => d.id);
-
 	});
 
 	simulation.on("tick", () => {
