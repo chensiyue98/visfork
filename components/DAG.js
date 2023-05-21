@@ -24,6 +24,8 @@ const DagComponent = ({ data }) => {
 	const [selectMessage, setSelectMessage] = useState("empty");
 	const [networkData, setNetworkData] = useState([]);
 
+	const [groupedData, setGroupedData] = useState([]);
+
 	useEffect(() => {
 		var startTimer = new Date().getTime();
 
@@ -31,25 +33,14 @@ const DagComponent = ({ data }) => {
 		d3.select(svgRef.current).selectAll("*").remove();
 		// d3.select(zoomButtonRef.current).selectAll("*").remove();
 
-		const dag = d3dag.dagStratify()(data);
+		var dag = d3dag.dagStratify()(data);
+		if (grouping === "none") {
+			dag = d3dag.dagStratify()(data);
+		} else if (grouping === "month") {
+			dag = d3dag.dagStratify()(groupNodes(data));
+		}
 
-		//TODO: Merge nodes with of the same month into one node
-		const mergeNodes = (dag) => {
-			const merged = new Map();
-			for (const node of dag) {
-				const date = new Date(node.data.date);
-				const month = date.getMonth();
-				const year = date.getFullYear();
-				const key = `${year}-${month}`;
-				if (merged.has(key)) {
-					merged.get(key).push(node);
-				} else {
-					merged.set(key, [node]);
-				}
-			}
-			return merged;
-		};
-		console.log("DAG.js: merged", mergeNodes(dag));
+		console.log("dag: ", dag);
 
 		const nodeRadius = 5;
 		const edgeRadius = 3;
@@ -284,13 +275,14 @@ const DagComponent = ({ data }) => {
 			.style("opacity", 0)
 			.style("position", "absolute");
 
-		const monthEntries = mergeNodes(dag).keys();
+		const monthEntries = mergeMonth(dag).keys();
 		// go through each node. if it's the first node of the month, add a label
 		for (const [i, node] of [...dag].entries()) {
 			// get the month of the current node
 			// var month = node.data.date.split("-")[0]+"-"+node.data.date.split("-")[1];
 			var date = new Date(node.data.date);
-			var key = date.getFullYear() + "-" + date.getMonth();
+
+			var key = date.getFullYear() + "-" + (date.getMonth() + 1);
 			// set next to the first key of the entries
 			if (i === 0) {
 				var next = monthEntries.next().value;
@@ -301,10 +293,10 @@ const DagComponent = ({ data }) => {
 					.attr("y", width)
 					.attr("x", node.y)
 					.attr("dy", "-10px")
+					.style("pointer-events", "none")
 					.attr("text-anchor", "middle")
 					.attr("font-size", "0.8em")
-					// text color black
-					.attr("fill", "black")
+					.attr("fill", "gray")
 					.text(key);
 
 				// add a line
@@ -313,62 +305,14 @@ const DagComponent = ({ data }) => {
 					.attr("x1", node.y)
 					.attr("y1", node.x)
 					.attr("x2", node.y)
-					.attr("y2", node.x + width)
-					.attr("stroke-width", 2)
-					.attr("stroke", "black");
+					.attr("y2", width - 20)
+					.style("pointer-events", "none")
+					.attr("stroke-width", 1)
+					.attr("stroke", "gray");
 
 				next = monthEntries.next().value;
 			}
 		}
-
-		// Add a group for buttons
-		// const buttonGroup = d3
-		// 	.select(zoomButtonRef.current)
-		// 	.append("svg")
-		// 	.style("cursor", "pointer");
-		// Add a button for zooming in
-		// const zoomInButton = buttonGroup
-		// 	.append("g")
-		// 	.attr("transform", "translate(10, 10)")
-		// 	.on("click", () => {
-		// 		zoom.scaleBy(svgSelection.transition().duration(300), 1.2);
-		// 		// update the width of the graph
-		// 		// svgSelection.attr("width", width * 1.2);
-		// 	});
-		// zoomInButton
-		// 	.append("rect")
-		// 	.attr("width", 30)
-		// 	.attr("height", 30)
-		// 	.attr("fill", "white")
-		// 	.attr("stroke", "black");
-		// zoomInButton
-		// 	.append("text")
-		// 	.attr("x", 15)
-		// 	.attr("y", 15)
-		// 	.attr("text-anchor", "middle")
-		// 	.attr("alignment-baseline", "middle")
-		// 	.text("+");
-		// Add a button for zooming out
-		// const zoomOutButton = buttonGroup
-		// 	.append("g")
-		// 	.attr("transform", "translate(10, 50)")
-		// 	.on("click", () => {
-		// 		zoom.scaleBy(svgSelection.transition().duration(300), 1 / 1.2);
-		// 		// svgSelection.attr("width", height / 1.2);
-		// 	});
-		// zoomOutButton
-		// 	.append("rect")
-		// 	.attr("width", 30)
-		// 	.attr("height", 30)
-		// 	.attr("fill", "white")
-		// 	.attr("stroke", "black");
-		// zoomOutButton
-		// 	.append("text")
-		// 	.attr("x", 15)
-		// 	.attr("y", 15)
-		// 	.attr("text-anchor", "middle")
-		// 	.attr("alignment-baseline", "middle")
-		// .text("-");
 
 		// allow user using draging to draw a rectangle and log the selected nodes
 		var brushSelection = [];
@@ -413,16 +357,31 @@ const DagComponent = ({ data }) => {
 					// display the selected nodes in the selected nodes list
 					console.log(selectedNodes._groups[0]);
 					const selectedNodesList = d3.select("#selected-nodes-list");
-					selectedNodesList.selectAll("div").remove();
+					selectedNodesList.selectAll("select").remove();
 					selectedNodesList
-						.selectAll("div")
+						.append("select")
+						.attr("multiple", false)
+						// height of the select element
+						.attr("size", 10)
+						// width of the select element
+						.style("width", "50%")
+						.selectAll("option")
 						.data(selectedNodes._groups[0])
 						.enter()
-						.append("div")
-						.text((d) => {
-							// console.log(d.__data__.data);
-							return d.__data__.data.repo;
-						});
+						.append("option")
+						.attr("id", (d) => d.__data__.data.id)
+						.on("click", (event, d) => {
+							// display info of the selected node
+							const selectedNodeInfo = d3.select("#selected-node-info");
+							selectedNodeInfo.selectAll("div").remove();
+							selectedNodeInfo
+								.append("div")
+								.html(
+									`<p>Repo: ${d.__data__.data.repo}</p><p>Author: ${d.__data__.data.author}</p><p>Date: ${d.__data__.data.date}</p><p>Message: ${d.__data__.data.message}</p>`
+								);
+						})
+						.text((d) => d.__data__.data.repo);
+
 					setSelectList(selectedNodes._groups[0]);
 
 					// concate the commit messages of the selected nodes, remove line breaks
@@ -446,7 +405,7 @@ const DagComponent = ({ data }) => {
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
-	}, [data]);
+	}, [data, grouping]);
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
 	useEffect(() => {
@@ -510,14 +469,18 @@ const DagComponent = ({ data }) => {
 
 	return (
 		<div>
-			<ToggleButtonGroup value={grouping} exclusive onChange={handleGrouping} aria-label="Grouping Forks">
-				<ToggleButton value="none">
-					None
-				</ToggleButton>
-				<ToggleButton value="month">
-					Month
-				</ToggleButton>
-			</ToggleButtonGroup>
+			<div>
+				<ToggleButtonGroup
+					value={grouping}
+					exclusive
+					onChange={handleGrouping}
+					color="primary"
+					size="small"
+				>
+					<ToggleButton value="none"> All </ToggleButton>
+					<ToggleButton value="month"> Merge </ToggleButton>
+				</ToggleButtonGroup>
+			</div>
 			{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
 			<div
 				id="overflow-container"
@@ -526,13 +489,17 @@ const DagComponent = ({ data }) => {
 				<svg ref={svgRef} className="border-4" />
 			</div>
 			<div id="date-slider" className="border-4"></div>
-			<div id="selected-nodes" className="border-4 h-40 overflow-y-auto">
+			<div
+				id="selected-nodes"
+				className="border-4 overflow-y-auto grid grid-cols-2 gap-4"
+			>
 				<h3 className="font-bold"> Selected Nodes </h3> {/* divider */}{" "}
-				<hr className="my-2" />
+				<h3 className="font-bold"> Details </h3> {/* divider */}{" "}
 				<div id="selected-nodes-list"> </div>{" "}
 				{/* <div id="selected-word-cloud"></div> */}{" "}
-			</div>{" "}
-			<MessageCloud text={selectMessage} />{" "}
+				<div id="selected-node-info"></div>
+			</div>
+			<MessageCloud text={selectMessage} />
 			<div
 				id="sankey-diagram"
 				className="border-4 h-auto border-green-500"
@@ -543,5 +510,85 @@ const DagComponent = ({ data }) => {
 		</div>
 	);
 };
+
+function groupNodes(input) {
+	let data = JSON.parse(JSON.stringify(input));
+	let nodes = {};
+	// Step 1: Construct the graph
+	data.forEach((item) => {
+		item.childIds = []; // Initialize children
+		item.mergedNodes = []; // Initialize merged nodes
+		nodes[item.id] = item;
+	});
+	data.forEach((item) => {
+		item.parentIds.forEach((parentId) => {
+			if (nodes[parentId]) {
+				nodes[parentId].childIds.push(item.id);
+			}
+		});
+	});
+
+	// Step 2: Remove duplicates
+	for (let nodeId in nodes) {
+		let node = nodes[nodeId];
+		node.parentIds = Array.from(new Set(node.parentIds));
+		node.childIds = Array.from(new Set(node.childIds));
+	}
+
+	// Step 3: Merge nodes with one parent and one child
+	let merged = true;
+	while (merged) {
+		merged = false;
+		for (let nodeId in nodes) {
+			let node = nodes[nodeId];
+			if (node.parentIds.length === 1 && node.childIds.length === 1) {
+				let parent = nodes[node.parentIds[0]];
+				let child = nodes[node.childIds[0]];
+
+				// Removing current node from parent's children
+				parent.childIds = parent.childIds.filter((id) => id !== node.id);
+
+				// Removing current node from child's parents
+				child.parentIds = child.parentIds.filter((id) => id !== node.id);
+
+				// Connect parent directly to child (if they're not already connected)
+				if (!parent.childIds.includes(child.id)) {
+					parent.childIds.push(child.id);
+				}
+				if (!child.parentIds.includes(parent.id)) {
+					child.parentIds.push(parent.id);
+				}
+
+				// Keep track of the merged node's original data
+				parent.mergedNodes.push(node);
+				child.mergedNodes.push(node);
+
+				// Remove the current node
+				delete nodes[nodeId];
+
+				merged = true;
+				break;
+			}
+		}
+	}
+	console.log("nodes: ", Object.values(nodes));
+	return Object.values(nodes); // return remaining nodes
+}
+
+function mergeMonth(dag) {
+	const merged = new Map();
+	for (const node of dag) {
+		const date = new Date(node.data.date);
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		const key = `${year}-${month}`;
+		if (merged.has(key)) {
+			merged.get(key).push(node);
+		} else {
+			merged.set(key, [node]);
+		}
+	}
+	return merged;
+}
 
 export default DagComponent;
