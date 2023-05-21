@@ -8,7 +8,8 @@ export default function App() {
 
 	return (
 		<div className="p-10 flex flex-col items-center">
-			<Network />
+			{/* <Network /> */}
+			This Demo is no longer in use. It is integrated into the Timeline Demo.
 		</div>
 	);
 }
