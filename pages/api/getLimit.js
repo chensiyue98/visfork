@@ -1,9 +1,6 @@
 import axios from "axios";
 
 export default async function (req, res) {
-	const { repo } = req.query;
-
-	console.log("Get branches: " + repo);
 
 	try {
 		const response = await axios.get(

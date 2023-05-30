@@ -4,12 +4,16 @@ import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
 import getData from "@/components/GetData";
 import Cookies from "js-cookie";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 // TODO: parse url to owner/repo
 // TODO: add token input and save to cookie
+// current key: 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
 
 export default function App() {
-	// const token = "Bearer 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";
+	// const token = "Bearer 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";
 	// axios.defaults.headers.common["Authorization"] = token;
 
 	const [commitData, setCommitData] = useState([]);
@@ -17,21 +21,33 @@ export default function App() {
 	const [repo, setRepo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
-	const [token, setToken] = useState("Bearer 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");
+	const [token, setToken] = useState(
+		"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"
+	);
+
+	// Menu
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+	const handleMenu = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	useEffect(() => {
 		const savedToken = Cookies.get("token");
 		if (savedToken) {
-		  setToken(savedToken);
+			setToken(savedToken);
 		}
-	  }, [token]);
+	}, [token]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			setIsLoading(true);
 			// const response = await axios.get(`/api/getAll?repo=${repo}`);
-			const response = await getData(repo);
+			const response = await getData(repo, token);
 			setCommitData(response);
 			console.log("response", response);
 		} catch (error) {
@@ -74,12 +90,44 @@ export default function App() {
 		element.click();
 	};
 
+	const handleSetting = () => {
+		const newToken = prompt("Please enter your token", token);
+		if (newToken) {
+			setToken(newToken);
+			Cookies.set("token", newToken);
+		}
+	};
+
+	// use getLimit api to check token usage
+	const handleUsage = () => {
+		axios
+			.get(`/api/getLimit`)
+			.then((response) => {
+				alert(
+					`Your token has ${response.data.rate.remaining} / ${
+						response.data.rate.limit
+					} remaining requests.\nReset at ${new Date(response.data.rate.reset * 1000).toLocaleString()}`
+				);
+			})
+			.catch((error) => {
+				console.error(error);
+				alert(error.message);
+			});
+	};
+
 	// demo data from file
 	const demo = require("../public/commit_data_example.json");
 
 	return (
 		<div className="p-10 flex flex-col items-center">
 			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
+				<Button size="small" variant="outlined" onClick={handleMenu}>
+					<SettingsIcon />
+				</Button>
+				<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+					<MenuItem onClick={handleSetting}>Setting</MenuItem>
+					<MenuItem onClick={handleUsage}>Check Token Usage</MenuItem>
+				</Menu>
 				<label htmlFor="inputField">GitHub Repository URL:</label>
 				<TextField
 					id="standard-basic"

@@ -104,7 +104,8 @@ async function getOneCommits(branch) {
 			date: commit.commit.committer.date,
 			url: commit.html_url,
 			message: commit.commit.message,
-			commit_type: Classify(commit.commit.message)
+			commit_type: Classify(commit.commit.message),
+			mergedNodes: [],
 		};
 	});
 
@@ -169,9 +170,10 @@ async function getOneCommitsGQL(branch) {
 	return nodes;
 }
 
-export default async function getData(repo) {
-	const token = "Bearer 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";
-	axios.defaults.headers.common["Authorization"] = token;
+export default async function getData(repo, token) {
+	// const token = "Bearer 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";
+	const bearerToken = "Bearer " + token;
+	axios.defaults.headers.common["Authorization"] = bearerToken;
 
 	var tempData = [];
 	try {

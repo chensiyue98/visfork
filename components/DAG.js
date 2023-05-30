@@ -5,6 +5,7 @@ import MessageCloud from "./MessageCloud";
 import { parseData, SankeyChart } from "./Sankey";
 import Network from "./Network";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import labella from "labella";
 
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // TODO: 增加tag显示
@@ -224,9 +225,23 @@ const DagComponent = ({ data }) => {
 			.attr("transform", ({ y, x }) => `translate(${y}, ${x})`);
 
 		// Plot node circles
+		// nodes
+		// 	.append("circle")
+		// 	.attr("r", nodeRadius)
+		// 	.attr("fill", (n) => colorMap.get(n.data.repo));
+		// for each node, if mergedNodes length > 0, draw a rect
+		// else draw a circle with radius nodeRadius
 		nodes
-			.append("circle")
-			.attr("r", nodeRadius)
+			.append("path")
+			.attr("d", (n) => {
+				if (n.data.mergedNodes.length > 0) {
+					return `M${-nodeRadius},${-nodeRadius}h${nodeRadius * 2}v${
+						nodeRadius * 2
+					}h${-nodeRadius * 2}Z`;
+				} else {
+					return d3.symbol().type(d3.symbolCircle).size(nodeRadius * 15)();
+				}
+			})
 			.attr("fill", (n) => colorMap.get(n.data.repo));
 
 		// Add mouseover events
@@ -276,6 +291,7 @@ const DagComponent = ({ data }) => {
 			.style("position", "absolute");
 
 		const monthEntries = mergeMonth(dag).keys();
+
 		// go through each node. if it's the first node of the month, add a label
 		for (const [i, node] of [...dag].entries()) {
 			// get the month of the current node
@@ -283,15 +299,26 @@ const DagComponent = ({ data }) => {
 			var date = new Date(node.data.date);
 
 			var key = date.getFullYear() + "-" + (date.getMonth() + 1);
+
+			var prevTextX = 0;
 			// set next to the first key of the entries
 			if (i === 0) {
 				var next = monthEntries.next().value;
+				prevTextX = node.y;
 			}
 			if (next === key) {
-				graph
+				let text = graph
 					.append("text")
 					.attr("y", width)
 					.attr("x", node.y)
+					// if the difference between prevTextX and current node.y is less than 20, dy set to -20
+					// .attr("dy", () => {
+					// 	if (node.y - prevTextX < 500) {
+					// 		return "-20px";
+					// 	} else {
+					// 		return "-10px";
+					// 	}
+					// })
 					.attr("dy", "-10px")
 					.style("pointer-events", "none")
 					.attr("text-anchor", "middle")
@@ -300,7 +327,7 @@ const DagComponent = ({ data }) => {
 					.text(key);
 
 				// add a line
-				graph
+				let line = graph
 					.append("line")
 					.attr("x1", node.y)
 					.attr("y1", node.x)
@@ -310,7 +337,16 @@ const DagComponent = ({ data }) => {
 					.attr("stroke-width", 1)
 					.attr("stroke", "gray");
 
+				var labelArray = text._groups[0].map(function (t) {
+					return {
+						x: t.getAttribute("x"),
+						y: t.getAttribute("y"),
+						name: t.textContent,
+					};
+				});
 				next = monthEntries.next().value;
+				// prevTextX = node.y;
+				// console.log(prevTextX);
 			}
 		}
 
@@ -592,3 +628,39 @@ function mergeMonth(dag) {
 }
 
 export default DagComponent;
+
+// helper function of labella.js
+function draw(nodes) {
+	var renderer = new labella.Renderer();
+	// Add x,y,dx,dy to node
+	renderer.layout(nodes);
+
+	// Draw label rectangles
+	d3.selectAll("rect.label")
+		.data(nodes)
+		.enter()
+		.append("rect")
+		.classed("label", true)
+		.attr("x", function (d) {
+			return d.x - d.dx / 2;
+		})
+		.attr("y", function (d) {
+			return d.y;
+		})
+		.attr("width", function (d) {
+			return d.dx;
+		})
+		.attr("height", function (d) {
+			return d.dy;
+		});
+
+	// Draw path from point on the timeline to the label rectangle
+	d3.selectAll("path.link")
+		.data(nodes)
+		.enter()
+		.append("path")
+		.classed("link", true)
+		.attr("d", function (d) {
+			return renderer.generatePath(d);
+		});
+}
