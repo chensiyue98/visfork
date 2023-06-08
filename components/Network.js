@@ -4,14 +4,14 @@ import EditableGraph, { drag } from "./EditableGraph";
 import React, { useState, useEffect, useRef, use } from "react";
 import * as d3 from "d3";
 import { Button, Slider } from "@mui/material";
-// import jsondata from "./test_data.json";
+import jsondata from "./test_data.json";
 // const data = jsondata;
 
 const eg = EditableGraph({ width: 1000 });
 
 export default function Network(test_data) {
-
 	const data = test_data.data;
+	// const data = jsondata;
 
 	const [isPlay, setPlay] = useState(false);
 
@@ -121,12 +121,15 @@ function authorsByDate(dateGroupedData, dateRange) {
 }
 
 function reposByDate(dateGroupedData, dateRange) {
+	console.log(dateGroupedData);
 	const dateArray = [];
 	let cumulativeData = new Map();
 	dateRange.forEach((date) => {
+		console.log(date.toISOString());
 		dateArray.push(cumulativeData);
 		cumulativeData = new Map(cumulativeData);
 		const currentData = dateGroupedData.get(date.toISOString()) || [];
+		// if(currentData.length > 0) console.log(currentData);
 		currentData.forEach((datum) => {
 			const key = datum.repo;
 			if (!cumulativeData.has(key)) {
@@ -135,7 +138,6 @@ function reposByDate(dateGroupedData, dateRange) {
 			cumulativeData.set(key, cumulativeData.get(key) + 1);
 		});
 	});
-
 	return dateArray.map((d) =>
 		Array.from(d).map((t) => ({ id: t[0], type: "repo", count: t[1] }))
 	);

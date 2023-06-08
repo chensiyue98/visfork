@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState, use } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
+// import { getParentCounts } from "d3-dag/dist/dag/utils";
+
 import MessageCloud from "./MessageCloud";
 import { parseData, SankeyChart } from "./Sankey";
 import Network from "./Network";
@@ -34,7 +36,16 @@ const DagComponent = ({ data }) => {
 		d3.select(svgRef.current).selectAll("*").remove();
 		// d3.select(zoomButtonRef.current).selectAll("*").remove();
 
+		// sort the data by date
+		data.sort((a, b) => {
+			return new Date(a.date) - new Date(b.date);
+		});
+
 		var dag = d3dag.dagStratify()(data);
+
+		// let mergedDag = mergeDag(dag);
+		// dag = mergedDag;
+
 		if (grouping === "none") {
 			dag = d3dag.dagStratify()(data);
 		} else if (grouping === "month") {
@@ -42,6 +53,7 @@ const DagComponent = ({ data }) => {
 		}
 
 		console.log("dag: ", dag);
+		console.log("dag.descendants(): ", dag.descendants());
 
 		const nodeRadius = 5;
 		const edgeRadius = 3;
@@ -78,7 +90,6 @@ const DagComponent = ({ data }) => {
 
 		const gridCompact = (layout) => (dag) => {
 			// Tweak to render compact grid, first shrink x width by edge radius, then expand the width to account for the loss
-			// This could alos be accomplished by just changing the coordinates of the svg viewbox.
 			const baseLayout = layout.nodeSize([
 				nodeRadius + edgeRadius * 5,
 				(nodeRadius + edgeRadius) * 2,
@@ -108,33 +119,66 @@ const DagComponent = ({ data }) => {
 			for (const node of nodes) {
 				node.x = undefined;
 			}
-
 			let lane = 0;
 			let prev = undefined;
 			const parents = new Map(nodes.map((n) => [n, []]));
 			for (const node of nodes) {
+				// If the node's parent has different children than the node, the node is assigned the next lane
 				if (prev !== undefined && !arrayEq(parents.get(node), [prev])) {
 					lane++;
 				}
+
 				node.x = lane;
+				for (const child of node.ichildren()) {
+					parents.get(child).push(node);
+				}
+				prev = node;
+			}
+		};
+
+		// set nodes into the same lane if they have the same repo name
+		const sameRepoLane = (nodes) => {
+			for (const node of nodes) {
+				node.x = undefined;
+			}
+			let lanes = assignLane(data);
+			// use "repo-branch_name" as the key to assign lane for each node
+			const parents = new Map(nodes.map((n) => [n, []]));
+
+			let prev = undefined;
+
+			let step = 0;
+
+			for (let i = 0; i < nodes.length; i++) {
+				// iina/iina-video-filter
+				let node = nodes[i];
+				if (
+					prev !== undefined &&
+					!arrayEq(parents.get(node), [prev])
+					// prev.dataChildren.length > 1 &&
+					// prev.x === lanes.get(node.data.repo + "-" + node.data.branch_name)
+					// prev.data.repo === node.data.repo && prev.data.branch_name === node.data.branch_name
+				) {
+					step += 1;
+					node.x = lanes.get(node.data.repo + "-" + node.data.branch_name) + 1;
+				} else {
+					node.x =
+						lanes.get(node.data.repo + "-" + node.data.branch_name) + step;
+				}
+				console.log("node " + node.data.id + ":", node.x, node.y);
 
 				for (const child of node.ichildren()) {
 					parents.get(child).push(node);
 				}
 				prev = node;
 			}
-
-			for (const node of nodes) {
-				node.x = lane - node.x;
-			}
+			console.log("nodes: ", nodes);
 		};
 
-		const layout = gridTweak(
-			gridCompact(
-				d3dag.grid().rank((node) => node.data.date)
-				// .lane(leftLane)
-			)
-		);
+		let lanes = assignLane(data);
+		let grid = d3dag.grid().rank((node) => node.data.date);
+		// .lane(leftLane);
+		const layout = gridTweak(gridCompact(grid));
 
 		const { width, height } = layout(dag);
 
@@ -163,13 +207,13 @@ const DagComponent = ({ data }) => {
 
 		const defs = graph.append("defs"); // For gradients
 
-		const steps = dag.size();
-		const interp = d3.interpolateRainbow;
+		const repoNames = [...new Set(data.map((d) => d.repo))];
+		// const steps = dag.size();
+		const steps = repoNames.length;
 		const colorMap = new Map();
 
-		for (const [i, node] of [...dag].entries()) {
-			// colorMap.set(node.data.id, interp(i / steps));
-			colorMap.set(node.data.repo, interp(i / steps));
+		for (const [i, repo] of repoNames.entries()) {
+			colorMap.set(repo, d3.interpolateRainbow(i / steps));
 		}
 
 		// How to draw edges
@@ -239,7 +283,10 @@ const DagComponent = ({ data }) => {
 						nodeRadius * 2
 					}h${-nodeRadius * 2}Z`;
 				} else {
-					return d3.symbol().type(d3.symbolCircle).size(nodeRadius * 15)();
+					return d3
+						.symbol()
+						.type(d3.symbolCircle)
+						.size(nodeRadius * 15)();
 				}
 			})
 			.attr("fill", (n) => colorMap.get(n.data.repo));
@@ -485,7 +532,7 @@ const DagComponent = ({ data }) => {
 			// keep the date and remove the time from the date
 			let date = d.date.split("T")[0];
 			// format the date from "2023-01-01" to "2023-01-01T00:00.000Z"
-			date = date + "T22:00:00.000Z";
+			date = date + "T16:00:00.000Z";
 
 			return {
 				author: d.author,
@@ -556,6 +603,7 @@ function groupNodes(input) {
 		item.mergedNodes = []; // Initialize merged nodes
 		nodes[item.id] = item;
 	});
+
 	data.forEach((item) => {
 		item.parentIds.forEach((parentId) => {
 			if (nodes[parentId]) {
@@ -563,6 +611,7 @@ function groupNodes(input) {
 			}
 		});
 	});
+	console.log("nodes: ", nodes);
 
 	// Step 2: Remove duplicates
 	for (let nodeId in nodes) {
@@ -609,6 +658,71 @@ function groupNodes(input) {
 	}
 	console.log("nodes: ", Object.values(nodes));
 	return Object.values(nodes); // return remaining nodes
+}
+
+// function groupNodes(input) {
+// 	let data = JSON.parse(JSON.stringify(input));
+// 	let nodes = {};
+// 	// Step 1: Construct the graph
+// 	data.forEach((item) => {
+// 		item.childIds = []; // Initialize children
+// 		item.mergedNodes = []; // Initialize merged nodes
+// 		nodes[item.id] = item;
+// 	});
+// 	data.forEach((item) => {
+// 		item.parentIds.forEach((parentId) => {
+// 			if (nodes[parentId]) {
+// 				nodes[parentId].childIds.push(item.id);
+// 			}
+// 		});
+// 	});
+
+// 	// Step 2: Remove duplicates
+// 	for (let nodeId in nodes) {
+// 		let node = nodes[nodeId];
+// 		node.parentIds = Array.from(new Set(node.parentIds));
+// 		node.childIds = Array.from(new Set(node.childIds));
+// 	}
+
+// 	// Step 3: Merge nodes with one parent and one child
+// 	const mg = mn(Object.values(nodes));
+
+// 	console.log("nodes: ", Object.values(mg));
+
+// 	return Object.values(mg); // return remaining nodes
+// }
+
+function mn(data) {
+	data.forEach((node) => {
+		node.parentIds.forEach((parentId) => {
+			let parent = data.find((n) => n.id === parentId);
+			if (parent) parent.childIds.push(node.id);
+		});
+	});
+
+	// Merge nodes with only one parent and one child,
+	// but also ensure that the child of the current node has only one parent (current node)
+	// and the parent of the current node has only one child (current node)
+	for (let i = 0; i < data.length; i++) {
+		let node = data[i];
+		if (node.parentIds.length === 1 && node.childIds.length === 1) {
+			let parent = data.find((n) => n.id === node.parentIds[0]);
+			let child = data.find((n) => n.id === node.childIds[0]);
+
+			if (!child || !parent) continue;
+			if (parent.childIds.length !== 1 || child.parentIds.length !== 1)
+				continue;
+
+			child.mergedNodes.push(node.id, ...node.mergedNodes);
+			child.parentIds = child.parentIds.map((id) =>
+				id === node.id ? node.parentIds[0] : id
+			);
+			data = data.filter((n) => n.id !== node.id);
+			i--;
+		}
+	}
+
+	return data;
 }
 
 function mergeMonth(dag) {
@@ -663,4 +777,102 @@ function draw(nodes) {
 		.attr("d", function (d) {
 			return renderer.generatePath(d);
 		});
+}
+
+function mergeDag(dag) {
+	let nodes = dag.descendants();
+	console.log("mergeDag? ", dag.children());
+	let toRemove = [];
+	let parentCounts = getParentCounts(dag);
+
+	// Identify the nodes to merge
+	for (let node of nodes) {
+		// skip the root node
+		if (parentCounts.get(node) === undefined) {
+			continue;
+		}
+
+		if (
+			node.childrenCounts().length === 1 &&
+			parentCounts.get(node).length === 1
+		) {
+			toRemove.push(node);
+			// use d3.merge to merge the children of the node
+		}
+	}
+
+	console.log("toRemove: ", toRemove);
+
+	// Merge the nodes
+	toRemove.forEach((node) => {
+		let parents = getParents(node);
+		let children = node.children();
+
+		if (parents.length === 1 && children.length === 1) {
+			let parent = parents[0];
+			let child = children[0];
+
+			// remove the node from its parent's children list
+			parent.children = parent.children().filter((n) => n.id !== node.id);
+
+			// add the child to the parent's children list
+			if (!parent.children().includes(child)) {
+				parent.children().push(child);
+			}
+
+			// update child's parent
+			child._parents.delete(node);
+			child._parents.add(parent);
+		}
+	});
+
+	// filter out the removed nodes
+	// dag = dag.descendants().filter((node) => !toRemove.includes(node));
+	// console.log("after_dag: ", dag);
+
+	// dag = d3dag.dagHierarchy(dag);
+
+	// Return the updated dag
+	return dag;
+}
+
+function getParentCounts(parentNodes) {
+	const parents = new Map();
+	for (const par of parentNodes) {
+		for (const [child, count] of par.ichildrenCounts()) {
+			listMultimapPush(parents, child, [par, count]);
+		}
+	}
+	return parents;
+}
+
+function getParents(parentNodes) {
+	const parents = new Map();
+	for (const par of parentNodes) {
+		for (const child of par.ichildren()) {
+			listMultimapPush(parents, child, par);
+		}
+	}
+	return parents;
+}
+
+function listMultimapPush(multimap, key, val) {
+	const value = multimap.get(key);
+	if (value === undefined) {
+		multimap.set(key, [val]);
+	} else {
+		value.push(val);
+	}
+}
+
+function assignLane(data) {
+	let idCounter = 0;
+	let result = new Map();
+	for (let entry of data) {
+		let repoBranch = `${entry.repo}-${entry.branch_name}`;
+		if (!result.has(repoBranch)) {
+			result.set(repoBranch, idCounter++);
+		}
+	}
+	return result;
 }

@@ -7,9 +7,14 @@ import Cookies from "js-cookie";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import DateRangeSlider from "@/components/RangeSlider";
 
 // TODO: parse url to owner/repo
-// TODO: add token input and save to cookie
+// TODO: popup dialog when token is invalid or rate limit is exceeded
 // current key: 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
 
 export default function App() {
@@ -22,7 +27,7 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [token, setToken] = useState(
-		"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"
+		"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"
 	);
 
 	// Menu
@@ -59,7 +64,7 @@ export default function App() {
 		}
 	};
 
-	const handleClick = () => {
+	const handleDownload = () => {
 		// download commit data as json file
 		const element = document.createElement("a");
 		const file = new Blob([JSON.stringify(commitData)], {
@@ -101,12 +106,14 @@ export default function App() {
 	// use getLimit api to check token usage
 	const handleUsage = () => {
 		axios
-			.get(`/api/getLimit`)
+			.get(`/api/getLimit/?token=${token}`)
 			.then((response) => {
 				alert(
-					`Your token has ${response.data.rate.remaining} / ${
+					`Your token: ${token}\nhas ${response.data.rate.remaining} / ${
 						response.data.rate.limit
-					} remaining requests.\nReset at ${new Date(response.data.rate.reset * 1000).toLocaleString()}`
+					} remaining requests.\nReset at ${new Date(
+						response.data.rate.reset * 1000
+					).toLocaleString()}`
 				);
 			})
 			.catch((error) => {
@@ -115,8 +122,17 @@ export default function App() {
 			});
 	};
 
+	const handleCreate = () => {
+		// open a new tab that links to https://github.com/settings/tokens/new?description=useful-forks%20(no%20scope%20required)
+		window.open(
+			"https://github.com/settings/tokens/new?description=visfork%20(no%20scope%20required)"
+		);
+	};
+
 	// demo data from file
 	const demo = require("../public/commit_data_example.json");
+	// const demo = require("../public/simple.json");
+	// const demo = require("../public/d3_d3-commit_data-p5.json");
 
 	return (
 		<div className="p-10 flex flex-col items-center">
@@ -124,9 +140,29 @@ export default function App() {
 				<Button size="small" variant="outlined" onClick={handleMenu}>
 					<SettingsIcon />
 				</Button>
+				<span>
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DatePicker
+							label="From"
+							views={["year", "month"]}
+							openTo="month"
+						></DatePicker>
+						<DatePicker
+							label="To"
+							views={["year", "month"]}
+							openTo="month"
+						></DatePicker>
+					</LocalizationProvider>
+				</span>
 				<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-					<MenuItem onClick={handleSetting}>Setting</MenuItem>
-					<MenuItem onClick={handleUsage}>Check Token Usage</MenuItem>
+					<Tooltip
+						title="Use your own GitHub API to retrive repositories"
+						placement="right"
+					>
+						<MenuItem onClick={handleSetting}>Set token</MenuItem>
+					</Tooltip>
+					<MenuItem onClick={handleUsage}>Check token usage</MenuItem>
+					<MenuItem onClick={handleCreate}>Create new token</MenuItem>
 				</Menu>
 				<label htmlFor="inputField">GitHub Repository URL:</label>
 				<TextField
@@ -153,11 +189,13 @@ export default function App() {
 				</Button>
 			</form>
 			<div id="loading">{isLoading && <CircularProgress />}</div>
+			<div id="range">{isSubmit && <DateRangeSlider data={commitData} />}</div>
 			<div id="submited">{isSubmit && <DagComponent data={commitData} />}</div>
+			<DateRangeSlider data={demo} />
 			<div id="demo" className="border-blue-500 border-4">
 				<DagComponent data={demo} />
 			</div>
-			{isSubmit && <button onClick={handleClick}>Download</button>}
+			{isSubmit && <button onClick={handleDownload}>Download</button>}
 		</div>
 	);
 }

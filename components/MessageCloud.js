@@ -4,14 +4,17 @@ import * as d3 from "d3";
 import cloud from "d3-cloud";
 import { useEffect, useState, useRef } from "react";
 
+// Major performance issue: error when parsing text
+
 const MessageCloud = (text) => {
 	const svgRef = useRef(null);
 
 	useEffect(() => {
 		// object to text
 		text = text.text;
-		// console.log(text);
+
 		const result = wordsFromText(text);
+		
 		const data = result[0];
 		// console.log(data);
 		const fontFamily = "Arial, Helvetica, sans-serif";

@@ -10,6 +10,7 @@ async function getRepo(repo) {
 
 async function getForks(repo_data) {
 	const repo = repo_data.full_name;
+	// sort: stargazers, newest(default), oldest, watchers
 	const response = await axios.get(
 		`https://api.github.com/repos/${repo}/forks?sort=stargazers`
 	);
@@ -79,14 +80,27 @@ async function getOneCommits(branch) {
 	if (branch.sha) {
 		query = `?sha=${branch.sha}`;
 	}
-	var perPage = 100; // Default 30, max 100
+	let perPage = 100; // Default 30, max 100
+	let pageNr = 5;
+	let since = "2021-01-01T00:00:00Z"; // YYYY-MM-DDTHH:MM:SSZ
+	let until = "2021-12-31T00:00:00Z";
 
-	const response = await axios.get(
-		// `https://api.github.com/repos/${branch.repo}/commits${query}`
-`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}`
-	);
+	let commits = [];
 
-	const commits = response.data;
+	for (let i = 1; i <= pageNr; i++) {
+		const response = await axios.get(
+			`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&page=${i}`
+		);
+		commits = commits.concat(response.data);
+	}
+
+
+	// const response = await axios.get(
+	// 	// `https://api.github.com/repos/${branch.repo}/commits${query}`
+	// 	`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&since=${since}&until=${until}`
+	// );
+
+	// const commits = response.data;
 
 	const nodes = commits.map((commit) => {
 		return {
@@ -174,6 +188,7 @@ export default async function getData(repo, token) {
 	// const token = "Bearer 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";
 	const bearerToken = "Bearer " + token;
 	axios.defaults.headers.common["Authorization"] = bearerToken;
+	console.log("Token: " + token);
 
 	var tempData = [];
 	try {

@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export default async function (req, res) {
-
+	const { token } = req.query;
+	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	
 	try {
 		const response = await axios.get(
 			`https://api.github.com/rate_limit`
