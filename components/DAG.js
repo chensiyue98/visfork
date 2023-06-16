@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState, use } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
+import { Button } from "@mui/material";
 // import { getParentCounts } from "d3-dag/dist/dag/utils";
+import {wordsFromText, generateWordStats} from "./MessageCloud";
 
 import MessageCloud from "./MessageCloud";
 import { parseData, SankeyChart } from "./Sankey";
@@ -11,9 +13,6 @@ import labella from "labella";
 
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // TODO: 增加tag显示
-// TODO: 按日/周/月/年合并节点
-// TODO: 增加时间范围选择器
-// TODO: Seleted Nodes改为列表，选择一个节点，右侧显示该节点的信息
 // TODO: sankey图颜色对应
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
@@ -34,7 +33,6 @@ const DagComponent = ({ data }) => {
 
 		// clear the previous render
 		d3.select(svgRef.current).selectAll("*").remove();
-		// d3.select(zoomButtonRef.current).selectAll("*").remove();
 
 		// sort the data by date
 		data.sort((a, b) => {
@@ -42,9 +40,6 @@ const DagComponent = ({ data }) => {
 		});
 
 		var dag = d3dag.dagStratify()(data);
-
-		// let mergedDag = mergeDag(dag);
-		// dag = mergedDag;
 
 		if (grouping === "none") {
 			dag = d3dag.dagStratify()(data);
@@ -136,46 +131,7 @@ const DagComponent = ({ data }) => {
 			}
 		};
 
-		// set nodes into the same lane if they have the same repo name
-		const sameRepoLane = (nodes) => {
-			for (const node of nodes) {
-				node.x = undefined;
-			}
-			let lanes = assignLane(data);
-			// use "repo-branch_name" as the key to assign lane for each node
-			const parents = new Map(nodes.map((n) => [n, []]));
-
-			let prev = undefined;
-
-			let step = 0;
-
-			for (let i = 0; i < nodes.length; i++) {
-				// iina/iina-video-filter
-				let node = nodes[i];
-				if (
-					prev !== undefined &&
-					!arrayEq(parents.get(node), [prev])
-					// prev.dataChildren.length > 1 &&
-					// prev.x === lanes.get(node.data.repo + "-" + node.data.branch_name)
-					// prev.data.repo === node.data.repo && prev.data.branch_name === node.data.branch_name
-				) {
-					step += 1;
-					node.x = lanes.get(node.data.repo + "-" + node.data.branch_name) + 1;
-				} else {
-					node.x =
-						lanes.get(node.data.repo + "-" + node.data.branch_name) + step;
-				}
-				console.log("node " + node.data.id + ":", node.x, node.y);
-
-				for (const child of node.ichildren()) {
-					parents.get(child).push(node);
-				}
-				prev = node;
-			}
-			console.log("nodes: ", nodes);
-		};
-
-		let lanes = assignLane(data);
+		// let lanes = assignLane(data);
 		let grid = d3dag.grid().rank((node) => node.data.date);
 		// .lane(leftLane);
 		const layout = gridTweak(gridCompact(grid));
@@ -384,16 +340,7 @@ const DagComponent = ({ data }) => {
 					.attr("stroke-width", 1)
 					.attr("stroke", "gray");
 
-				var labelArray = text._groups[0].map(function (t) {
-					return {
-						x: t.getAttribute("x"),
-						y: t.getAttribute("y"),
-						name: t.textContent,
-					};
-				});
 				next = monthEntries.next().value;
-				// prevTextX = node.y;
-				// console.log(prevTextX);
 			}
 		}
 
@@ -438,7 +385,7 @@ const DagComponent = ({ data }) => {
 						return colorMap.get(d.data.repo);
 					});
 					// display the selected nodes in the selected nodes list
-					console.log(selectedNodes._groups[0]);
+					// console.log(selectedNodes._groups[0]);
 					const selectedNodesList = d3.select("#selected-nodes-list");
 					selectedNodesList.selectAll("select").remove();
 					selectedNodesList
@@ -474,9 +421,15 @@ const DagComponent = ({ data }) => {
 								return acc + cur.__data__.data.message + " ";
 							}
 						);
-						// remove line breaks
-						commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
-						setSelectMessage(commitMessages);
+						// remove line breaks and punctuations
+						let newMessages = "";
+						if (commitMessages.length > 0) {
+							newMessages = commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
+							newMessages = newMessages.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"\[\]]/g, "");
+							// remove extra spaces
+							newMessages = newMessages.replace(/\s{2,}/g, " ");
+						}
+						setSelectMessage(newMessages);
 					} else {
 						setSelectMessage("");
 					}
@@ -484,7 +437,7 @@ const DagComponent = ({ data }) => {
 			}
 		}
 
-		console.log("selected nodes: ", selectList);
+		// console.log("selected nodes: ", selectList);
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
@@ -550,9 +503,21 @@ const DagComponent = ({ data }) => {
 		}
 	}
 
+	function handleGenerate() {
+		// console.log("generate button clicked");
+		// console.log("selected nodes: ", selectMessage);
+		// const result = wordsFromText(selectMessage);
+		const result = generateWordStats(selectMessage);
+		console.log("result: ", result);
+		// generate MessageCloud component and display it in the message-cloud div
+		// const messageCloud = d3.select("#message-cloud");
+
+		
+	}
+
 	return (
 		<div>
-			<div>
+			<div id="merge-button">
 				<ToggleButtonGroup
 					value={grouping}
 					exclusive
@@ -582,10 +547,14 @@ const DagComponent = ({ data }) => {
 				{/* <div id="selected-word-cloud"></div> */}{" "}
 				<div id="selected-node-info"></div>
 			</div>
+			<div id="generate-word-cloud">
+				<Button onClick={handleGenerate}>Peek at selection</Button>
+				<div id="message-cloud"></div>
+			</div>
 			<MessageCloud text={selectMessage} />
 			<div
 				id="sankey-diagram"
-				className="border-4 h-auto border-green-500"
+				className="border-4 h-auto border-blue-200"
 			></div>
 			<div>
 				{networkData.length > 0 ? <Network data={networkData} /> : <div></div>}
@@ -611,7 +580,7 @@ function groupNodes(input) {
 			}
 		});
 	});
-	console.log("nodes: ", nodes);
+	// console.log("nodes: ", nodes);
 
 	// Step 2: Remove duplicates
 	for (let nodeId in nodes) {
@@ -656,7 +625,7 @@ function groupNodes(input) {
 			}
 		}
 	}
-	console.log("nodes: ", Object.values(nodes));
+	// console.log("nodes: ", Object.values(nodes));
 	return Object.values(nodes); // return remaining nodes
 }
 
@@ -801,7 +770,7 @@ function mergeDag(dag) {
 		}
 	}
 
-	console.log("toRemove: ", toRemove);
+	// console.log("toRemove: ", toRemove);
 
 	// Merge the nodes
 	toRemove.forEach((node) => {

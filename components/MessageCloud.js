@@ -1,10 +1,10 @@
-import winkNLP from "wink-nlp";
-import model from "wink-eng-lite-web-model";
 import * as d3 from "d3";
 import cloud from "d3-cloud";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
+import nlp from "compromise/two";
+import { removeStopwords } from "stopword";
 
-// Major performance issue: error when parsing text
+// 尝试更改为点击按钮后生成词云
 
 const MessageCloud = (text) => {
 	const svgRef = useRef(null);
@@ -13,10 +13,10 @@ const MessageCloud = (text) => {
 		// object to text
 		text = text.text;
 
-		const result = wordsFromText(text);
-		
-		const data = result[0];
-		// console.log(data);
+		// const result = wordsFromText(text);
+		// const data = result[0];
+		const data = generateWordStats(text);
+		console.log(data);
 		const fontFamily = "Arial, Helvetica, sans-serif";
 
 		const width = 300;
@@ -52,18 +52,16 @@ const MessageCloud = (text) => {
 					// map color
 					.style("fill", (d) => {
 						switch (d.pos) {
-							case "NOUN":
-								return "#67001f";
-							case "VERB":
-								return "#ff7f0e";
-							case "ADJ":
-								return "#878787";
-							case "ADV":
-								return "#d62728";
-							case "PROPN":
-								return "#9467bd";
+							case "Noun":
+								return "#0984e3";
+							case "Verb":
+								return "#e17055";
+							case "Adjective":
+								return "#00b894";
+							case "Adverb":
+								return "#00cec9";
 							default:
-								return "#333";
+								return "#2d3436";
 						}
 					})
 					.attr("text-anchor", "middle")
@@ -78,7 +76,7 @@ const MessageCloud = (text) => {
 	}, [text]);
 
 	return (
-		<div className="border-orange-400 border-solid border-4">
+		<div className="border-blue-200 border-solid border-4">
 			<h1 className="font-bold">Word Cloud</h1>
 			<hr className="my-2" />
 			<svg ref={svgRef} style={{ width: "300px", height: "300px" }}>
@@ -88,46 +86,95 @@ const MessageCloud = (text) => {
 	);
 };
 
-function wordsFromText(text) {
-	const nlp = winkNLP(model);
-	const its = nlp.its;
-	const doc = nlp.readDoc(text);
-	// Category the words by part of speech
-	const tokensFTByPoS = Object.create(null);
-	tokensFTByPoS.NOUN = Object.create(null);
-	tokensFTByPoS.ADJ = Object.create(null);
-	tokensFTByPoS.VERB = Object.create(null);
-	tokensFTByPoS.ADV = Object.create(null);
-	tokensFTByPoS.PROPN = Object.create(null);
-	doc.tokens().each((t) => {
-		const pos = t.out(its.pos);
-		const token = t.out(its.lemma);
-		if (!tokensFTByPoS[pos]) return;
+// export function wordsFromText(text) {
+// 	const nlp = winkNLP(model);
+// 	const its = nlp.its;
+// 	const doc = nlp.readDoc(text);
+// 	// Category the words by part of speech
+// 	const tokensFTByPoS = Object.create(null);
+// 	tokensFTByPoS.NOUN = Object.create(null);
+// 	tokensFTByPoS.ADJ = Object.create(null);
+// 	tokensFTByPoS.VERB = Object.create(null);
+// 	tokensFTByPoS.ADV = Object.create(null);
+// 	tokensFTByPoS.PROPN = Object.create(null);
+// 	doc.tokens().each((t) => {
+// 		const pos = t.out(its.pos);
+// 		const token = t.out(its.lemma);
+// 		if (!tokensFTByPoS[pos]) return;
 
-		tokensFTByPoS[pos] = tokensFTByPoS[pos] || Object.create(null);
-		tokensFTByPoS[pos][token] =
-			tokensFTByPoS[pos][token] || Object.create(null);
-		tokensFTByPoS[pos][token].value =
-			1 + (tokensFTByPoS[pos][token].value || 0);
-		tokensFTByPoS[pos][token].sentences =
-			tokensFTByPoS[pos][token].sentences || new Set();
-		tokensFTByPoS[pos][token].sentences.add(t.parentSentence().index());
-	});
+// 		tokensFTByPoS[pos] = tokensFTByPoS[pos] || Object.create(null);
+// 		tokensFTByPoS[pos][token] =
+// 			tokensFTByPoS[pos][token] || Object.create(null);
+// 		tokensFTByPoS[pos][token].value =
+// 			1 + (tokensFTByPoS[pos][token].value || 0);
+// 		tokensFTByPoS[pos][token].sentences =
+// 			tokensFTByPoS[pos][token].sentences || new Set();
+// 		tokensFTByPoS[pos][token].sentences.add(t.parentSentence().index());
+// 	});
 
-	let freqTable = new Array();
-	for (const pos in tokensFTByPoS) {
-		freqTable = Object.keys(tokensFTByPoS[pos])
-			.map((key) => ({
-				text: key,
-				value: tokensFTByPoS[pos][key].value,
-				pos: pos,
-				sentences: Array.from(tokensFTByPoS[pos][key].sentences),
-			}))
-			.filter((e) => e.value > 1 && e.text.length > 2)
-			.concat(freqTable);
-	}
+// 	let freqTable = new Array();
+// 	for (const pos in tokensFTByPoS) {
+// 		freqTable = Object.keys(tokensFTByPoS[pos])
+// 			.map((key) => ({
+// 				text: key,
+// 				value: tokensFTByPoS[pos][key].value,
+// 				pos: pos,
+// 				sentences: Array.from(tokensFTByPoS[pos][key].sentences),
+// 			}))
+// 			.filter((e) => e.value > 1 && e.text.length > 2)
+// 			.concat(freqTable);
+// 	}
 
-	return [freqTable.sort((a, b) => b.value - a.value), doc];
-}
+// 	return [freqTable.sort((a, b) => b.value - a.value), doc];
+// }
 
 export default MessageCloud;
+
+export function generateWordStats(input) {
+	// Use stopword library to remove stop words from input
+	let words = input.split(" ");
+	words = removeStopwords(words);
+	// put words into a string
+	words = words.join(" ");
+
+	// remove non-alphabet characters
+	// words = words.replace(/[^a-zA-Z ]/g, "");
+
+	// count frequency of each word
+	const wordFreq = {};
+	words.split(" ").forEach((word) => {
+		if (!wordFreq[word]) {
+			wordFreq[word] = 0;
+		}
+		wordFreq[word] += 1;
+	});
+
+	// sort the words by frequency
+	const wordsSorted = Object.entries(wordFreq).sort((a, b) => b[1] - a[1]);
+	// get the top 10 words
+	// const topWords = wordsSorted.slice(0, 10);
+	// console.log(topWords);
+
+	let doc = nlp(words);
+	console.log(doc.out("tags")[0]["add"]);
+	let result = [];
+
+	wordsSorted.forEach((word) => {
+		let text = word[0];
+		let pos = doc.out("tags")[0][text];
+		if (pos === undefined) {
+			return; // skip this iteration if pos is undefined
+		} else if (pos.length > 1 && pos[0] === "Value") {
+			return;
+		}
+		let stat = {
+			// pos: doc.out("tags")[0][text], // get the first part-of-speech tag
+			pos: pos[0],
+			text: text,
+			value: word[1],
+		};
+		result.push(stat);
+	});
+
+	return result;
+}

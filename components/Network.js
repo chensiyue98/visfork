@@ -121,11 +121,11 @@ function authorsByDate(dateGroupedData, dateRange) {
 }
 
 function reposByDate(dateGroupedData, dateRange) {
-	console.log(dateGroupedData);
+	// console.log(dateGroupedData);
 	const dateArray = [];
 	let cumulativeData = new Map();
 	dateRange.forEach((date) => {
-		console.log(date.toISOString());
+		// console.log(date.toISOString());
 		dateArray.push(cumulativeData);
 		cumulativeData = new Map(cumulativeData);
 		const currentData = dateGroupedData.get(date.toISOString()) || [];

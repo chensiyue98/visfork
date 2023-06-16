@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DagComponent from "@/components/DAG";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
@@ -12,16 +12,25 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import DateRangeSlider from "@/components/RangeSlider";
+import * as d3 from "d3";
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
 // current key: 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
 
 export default function App() {
-	// const token = "Bearer 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";
-	// axios.defaults.headers.common["Authorization"] = token;
+	// demo data from file
+	const demo = require("../public/commit_data_example.json");
+	// const demo = require("../public/simple.json");
+	// const demo = require("../public/d3_d3-commit_data-p5.json");
+
+	const dateRangeRef = useRef(null);
+
+	const [brushedDate, setBrushedDate] = useState([]);
 
 	const [commitData, setCommitData] = useState([]);
+
+	const [analysisData, setAnalysisData] = useState(demo);
 
 	const [repo, setRepo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -40,12 +49,47 @@ export default function App() {
 		setAnchorEl(null);
 	};
 
+	// Update API token
 	useEffect(() => {
 		const savedToken = Cookies.get("token");
 		if (savedToken) {
 			setToken(savedToken);
 		}
 	}, [token]);
+
+	// Update brushed data
+	useEffect(() => {
+		// filter data from commitData by brushed date
+		// JavaScript's Date object indexes months from 0 (January) to 11 (December). Off-by-one error may occur.
+		if (demo.length > 0 && brushedDate.length > 0) {
+			const brushedDatesFormatted = new Set(
+				brushedDate.map(
+					(date) =>
+						`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`
+				)
+			);
+			const filteredData = demo.filter((d) =>
+				// brushedDate.includes(d3.timeMonths(d.date))
+				brushedDatesFormatted.has(
+					d.date.split("T")[0].slice(0, 7) || d.date.split(" ")[0]
+				)
+			);
+
+			// go through each commit and check if the parentIds are in the filteredData's id
+			// if not, remove the parentIds to avoid missing id error
+			filteredData.forEach((commit) => {
+				commit.parentIds = commit.parentIds.filter((id) =>
+					filteredData.map((d) => d.id).includes(id)
+				);
+			});
+			// if filteredData is empty, set it to demo
+			if (filteredData.length === 0) {
+				setAnalysisData(demo);
+			} else {
+				setAnalysisData(filteredData);
+			}
+		}
+	}, [brushedDate]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -129,11 +173,6 @@ export default function App() {
 		);
 	};
 
-	// demo data from file
-	const demo = require("../public/commit_data_example.json");
-	// const demo = require("../public/simple.json");
-	// const demo = require("../public/d3_d3-commit_data-p5.json");
-
 	return (
 		<div className="p-10 flex flex-col items-center">
 			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
@@ -191,11 +230,20 @@ export default function App() {
 			<div id="loading">{isLoading && <CircularProgress />}</div>
 			<div id="range">{isSubmit && <DateRangeSlider data={commitData} />}</div>
 			<div id="submited">{isSubmit && <DagComponent data={commitData} />}</div>
-			<DateRangeSlider data={demo} />
+			<DateRangeSlider
+				raw={demo}
+				onSelection={(selectedDates) => {
+					// console.log("Selected Date Range:", selectedDates);
+					setBrushedDate(selectedDates);
+				}}
+			/>
 			<div id="demo" className="border-blue-500 border-4">
-				<DagComponent data={demo} />
+				{/* <DagComponent data={demo} /> */}
+				<DagComponent data={analysisData} />
 			</div>
-			{isSubmit && <button onClick={handleDownload}>Download</button>}
+			{isSubmit && (
+				<button onClick={handleDownload}>Download Fetched Data</button>
+			)}
 		</div>
 	);
 }

@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const DateRangeSlider = (raw) => {
+const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
+	// console.log(raw);
 	const ref = useRef();
 	const width = 1000;
 	const height = 100;
@@ -9,7 +10,7 @@ const DateRangeSlider = (raw) => {
 
 	useEffect(() => {
 		// copy raw to data
-		const data = JSON.parse(JSON.stringify(raw.data));
+		const data = JSON.parse(JSON.stringify(raw));
 		// clear svg
 		d3.select(ref.current).selectAll("*").remove();
 
@@ -75,8 +76,8 @@ const DateRangeSlider = (raw) => {
 				.attr("dx", "-.8em")
 				.attr("dy", ".15em")
 				.attr("transform", "rotate(-65)");
-            // remove the line of x axis
-            svg.selectAll(".domain").remove();
+			// remove the line of x axis
+			svg.selectAll(".domain").remove();
 
 			// Add the y axis
 			svg
@@ -111,29 +112,47 @@ const DateRangeSlider = (raw) => {
 				.attr("height", height)
 				.attr("fill", "fff")
 				.attr("opacity", 0.1);
-                
+
+			var selectedDates = [];
+
 			const brush = d3
 				.brushX()
 				.extent([
 					[0, 0],
 					[width, height],
 				])
-				.on("brush", brushed);
+				.on("brush", brushing)
+				.on("end", brushed);
 
 			svg.append("g").call(brush);
+			
+			function brushing(event) {
+				if (!event.sourceEvent) return;
+				const [x0, x1] = event.selection;
+				if (x0 === x1) {
+					brush.move(svg.select("g.brush"), [0, width]);
+				}
+				selectedDates = xScale
+					.domain()
+					.filter((d) => x0 <= xScale(d) && xScale(d) <= x1);
+				// highlight selected dates
+				svg
+					.selectAll(".bar")
+					.attr("fill", (d) =>
+						selectedDates.includes(d[0]) ? "steelblue" : "gray"
+					);
+				// highlight selected background
+				svg
+					.selectAll(".background")
+					.attr("fill", (d) =>
+						selectedDates.includes(d[0]) ? "steelblue" : "fff"
+					);
+			}
 
 			function brushed(event) {
-				if (!event.sourceEvent) return;
-				// const d0 = event.selection.map(x.invert);
-				// const d1 = d0.map(interval.round);
-                const [x0, x1] = event.selection;
-                const selectedDates = xScale.domain().filter(d => x0 <= xScale(d) && xScale(d) <= x1);
-                // highlight selected dates
-                svg.selectAll(".bar").attr("fill", d => selectedDates.includes(d[0]) ? "steelblue" : "gray");
-                // highlight selected background
-                svg.selectAll(".background").attr("fill", d => selectedDates.includes(d[0]) ? "steelblue" : "fff");
-                console.log('Selected Date Range:', selectedDates);
-
+				if (!event.selection) return;
+				console.log(selectedDates);
+				onSelection(selectedDates);
 			}
 		}
 	}, [raw]);
