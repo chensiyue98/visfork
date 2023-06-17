@@ -100,9 +100,9 @@ export default function App() {
 			// const response = await axios.get(`/api/getAll?repo=${repo}`);
 			const response = await getData(repo, token);
 			setCommitData(response);
-			console.log("response", response);
+			// console.log("response", response);
 		} catch (error) {
-			console.error(error);
+			// console.error(error);
 			alert(error.message);
 		} finally {
 			setIsLoading(false);
@@ -163,7 +163,7 @@ export default function App() {
 				);
 			})
 			.catch((error) => {
-				console.error(error);
+				// console.error(error);
 				alert(error.message);
 			});
 	};
