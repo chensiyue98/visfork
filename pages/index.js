@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/react';
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -178,7 +177,6 @@ export default function App() {
 
 	return (
 		<div className="p-10 flex flex-col items-center">
-			<Analytics />
 			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
 				<Button size="small" variant="outlined" onClick={handleMenu}>
 					<SettingsIcon />
