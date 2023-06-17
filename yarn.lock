@@ -553,6 +553,11 @@
     "@typescript-eslint/types" "5.53.0"
     eslint-visitor-keys "^3.3.0"
 
+"@vercel/analytics@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.0.1.tgz#38308a626c91866cb00a249c08bf65251e9b9d81"
+  integrity sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
@@ -1153,20 +1158,6 @@ d3-shape@^1.2.0:
   dependencies:
     d3-path "1"
 
-d3-simple-slider@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/d3-simple-slider/-/d3-simple-slider-2.0.0.tgz#f9708ad81b118456ff726e43b01aa1b0770d2d8b"
-  integrity sha512-v0SBx52aaktpMnNrEfDYrE9mOcSebWPVY0ay+dIWr3CR5zaTIRrNgbUGEhMo+N46M0Uc6u9b503L+/c7qVdWJw==
-  dependencies:
-    d3-array "3"
-    d3-axis "3"
-    d3-dispatch "3"
-    d3-drag "3"
-    d3-ease "3"
-    d3-scale "4"
-    d3-selection "3"
-    d3-transition "3"
-
 "d3-time-format@2 - 4", d3-time-format@4:
   version "4.1.0"
   resolved "https://registry.npmjs.org/d3-time-format/-/d3-time-format-4.1.0.tgz"
@@ -1208,42 +1199,6 @@ d3-zoom@3:
     d3-selection "2 - 3"
     d3-transition "2 - 3"
 
-d3@*:
-  version "7.8.5"
-  resolved "https://registry.yarnpkg.com/d3/-/d3-7.8.5.tgz#fde4b760d4486cdb6f0cc8e2cbff318af844635c"
-  integrity sha512-JgoahDG51ncUfJu6wX/1vWQEqOflgXyl4MaHqlcSruTez7yhaRKR9i8VjjcQGeS2en/jnFivXuaIMnseMMt0XA==
-  dependencies:
-    d3-array "3"
-    d3-axis "3"
-    d3-brush "3"
-    d3-chord "3"
-    d3-color "3"
-    d3-contour "4"
-    d3-delaunay "6"
-    d3-dispatch "3"
-    d3-drag "3"
-    d3-dsv "3"
-    d3-ease "3"
-    d3-fetch "3"
-    d3-force "3"
-    d3-format "3"
-    d3-geo "3"
-    d3-hierarchy "3"
-    d3-interpolate "3"
-    d3-path "3"
-    d3-polygon "3"
-    d3-quadtree "3"
-    d3-random "3"
-    d3-scale "4"
-    d3-scale-chromatic "3"
-    d3-selection "3"
-    d3-shape "3"
-    d3-time "3"
-    d3-time-format "4"
-    d3-timer "3"
-    d3-transition "3"
-    d3-zoom "3"
-
 d3@^7.8.2:
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/d3/-/d3-7.8.2.tgz#2bdb3c178d095ae03b107a18837ae049838e372d"
@@ -1284,13 +1239,6 @@ damerau-levenshtein@^1.0.8:
   version "1.0.8"
   resolved "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
-
-data-driven-range-slider@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/data-driven-range-slider/-/data-driven-range-slider-1.0.1.tgz#23ca70dc28a7fe094144288077020306fb9d58ca"
-  integrity sha512-QtgoMAptB+InSqKK19vKZjkibtM3W596KKsCyX0paYzr9QUu0Rpr2hyywxK/ZnAx7lo0UnFSbg0G3Scm+WufeQ==
-  dependencies:
-    d3 "*"
 
 dayjs@^1.11.8:
   version "1.11.8"
@@ -3370,30 +3318,6 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
-
-wink-eng-lite-web-model@^1.4.3, wink-eng-lite-web-model@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/wink-eng-lite-web-model/-/wink-eng-lite-web-model-1.5.0.tgz#499f51a4b060d3d980668deac2b453ce0a55167d"
-  integrity sha512-5t27uqKRpQVyjb+ztIabmD2m76ct+5NP9e3TVxla4GBQzgPJnAHCynPw4KQa42BNn5xxi7b7E9P3akSFiYWHbg==
-
-wink-helpers@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/wink-helpers/-/wink-helpers-2.0.0.tgz#0aec1a2bddd0adcf9e6deb3bf7fa70c7e92dbe5c"
-  integrity sha512-I/ZzXrHcNRXuoeFJmp2vMVqDI6UCK02Tds1WP4kSGAmx520gjL1BObVzF7d2ps24tyHIly9ngdB2jwhlFUjPvg==
-
-wink-naive-bayes-text-classifier@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/wink-naive-bayes-text-classifier/-/wink-naive-bayes-text-classifier-2.2.1.tgz#633ee06f73066f8794c22f3ce56fed74ea9fe09c"
-  integrity sha512-HaysOmwofNyE40RjAG7UiURKQ0r4cPKyywlMiI4H3i/R2aL4tzGQAY5UzLxp9gy/+Doy+064uCkEGrbkK17g4g==
-  dependencies:
-    wink-eng-lite-web-model "^1.4.3"
-    wink-helpers "^2.0.0"
-    wink-nlp "^1.12.2"
-
-wink-nlp@^1.12.2, wink-nlp@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/wink-nlp/-/wink-nlp-1.13.1.tgz#41e4416e397ca7372143f63435bb4f548e71db85"
-  integrity sha512-JhZpPhGxUhGhqSykManCHkRRUU07LgqiAnG14HT7ZS4p3rKnanKJwl1NSwenEmUIwr4aEik3BWLoEF49xkrsyQ==
 
 word-wrap@^1.2.3:
   version "1.2.3"

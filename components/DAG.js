@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import * as d3dag from "d3-dag";
 import { Button } from "@mui/material";
 // import { getParentCounts } from "d3-dag/dist/dag/utils";
-import {wordsFromText, generateWordStats} from "./MessageCloud";
+import { generateWordStats } from "./MessageCloud";
 
 import MessageCloud from "./MessageCloud";
 import { parseData, SankeyChart } from "./Sankey";
@@ -425,7 +425,10 @@ const DagComponent = ({ data }) => {
 						let newMessages = "";
 						if (commitMessages.length > 0) {
 							newMessages = commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
-							newMessages = newMessages.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"\[\]]/g, "");
+							newMessages = newMessages.replace(
+								/[.,\/#!$%\^&\*;:{}=\-_`~()'"\[\]]/g,
+								""
+							);
 							// remove extra spaces
 							newMessages = newMessages.replace(/\s{2,}/g, " ");
 						}
@@ -511,8 +514,6 @@ const DagComponent = ({ data }) => {
 		console.log("result: ", result);
 		// generate MessageCloud component and display it in the message-cloud div
 		// const messageCloud = d3.select("#message-cloud");
-
-		
 	}
 
 	return (

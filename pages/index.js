@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import DagComponent from "@/components/DAG";
-import { Button, TextField, CircularProgress } from "@mui/material";
 import axios from "axios";
-import getData from "@/components/GetData";
 import Cookies from "js-cookie";
-import SettingsIcon from "@mui/icons-material/Settings";
+import dayjs from 'dayjs';
+
+import DagComponent from "@/components/DAG";
+import DateRangeSlider from "@/components/RangeSlider";
+import getData from "@/components/GetData";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import SettingsIcon from "@mui/icons-material/Settings";
 import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DateRangeSlider from "@/components/RangeSlider";
-import * as d3 from "d3";
+import { Button, TextField, CircularProgress } from "@mui/material";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -23,8 +27,6 @@ export default function App() {
 	const demo = require("../public/commit_data_example.json");
 	// const demo = require("../public/simple.json");
 	// const demo = require("../public/d3_d3-commit_data-p5.json");
-
-	const dateRangeRef = useRef(null);
 
 	const [brushedDate, setBrushedDate] = useState([]);
 
@@ -185,11 +187,14 @@ export default function App() {
 							label="From"
 							views={["year", "month"]}
 							openTo="month"
+							// default value is today
+							defaultValue={dayjs()}
 						></DatePicker>
 						<DatePicker
 							label="To"
 							views={["year", "month"]}
 							openTo="month"
+							defaultValue={dayjs().subtract(1, "year")}
 						></DatePicker>
 					</LocalizationProvider>
 				</span>

@@ -12,11 +12,9 @@ const MessageCloud = (text) => {
 	useEffect(() => {
 		// object to text
 		text = text.text;
-
-		// const result = wordsFromText(text);
-		// const data = result[0];
+		
 		const data = generateWordStats(text);
-		console.log(data);
+		
 		const fontFamily = "Arial, Helvetica, sans-serif";
 
 		const width = 300;
@@ -109,30 +107,30 @@ export function generateWordStats(input) {
 
 	// sort the words by frequency
 	const wordsSorted = Object.entries(wordFreq).sort((a, b) => b[1] - a[1]);
-	// get the top 10 words
-	// const topWords = wordsSorted.slice(0, 10);
-	// console.log(topWords);
 
 	let doc = nlp(words);
-	console.log(doc.out("tags")[0]["add"]);
 	let result = [];
 
-	wordsSorted.forEach((word) => {
-		let text = word[0];
-		let pos = doc.out("tags")[0][text];
-		if (pos === undefined) {
-			return; // skip this iteration if pos is undefined
-		} else if (pos.length > 1 && pos[0] === "Value") {
-			return;
-		}
-		let stat = {
-			// pos: doc.out("tags")[0][text], // get the first part-of-speech tag
-			pos: pos[0],
-			text: text,
-			value: word[1],
-		};
-		result.push(stat);
-	});
+	if (wordsSorted.length > 1) {
+		wordsSorted.forEach((word) => {
+			let text = word[0];
+			let pos = doc.out("tags")[0][text];
+			if (pos === undefined) {
+				return; // skip this iteration if pos is undefined
+			} else if (pos.length > 1 && pos[0] === "Value") {
+				return;
+			}
+			let stat = {
+				// pos: doc.out("tags")[0][text], // get the first part-of-speech tag
+				pos: pos[0],
+				text: text,
+				value: word[1],
+			};
+			result.push(stat);
+		});
+	}
+	// get the top 10 results
+	result = result.slice(0, 10);
 
 	return result;
 }
