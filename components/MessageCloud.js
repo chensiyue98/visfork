@@ -86,48 +86,6 @@ const MessageCloud = (text) => {
 	);
 };
 
-// export function wordsFromText(text) {
-// 	const nlp = winkNLP(model);
-// 	const its = nlp.its;
-// 	const doc = nlp.readDoc(text);
-// 	// Category the words by part of speech
-// 	const tokensFTByPoS = Object.create(null);
-// 	tokensFTByPoS.NOUN = Object.create(null);
-// 	tokensFTByPoS.ADJ = Object.create(null);
-// 	tokensFTByPoS.VERB = Object.create(null);
-// 	tokensFTByPoS.ADV = Object.create(null);
-// 	tokensFTByPoS.PROPN = Object.create(null);
-// 	doc.tokens().each((t) => {
-// 		const pos = t.out(its.pos);
-// 		const token = t.out(its.lemma);
-// 		if (!tokensFTByPoS[pos]) return;
-
-// 		tokensFTByPoS[pos] = tokensFTByPoS[pos] || Object.create(null);
-// 		tokensFTByPoS[pos][token] =
-// 			tokensFTByPoS[pos][token] || Object.create(null);
-// 		tokensFTByPoS[pos][token].value =
-// 			1 + (tokensFTByPoS[pos][token].value || 0);
-// 		tokensFTByPoS[pos][token].sentences =
-// 			tokensFTByPoS[pos][token].sentences || new Set();
-// 		tokensFTByPoS[pos][token].sentences.add(t.parentSentence().index());
-// 	});
-
-// 	let freqTable = new Array();
-// 	for (const pos in tokensFTByPoS) {
-// 		freqTable = Object.keys(tokensFTByPoS[pos])
-// 			.map((key) => ({
-// 				text: key,
-// 				value: tokensFTByPoS[pos][key].value,
-// 				pos: pos,
-// 				sentences: Array.from(tokensFTByPoS[pos][key].sentences),
-// 			}))
-// 			.filter((e) => e.value > 1 && e.text.length > 2)
-// 			.concat(freqTable);
-// 	}
-
-// 	return [freqTable.sort((a, b) => b.value - a.value), doc];
-// }
-
 export default MessageCloud;
 
 export function generateWordStats(input) {
