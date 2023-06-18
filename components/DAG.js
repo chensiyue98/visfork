@@ -584,7 +584,7 @@ const DagComponent = ({ data }) => {
 									<TableCell align="left">{row.date}</TableCell>
 									<TableCell align="left">{row.message}</TableCell>
 									<TableCell align="center">
-										<a href={row.url} className="underline" target="_blank">
+										<a href={row.url} className="underline" target="_blank" rel="noreferrer">
 											link
 										</a>
 									</TableCell>
