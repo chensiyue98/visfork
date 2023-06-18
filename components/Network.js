@@ -4,7 +4,7 @@ import EditableGraph, { drag } from "./EditableGraph";
 import React, { useState, useEffect, useRef, use } from "react";
 import * as d3 from "d3";
 import { Button, Slider } from "@mui/material";
-import jsondata from "./test_data.json";
+// import jsondata from "./test_data.json";
 // const data = jsondata;
 
 const eg = EditableGraph({ width: 1000 });
@@ -45,7 +45,7 @@ export default function Network(test_data) {
 				} else {
 					setPlay(false);
 				}
-			}, 500);
+			}, 50);
 			return () => clearInterval(interval);
 		}
 	}, [isPlay, dateIdx]);
@@ -67,12 +67,14 @@ export default function Network(test_data) {
 			<h1 className="text-xl">Network Graph</h1>
 			{dateRange && (
 				<>
-					<Slider
-						value={dateIdx}
-						onChange={handleSliderChange}
-						step={1}
-						max={dateRange.length - 1}
-					/>
+					<div className="w-96">
+						<Slider
+							value={dateIdx}
+							onChange={handleSliderChange}
+							step={1}
+							max={dateRange.length - 1}
+						/>
+					</div>
 					<label>
 						{dateRange[dateIdx].toLocaleDateString("en-US", {
 							month: "long",

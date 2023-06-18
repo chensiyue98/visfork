@@ -16,6 +16,8 @@ import Modal from "@mui/material/Modal";
 import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
+import ShareIcon from "@mui/icons-material/Share";
+import CategoryIcon from "@mui/icons-material/Category";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -414,7 +416,10 @@ const DagComponent = ({ data }) => {
 		const legend = d3.select("#dag-legends");
 		legend.selectAll("div").remove();
 		colorMap.forEach((value, key) => {
-			let div = legend.append("div").style("display", "flex").style("align-items", "center");
+			let div = legend
+				.append("div")
+				.style("display", "flex")
+				.style("align-items", "center");
 			// append a circle to this div
 			div
 				.append("svg")
@@ -432,7 +437,6 @@ const DagComponent = ({ data }) => {
 				.style("display", "inline-block")
 				.style("font-size", "0.8em")
 				.style("margin-left", "10px");
-				
 		});
 
 		// console.log("selected nodes: ", selectList);
@@ -555,9 +559,7 @@ const DagComponent = ({ data }) => {
 					<svg ref={svgRef} />
 				</div>
 
-				<div id="dag-legends">
-					{/* Legends */}
-				</div>
+				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
 			<div className="border-2 border-gray-200 border-solid">
 				<TableContainer className="h-96 w-screen-3/4">
@@ -608,12 +610,13 @@ const DagComponent = ({ data }) => {
 				</div>
 			</div>
 			{/* <MessageCloud text={selectMessage} /> */}
-			<div
-				id="sankey-diagram"
-				className="border-4 h-auto border-blue-200"
-			></div>
 			<div>
-				{networkData.length > 0 ? <Network data={networkData} /> : <div></div>}
+				<CategoryIcon /> &nbsp; Sankey Diagram
+				<div id="sankey-diagram" className="border-4 h-auto border-blue-200 flex justify-center" />
+			</div>
+			<div>
+				<ShareIcon /> &nbsp; Network Graph
+				{networkData.length > 0 ? <Network data={networkData}/> : <div></div>}
 			</div>
 		</div>
 	);

@@ -17,6 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -307,7 +308,7 @@ export default function App() {
 				<DagComponent data={analysisData} />
 			</div>
 			{isSubmit && (
-				<button onClick={handleDownload}>Download Fetched Data</button>
+				<button onClick={handleDownload}><SimCardDownloadIcon/> &nbsp; Download Fetched Data</button>
 			)}
 		</div>
 	);
