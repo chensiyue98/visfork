@@ -9,7 +9,12 @@ module.exports = {
 		"./src/**/*.{js,ts,jsx,tsx}",
 	],
   theme: {
-    extend: {},
+    extend: {
+		width: {
+			'screen-3/4': '75vw',
+			'screen-1/2': '50vw',
+		},
+	},
   },
   plugins: [
 		function ({ addVariant }) {

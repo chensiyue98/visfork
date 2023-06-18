@@ -10,6 +10,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 
 	useEffect(() => {
 		// copy raw to data
+		console.log(raw);
 		const data = JSON.parse(JSON.stringify(raw));
 		// clear svg
 		d3.select(ref.current).selectAll("*").remove();
@@ -125,7 +126,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 				.on("end", brushed);
 
 			svg.append("g").call(brush);
-			
+
 			function brushing(event) {
 				if (!event.sourceEvent) return;
 				const [x0, x1] = event.selection;

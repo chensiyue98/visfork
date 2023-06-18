@@ -15,11 +15,11 @@ async function getForks(repo_data) {
 		`https://api.github.com/repos/${repo}/forks?sort=stargazers`
 	);
 	const forks = response.data;
-	// TODO: 需要优化，目前是取前10个forks
+	// TODO: 目前是取前10个forks
 	// filter the 10 most starred forks
 	const mostStarredForks = forks
 		// .sort((a, b) => b.stargazers_count - a.stargazers_count)
-		.slice(0, 5);
+		.slice(0, 2);
 	// Map a list of nodes
 	const forks_nodes = mostStarredForks.map((fork) => {
 		return {
@@ -62,12 +62,12 @@ async function getBranches(forks) {
 	return branches.flat();
 }
 
-async function getAllCommits(branches) {
+async function getAllCommits(branches, startDate, endDate) {
 	const limit = pLimit(1000); // limit concurrency to 500
 	const allCommits = await Promise.all(
 		branches.map((branch) =>
 			limit(async () => {
-				const commits = await getOneCommits(branch);
+				const commits = await getOneCommits(branch, startDate, endDate);
 				return commits;
 			})
 		)
@@ -75,32 +75,26 @@ async function getAllCommits(branches) {
 	return allCommits.flat();
 }
 
-async function getOneCommits(branch) {
+async function getOneCommits(branch, startDate, endDate) {
 	var query = ``;
 	if (branch.sha) {
 		query = `?sha=${branch.sha}`;
 	}
 	let perPage = 100; // Default 30, max 100
-	let pageNr = 5;
-	let since = "2021-01-01T00:00:00Z"; // YYYY-MM-DDTHH:MM:SSZ
-	let until = "2021-12-31T00:00:00Z";
+	let pageNr = 5; // Default 1, max 10
+	
+	// Format start and end date to YYYY-MM-DDTHH:MM:SSZ
+	const since = new Date(startDate).toISOString();
+	const until = new Date(endDate).toISOString();
 
 	let commits = [];
 
 	for (let i = 1; i <= pageNr; i++) {
 		const response = await axios.get(
-			`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&page=${i}`
+			`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&page=${i}&since=${since}&until=${until}`
 		);
 		commits = commits.concat(response.data);
 	}
-
-
-	// const response = await axios.get(
-	// 	// `https://api.github.com/repos/${branch.repo}/commits${query}`
-	// 	`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&since=${since}&until=${until}`
-	// );
-
-	// const commits = response.data;
 
 	const nodes = commits.map((commit) => {
 		return {
@@ -184,11 +178,10 @@ async function getOneCommitsGQL(branch) {
 	return nodes;
 }
 
-export default async function getData(repo, token) {
+export default async function getData(repo, token, startDate, endDate) {
 	// const token = "Bearer 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";
 	const bearerToken = "Bearer " + token;
 	axios.defaults.headers.common["Authorization"] = bearerToken;
-	console.log("Token: " + token);
 
 	var tempData = [];
 	try {
@@ -212,7 +205,7 @@ export default async function getData(repo, token) {
 		console.log("Done: getBranches ", timeEnd - timeStart, "ms");
 
 		// Get commits of branches
-		const commits = await getAllCommits(branches);
+		const commits = await getAllCommits(branches, startDate, endDate);
 		timeStart = new Date().getTime();
 		console.log("Done: getAllCommits ", timeStart - timeEnd, "ms");
 

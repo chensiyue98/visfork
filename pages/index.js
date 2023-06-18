@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 import DagComponent from "@/components/DAG";
 import DateRangeSlider from "@/components/RangeSlider";
@@ -10,13 +10,13 @@ import getData from "@/components/GetData";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SendIcon from '@mui/icons-material/Send';
 import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, CircularProgress } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -63,6 +63,7 @@ export default function App() {
 	useEffect(() => {
 		// filter data from commitData by brushed date
 		// JavaScript's Date object indexes months from 0 (January) to 11 (December). Off-by-one error may occur.
+		// TODO: Change demo to commitData
 		if (demo.length > 0 && brushedDate.length > 0) {
 			const brushedDatesFormatted = new Set(
 				brushedDate.map(
@@ -95,14 +96,29 @@ export default function App() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		// check if date range is valid
+		if (startDate >= endDate) {
+			alert("The start date must be before the end date.");
+			return;
+		}
+		let submitRepo = repo;
+		// parse url to owner/repo
+		const urlRegex =
+			/^(?:https?:\/\/)?(?:www\.)?(?:github\.com\/)?([^/]+\/[^/]+)$/i;
+		if (urlRegex.test(submitRepo)) {
+			submitRepo = submitRepo.match(urlRegex)[1];
+		}
+		// check if repo is in the correct format "owner/repo"
+		const regex = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+		if (!regex.test(submitRepo)) {
+			alert("Please enter a valid repo in the format of 'owner/repo'");
+			return;
+		}
 		try {
 			setIsLoading(true);
-			// const response = await axios.get(`/api/getAll?repo=${repo}`);
-			const response = await getData(repo, token);
+			const response = await getData(repo, token, startDate, endDate);
 			setCommitData(response);
-			// console.log("response", response);
 		} catch (error) {
-			// console.error(error);
 			alert(error.message);
 		} finally {
 			setIsLoading(false);
@@ -175,75 +191,119 @@ export default function App() {
 		);
 	};
 
+	const [startDate, setStartDate] = useState(dayjs().subtract(1, "year"));
+	const [endDate, setEndDate] = useState(dayjs());
+
 	return (
-		<div className="p-10 flex flex-col items-center">
-			<form onSubmit={handleSubmit} className="flex items-center child:m-3">
-				<Button size="small" variant="outlined" onClick={handleMenu}>
-					<SettingsIcon />
-				</Button>
-				<span>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							label="From"
-							views={["year", "month"]}
-							openTo="month"
-							// default value is today
-							defaultValue={dayjs()}
-						></DatePicker>
-						<DatePicker
-							label="To"
-							views={["year", "month"]}
-							openTo="month"
-							defaultValue={dayjs().subtract(1, "year")}
-						></DatePicker>
-					</LocalizationProvider>
-				</span>
-				<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-					<Tooltip
-						title="Use your own GitHub API to retrive repositories"
-						placement="right"
+		<div className="p-10">
+			<form onSubmit={handleSubmit} className="justify-center child:py-1.5">
+				<div className="flex items-center justify-center child:px-1">
+					<label htmlFor="inputField">GitHub Repository:</label>
+					<TextField
+						id="standard-basic"
+						size="small"
+						label="Owner/Repo"
+						variant="outlined"
+						value={repo}
+						placeholder="facebook/react"
+						onChange={(event) => setRepo(event.target.value)}
+						required
+					/>
+				</div>
+				<div className="flex justify-center ">
+					<span>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DatePicker
+								label="From"
+								views={["year", "month"]}
+								openTo="month"
+								// default value is today
+								value={startDate}
+								onChange={(newValue) => setStartDate(newValue)}
+								slotProps={{
+									textField: {
+										style: { width: 150, paddingRight: 10 },
+										size: "small",
+									},
+								}}
+							></DatePicker>
+							<DatePicker
+								label="To"
+								views={["year", "month"]}
+								openTo="month"
+								value={endDate}
+								onChange={(newValue) => setEndDate(newValue)}
+								slotProps={{
+									textField: { style: { width: 150 }, size: "small" },
+								}}
+							></DatePicker>
+						</LocalizationProvider>
+					</span>
+				</div>
+				<div className="flex items-center justify-center child:m-2">
+					<Button size="small" variant="outlined" onClick={handleMenu}>
+						<SettingsIcon />
+					</Button>
+					{/* vertical divider */}
+					<div className="border-l border-gray-400 h-8"></div>
+					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+						<Tooltip
+							title="Set your own GitHub API token to retrive repositories"
+							placement="right"
+						>
+							<MenuItem onClick={handleSetting}>Set token</MenuItem>
+						</Tooltip>
+						<Tooltip
+							title="Check the usage limit of the current GitHub token"
+							placement="right"
+						>
+							<MenuItem onClick={handleUsage}>Check token usage</MenuItem>
+						</Tooltip>
+						<Tooltip
+							title="Create a new GitHub token with your account"
+							placement="right"
+						>
+							<MenuItem onClick={handleCreate}>Create new token</MenuItem>
+						</Tooltip>
+					</Menu>
+					<Button variant="outlined" type="submit" size="small">
+						<SendIcon></SendIcon> &nbsp; Submit
+					</Button>
+					or
+					<Button
+						variant="outlined"
+						size="small"
+						onClick={handleUpload}
+						title="Upload json file exported from this site"
 					>
-						<MenuItem onClick={handleSetting}>Set token</MenuItem>
-					</Tooltip>
-					<MenuItem onClick={handleUsage}>Check token usage</MenuItem>
-					<MenuItem onClick={handleCreate}>Create new token</MenuItem>
-				</Menu>
-				<label htmlFor="inputField">GitHub Repository URL:</label>
-				<TextField
-					id="standard-basic"
-					size="small"
-					label="Owner/Repo"
-					variant="standard"
-					value={repo}
-					placeholder="facebook/react"
-					onChange={(event) => setRepo(event.target.value)}
-					required
-				/>
-				<Button variant="outlined" type="submit" size="small">
-					Submit
-				</Button>
-				or
-				<Button
-					variant="outlined"
-					size="small"
-					onClick={handleUpload}
-					title="Upload json file exported from this site"
-				>
-					upload json
-				</Button>
+						<UploadFileIcon></UploadFileIcon> &nbsp; upload json
+					</Button>
+				</div>
 			</form>
-			<div id="loading">{isLoading && <CircularProgress />}</div>
-			<div id="range">{isSubmit && <DateRangeSlider data={commitData} />}</div>
-			<div id="submited">{isSubmit && <DagComponent data={commitData} />}</div>
-			<DateRangeSlider
-				raw={demo}
-				onSelection={(selectedDates) => {
-					// console.log("Selected Date Range:", selectedDates);
-					setBrushedDate(selectedDates);
-				}}
-			/>
-			<div id="demo" className="border-blue-500 border-4">
-				{/* <DagComponent data={demo} /> */}
+			<div id="loading" className="flex justify-center">
+				{isLoading && <CircularProgress />}
+			</div>
+			<div id="range" className="flex justify-center">
+				{isSubmit && (
+					<DateRangeSlider
+						raw={commitData}
+						onSelection={(selectedDates) => {
+							setBrushedDate(selectedDates);
+						}}
+					/>
+				)}
+			</div>
+			<div id="submited" className="flex justify-center">{isSubmit && <DagComponent data={commitData} />}</div>
+
+			<div className="flex justify-center">
+				<DateRangeSlider
+					raw={demo}
+					onSelection={(selectedDates) => {
+						setBrushedDate(selectedDates);
+					}}
+				/>
+			</div>
+			<div id="demo" className="border-blue-500 border-4 flex justify-center">
 				<DagComponent data={analysisData} />
 			</div>
 			{isSubmit && (

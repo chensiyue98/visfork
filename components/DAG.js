@@ -9,13 +9,23 @@ import { parseData, SankeyChart } from "./Sankey";
 import Network from "./Network";
 import labella from "labella";
 
+import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import Modal from "@mui/material/Modal";
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
+import WorkspacesIcon from "@mui/icons-material/Workspaces";
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+// TODO: Add tags display support
+// TODO: sankey chart color matching
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
-// TODO: 增加tag显示
-// TODO: sankey图颜色对应
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
 const DagComponent = ({ data }) => {
@@ -52,7 +62,7 @@ const DagComponent = ({ data }) => {
 		console.log("dag: ", dag);
 		console.log("dag.descendants(): ", dag.descendants());
 
-		const nodeRadius = 5;
+		const nodeRadius = 6;
 		const edgeRadius = 3;
 
 		const gridTweak = (layout) => (dag) => {
@@ -386,8 +396,40 @@ const DagComponent = ({ data }) => {
 						}
 						return colorMap.get(d.data.repo);
 					});
+
 					// display the selected nodes in the selected nodes list
-					// console.log(selectedNodes._groups[0]);
+					console.log(selectedNodes._groups[0]);
+					let selectMap = new Map();
+					selectedNodes._groups[0].forEach((g) => {
+						// use the repo name as the key
+						if (selectMap.has(g.__data__.data.repo)) {
+							selectMap.get(g.__data__.data.repo).push(
+								// push the author, date, and message as an array
+								{
+									author: g.__data__.data.author,
+									date: g.__data__.data.date,
+									message:
+										"This is a merged node of size: " +
+										g.__data__.data.mergedNodes.length,
+									mergedNodes: g.__data__.data.mergedNodes,
+								}
+							);
+						} else {
+							selectMap.set(g.__data__.data.repo, [
+								{
+									author: g.__data__.data.author,
+									date: g.__data__.data.date,
+									// message: g.__data__.data.message,
+									message:
+										"This is a merged node of size: " +
+										g.__data__.data.mergedNodes.length,
+									mergedNodes: g.__data__.data.mergedNodes,
+								},
+							]);
+						}
+					});
+					console.log(selectMap);
+
 					const selectedNodesList = d3.select("#selected-nodes-list");
 					selectedNodesList.selectAll("select").remove();
 					selectedNodesList
@@ -508,23 +550,12 @@ const DagComponent = ({ data }) => {
 		}
 	}
 
-	function handleGenerate() {
-		// console.log("generate button clicked");
-		// console.log("selected nodes: ", selectMessage);
-		// const result = wordsFromText(selectMessage);
-		const result = generateWordStats(selectMessage);
-		handleOpen();
-		console.log("result: ", result);
-		// generate MessageCloud component and display it in the message-cloud div
-		// const messageCloud = d3.select("#message-cloud");
-	}
-
 	const [openModal, setOpenModal] = React.useState(false);
 	const handleOpen = () => setOpenModal(true);
 	const handleClose = () => setOpenModal(false);
 
 	return (
-		<div>
+		<div id="dag">
 			<div id="merge-button">
 				<ToggleButtonGroup
 					value={grouping}
@@ -532,32 +563,38 @@ const DagComponent = ({ data }) => {
 					onChange={handleGrouping}
 					color="primary"
 					size="small"
+					className="flex items-center justify-center"
 				>
-					<ToggleButton value="none"> All </ToggleButton>
-					<ToggleButton value="month"> Merge </ToggleButton>
+					<ToggleButton value="none">
+						<WorkspacesIcon /> &nbsp; Full View
+					</ToggleButton>
+					<ToggleButton value="month">
+						<GroupWorkIcon /> &nbsp; Merged View
+					</ToggleButton>
 				</ToggleButtonGroup>
 			</div>
 			{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
-			<div
-				id="overflow-container"
-				className="max-w-screen-xl overflow-x-scroll, overflow-y-scroll"
-			>
-				<svg ref={svgRef} className="border-4" />
-			</div>
-			<div id="date-slider" className="border-4"></div>
+			<Paper elevation={5} className="p-5">
+				<div
+					id="overflow-container"
+					className="overflow-x-scroll overflow-y-scroll w-screen-3/4"
+				>
+					<svg ref={svgRef} />
+				</div>
+			</Paper>
 			<div
 				id="selected-nodes"
 				className="border-4 overflow-y-auto grid grid-cols-2 gap-4"
 			>
 				<h3 className="font-bold"> Selected Nodes </h3> {/* divider */}{" "}
 				<h3 className="font-bold"> Details </h3> {/* divider */}{" "}
+				<div id="selected-repo-list"> </div>{" "}
 				<div id="selected-nodes-list"> </div>{" "}
-				{/* <div id="selected-word-cloud"></div> */}{" "}
 				<div id="selected-node-info"></div>
 			</div>
 			<div id="generate-word-cloud">
-				<Button onClick={handleGenerate}>Peek at selection</Button>
-				<div id="message-cloud"></div>
+				<Button onClick={handleOpen}>Peek at selection</Button>
+				{/* <div id="message-cloud"></div> */}
 				<Modal
 					open={openModal}
 					onClose={handleClose}
