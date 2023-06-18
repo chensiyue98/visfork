@@ -30,7 +30,6 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Tooltip from "@mui/material";
 
 // TODO: Add tags display support
 // TODO: sankey chart color matching
@@ -548,10 +547,10 @@ const DagComponent = ({ data }) => {
 					size="small"
 					className="flex items-center justify-center"
 				>
-					<ToggleButton value="none">
+					<ToggleButton value="none" title="Display all the nodes">
 							<WorkspacesIcon /> &nbsp; Full View
 					</ToggleButton>
-					<ToggleButton value="month">
+					<ToggleButton value="month" title="Show the divergent nodes">
 						<GroupWorkIcon /> &nbsp; Merged View
 					</ToggleButton>
 					
@@ -607,7 +606,7 @@ const DagComponent = ({ data }) => {
 				</TableContainer>
 				<div id="generate-word-cloud" className="flex justify-center">
 					<Button onClick={handleOpen} variant="outlined">
-						<TroubleshootIcon /> &nbsp; Peek at selection
+						<TroubleshootIcon /> &nbsp; Peek into selected nodes
 					</Button>
 					{/* <div id="message-cloud"></div> */}
 					<Modal

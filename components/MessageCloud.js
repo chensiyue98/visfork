@@ -12,7 +12,7 @@ const MessageCloud = (text) => {
 		text = text.text;
 
 		const data = generateWordStats(text);
-		
+
 		const fontFamily = "Arial, Helvetica, sans-serif";
 
 		const width = 300;
@@ -76,6 +76,11 @@ const MessageCloud = (text) => {
 		<div className="border-blue-600 border-solid border-4 rounded-lg bg-slate-50">
 			<h1 className="font-bold text-center">Word Cloud</h1>
 			<hr className="my-2" />
+			{!text.text.length && (
+				<p className="text-center text-gray-500">
+					No messages to analyze.<br/>Brush your interested nodes above.
+				</p>
+			)}
 			<svg ref={svgRef} style={{ width: "300px", height: "300px" }}>
 				<g />
 			</svg>

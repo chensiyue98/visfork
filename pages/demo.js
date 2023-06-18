@@ -281,8 +281,12 @@ export default function App() {
 					</Tooltip>
 					or
 					<Tooltip title="Upload a JSON file exported from this site">
-						<Button variant="outlined" size="small" onClick={handleUpload}>
-							<UploadFileIcon /> &nbsp; upload json
+						<Button
+							variant="outlined"
+							size="small"
+							onClick={handleUpload}
+						>
+							<UploadFileIcon/> &nbsp; upload json
 						</Button>
 					</Tooltip>
 				</div>
