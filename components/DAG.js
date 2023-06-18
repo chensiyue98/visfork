@@ -10,7 +10,7 @@ import Network from "./Network";
 import labella from "labella";
 
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Button, textFieldClasses } from "@mui/material";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import GroupWorkIcon from "@mui/icons-material/GroupWork";
@@ -25,6 +25,12 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Tooltip from "@mui/material";
 
 // TODO: Add tags display support
 // TODO: sankey chart color matching
@@ -543,11 +549,12 @@ const DagComponent = ({ data }) => {
 					className="flex items-center justify-center"
 				>
 					<ToggleButton value="none">
-						<WorkspacesIcon /> &nbsp; Full View
+							<WorkspacesIcon /> &nbsp; Full View
 					</ToggleButton>
 					<ToggleButton value="month">
 						<GroupWorkIcon /> &nbsp; Merged View
 					</ToggleButton>
+					
 				</ToggleButtonGroup>
 			</div>
 			{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
@@ -584,7 +591,12 @@ const DagComponent = ({ data }) => {
 									<TableCell align="left">{row.date}</TableCell>
 									<TableCell align="left">{row.message}</TableCell>
 									<TableCell align="center">
-										<a href={row.url} className="underline" target="_blank" rel="noreferrer">
+										<a
+											href={row.url}
+											className="underline"
+											target="_blank"
+											rel="noreferrer"
+										>
 											link
 										</a>
 									</TableCell>
@@ -610,14 +622,29 @@ const DagComponent = ({ data }) => {
 				</div>
 			</div>
 			{/* <MessageCloud text={selectMessage} /> */}
-			<div>
-				<CategoryIcon /> &nbsp; Sankey Diagram
-				<div id="sankey-diagram" className="border-4 h-auto border-blue-200 flex justify-center" />
-			</div>
-			<div>
-				<ShareIcon /> &nbsp; Network Graph
-				{networkData.length > 0 ? <Network data={networkData}/> : <div></div>}
-			</div>
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+					<CategoryIcon /> &nbsp; Commits Classification
+				</AccordionSummary>
+				<AccordionDetails>
+					<div
+						id="sankey-diagram"
+						className="border-4 h-auto border-blue-200 flex justify-center"
+					/>
+				</AccordionDetails>
+			</Accordion>
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+					<ShareIcon /> &nbsp; Network Expansion History
+				</AccordionSummary>
+				<AccordionDetails>
+					{networkData.length > 0 ? (
+						<Network data={networkData} />
+					) : (
+						<div></div>
+					)}
+				</AccordionDetails>
+			</Accordion>
 		</div>
 	);
 };

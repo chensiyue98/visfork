@@ -10,14 +10,14 @@ import getData from "@/components/GetData";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, CircularProgress } from "@mui/material";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -211,8 +211,9 @@ export default function App() {
 						required
 					/>
 				</div>
-				<div className="flex justify-center ">
-					<span>
+				<div className="flex justify-center">
+					<span className="flex items-center">
+						Query Date Range: &nbsp;
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DatePicker
 								label="From"
@@ -242,9 +243,11 @@ export default function App() {
 					</span>
 				</div>
 				<div className="flex items-center justify-center child:m-2">
-					<Button size="small" variant="outlined" onClick={handleMenu}>
-						<SettingsIcon />
-					</Button>
+					<Tooltip title="Settings" placement="bottom">
+						<Button size="small" variant="outlined" onClick={handleMenu}>
+							<SettingsIcon />
+						</Button>
+					</Tooltip>
 					{/* vertical divider */}
 					<div className="border-l border-gray-400 h-8"></div>
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -267,18 +270,22 @@ export default function App() {
 							<MenuItem onClick={handleCreate}>Create new token</MenuItem>
 						</Tooltip>
 					</Menu>
-					<Button variant="outlined" type="submit" size="small">
-						<SendIcon></SendIcon> &nbsp; Submit
-					</Button>
+					<Tooltip title="Submit your query">
+						<Button variant="outlined" type="submit" size="small">
+							<SendIcon></SendIcon> &nbsp; Submit
+						</Button>
+					</Tooltip>
 					or
-					<Button
-						variant="outlined"
-						size="small"
-						onClick={handleUpload}
-						title="Upload json file exported from this site"
-					>
-						<UploadFileIcon></UploadFileIcon> &nbsp; upload json
-					</Button>
+					<Tooltip title="Upload a JSON file. You can download one after submitting a query.">
+						<Button
+							variant="outlined"
+							size="small"
+							onClick={handleUpload}
+							title="Upload json file exported from this site"
+						>
+							<UploadFileIcon></UploadFileIcon> &nbsp; upload json
+						</Button>
+					</Tooltip>
 				</div>
 			</form>
 			<div id="loading" className="flex justify-center">
@@ -294,7 +301,9 @@ export default function App() {
 					/>
 				)}
 			</div>
-			<div id="submited" className="flex justify-center">{isSubmit && <DagComponent data={commitData} />}</div>
+			<div id="submited" className="flex justify-center">
+				{isSubmit && <DagComponent data={commitData} />}
+			</div>
 
 			<div className="flex justify-center">
 				<DateRangeSlider
@@ -304,11 +313,13 @@ export default function App() {
 					}}
 				/>
 			</div>
-			<div id="demo" className="border-blue-500 border-4 flex justify-center">
+			<div id="demo" className="flex justify-center">
 				<DagComponent data={analysisData} />
 			</div>
 			{isSubmit && (
-				<button onClick={handleDownload}><SimCardDownloadIcon/> &nbsp; Download Fetched Data</button>
+				<button onClick={handleDownload}>
+					<SimCardDownloadIcon /> &nbsp; Download Fetched Data
+				</button>
 			)}
 		</div>
 	);

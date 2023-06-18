@@ -63,8 +63,9 @@ export default function Network(test_data) {
 	};
 
 	return (
-		<div className="p-10 flex flex-col items-center">
-			<h1 className="text-xl">Network Graph</h1>
+		<div className="flex flex-col items-center">
+			{/* <h1 className="text-xl">Network Graph</h1> */}
+			<h1 className="text-xl">Date</h1>
 			{dateRange && (
 				<>
 					<div className="w-96">

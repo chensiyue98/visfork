@@ -177,7 +177,17 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 		}
 	}, [raw]);
 
-	return <div id="range-slider" ref={ref} />;
+	return (
+		<div className="text-center">
+			<div
+				id="range-slider"
+				ref={ref}
+				className="border-4 border-blue-300 rounded-md p-1"
+			>
+				Slide to select date range
+			</div>
+		</div>
+	);
 };
 
 export default DateRangeSlider;
