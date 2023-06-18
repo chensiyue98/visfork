@@ -15,13 +15,14 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 // TODO: Add tags display support
 // TODO: sankey chart color matching
@@ -59,8 +60,8 @@ const DagComponent = ({ data }) => {
 			dag = d3dag.dagStratify()(groupNodes(data));
 		}
 
-		console.log("dag: ", dag);
-		console.log("dag.descendants(): ", dag.descendants());
+		// console.log("dag: ", dag);
+		// console.log("dag.descendants(): ", dag.descendants());
 
 		const nodeRadius = 6;
 		const edgeRadius = 3;
@@ -236,11 +237,6 @@ const DagComponent = ({ data }) => {
 			// reverse x and y for horizontal layout
 			.attr("transform", ({ y, x }) => `translate(${y}, ${x})`);
 
-		// Plot node circles
-		// nodes
-		// 	.append("circle")
-		// 	.attr("r", nodeRadius)
-		// 	.attr("fill", (n) => colorMap.get(n.data.repo));
 		// for each node, if mergedNodes length > 0, draw a rect
 		// else draw a circle with radius nodeRadius
 		nodes
@@ -287,7 +283,7 @@ const DagComponent = ({ data }) => {
 					.style("border-style", "solid")
 					.style("border-radius", "5px")
 					.style("padding", "5px")
-					.style("left", `${event.pageX - 120}px`)
+					.style("left", `${event.pageX - 200}px`)
 					.style("top", `${event.pageY - 120}px`);
 			})
 			.on("mouseout", (event, d) => {
@@ -398,91 +394,46 @@ const DagComponent = ({ data }) => {
 					});
 
 					// display the selected nodes in the selected nodes list
-					console.log(selectedNodes._groups[0]);
-					let selectMap = new Map();
+					let selectArray = [];
 					selectedNodes._groups[0].forEach((g) => {
-						// use the repo name as the key
-						if (selectMap.has(g.__data__.data.repo)) {
-							selectMap.get(g.__data__.data.repo).push(
-								// push the author, date, and message as an array
-								{
-									author: g.__data__.data.author,
-									date: g.__data__.data.date,
-									message:
-										"This is a merged node of size: " +
-										g.__data__.data.mergedNodes.length,
-									mergedNodes: g.__data__.data.mergedNodes,
-								}
-							);
-						} else {
-							selectMap.set(g.__data__.data.repo, [
-								{
-									author: g.__data__.data.author,
-									date: g.__data__.data.date,
-									// message: g.__data__.data.message,
-									message:
-										"This is a merged node of size: " +
-										g.__data__.data.mergedNodes.length,
-									mergedNodes: g.__data__.data.mergedNodes,
-								},
-							]);
-						}
+						selectArray.push({
+							repo: g.__data__.data.repo,
+							author: g.__data__.data.author,
+							date: g.__data__.data.date,
+							message: g.__data__.data.message,
+							mergedNodes: g.__data__.data.mergedNodes,
+							url: g.__data__.data.url,
+						});
 					});
-					console.log(selectMap);
-
-					const selectedNodesList = d3.select("#selected-nodes-list");
-					selectedNodesList.selectAll("select").remove();
-					selectedNodesList
-						.append("select")
-						.attr("multiple", false)
-						// height of the select element
-						.attr("size", 10)
-						// width of the select element
-						.style("width", "50%")
-						.selectAll("option")
-						.data(selectedNodes._groups[0])
-						.enter()
-						.append("option")
-						.attr("id", (d) => d.__data__.data.id)
-						.on("click", (event, d) => {
-							// display info of the selected node
-							const selectedNodeInfo = d3.select("#selected-node-info");
-							selectedNodeInfo.selectAll("div").remove();
-							selectedNodeInfo
-								.append("div")
-								.html(
-									`<p>Repo: ${d.__data__.data.repo}</p><p>Author: ${d.__data__.data.author}</p><p>Date: ${d.__data__.data.date}</p><p>Message: ${d.__data__.data.message}</p>`
-								);
-						})
-						.text((d) => d.__data__.data.repo);
-
-					setSelectList(selectedNodes._groups[0]);
-
-					// concate the commit messages of the selected nodes, remove line breaks
-					if (selectedNodes._groups[0].length > 0) {
-						const commitMessages = selectedNodes._groups[0].reduce(
-							(acc, cur) => {
-								return acc + cur.__data__.data.message + " ";
-							}
-						);
-						// remove line breaks and punctuations
-						let newMessages = "";
-						if (commitMessages.length > 0) {
-							newMessages = commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
-							newMessages = newMessages.replace(
-								/[.,\/#!$%\^&\*;:{}=\-_`~()'"\[\]]/g,
-								""
-							);
-							// remove extra spaces
-							newMessages = newMessages.replace(/\s{2,}/g, " ");
-						}
-						setSelectMessage(newMessages);
-					} else {
-						setSelectMessage("");
-					}
+					setSelectList(selectArray);
 				}
 			}
 		}
+
+		// display legends for the colors in #dag-legend
+		const legend = d3.select("#dag-legends");
+		legend.selectAll("div").remove();
+		colorMap.forEach((value, key) => {
+			let div = legend.append("div").style("display", "flex").style("align-items", "center");
+			// append a circle to this div
+			div
+				.append("svg")
+				.attr("width", 10)
+				.attr("height", 10)
+				.append("circle")
+				.attr("cx", 5)
+				.attr("cy", 5)
+				.attr("r", 5)
+				.attr("fill", value);
+			// append a text to this div
+			div
+				.append("text")
+				.text(key)
+				.style("display", "inline-block")
+				.style("font-size", "0.8em")
+				.style("margin-left", "10px");
+				
+		});
 
 		// console.log("selected nodes: ", selectList);
 
@@ -551,11 +502,33 @@ const DagComponent = ({ data }) => {
 	}
 
 	const [openModal, setOpenModal] = React.useState(false);
-	const handleOpen = () => setOpenModal(true);
+	const handleOpen = () => {
+		setOpenModal(true);
+		if (selectList.length > 0) {
+			// concate the commit messages of the selected nodes, remove line breaks
+			const commitMessages = selectList.reduce((acc, cur) => {
+				console.log("cur: ", cur.message);
+				return acc + cur.message + " ";
+			}, "");
+			let newMessages = "";
+			if (commitMessages.length > 0) {
+				newMessages = commitMessages.replace(/(\r\n|\n|\r)/gm, " ");
+				newMessages = newMessages.replace(
+					/[.,\/#!$%\^&\*;:{}=\-_`~()'"\[\]]/g,
+					""
+				);
+				// remove extra spaces
+				newMessages = newMessages.replace(/\s{2,}/g, " ");
+			}
+			setSelectMessage(newMessages);
+		} else {
+			setSelectMessage("");
+		}
+	};
 	const handleClose = () => setOpenModal(false);
 
 	return (
-		<div id="dag">
+		<div id="dag" className="flex flex-col justify-center">
 			<div id="merge-button">
 				<ToggleButtonGroup
 					value={grouping}
@@ -581,28 +554,58 @@ const DagComponent = ({ data }) => {
 				>
 					<svg ref={svgRef} />
 				</div>
+
+				<div id="dag-legends">
+					{/* Legends */}
+				</div>
 			</Paper>
-			<div
-				id="selected-nodes"
-				className="border-4 overflow-y-auto grid grid-cols-2 gap-4"
-			>
-				<h3 className="font-bold"> Selected Nodes </h3> {/* divider */}{" "}
-				<h3 className="font-bold"> Details </h3> {/* divider */}{" "}
-				<div id="selected-repo-list"> </div>{" "}
-				<div id="selected-nodes-list"> </div>{" "}
-				<div id="selected-node-info"></div>
-			</div>
-			<div id="generate-word-cloud">
-				<Button onClick={handleOpen}>Peek at selection</Button>
-				{/* <div id="message-cloud"></div> */}
-				<Modal
-					open={openModal}
-					onClose={handleClose}
-					aria-labelledby="wordcloud"
-					aria-describedby="wordcloud-for-selected-nodes"
-				>
-					<MessageCloud text={selectMessage} />
-				</Modal>
+			<div className="border-2 border-gray-200 border-solid">
+				<TableContainer className="h-96 w-screen-3/4">
+					<Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+						<TableHead>
+							<TableRow className="child:font-extrabold">
+								<TableCell align="left">Owner/Repo</TableCell>
+								<TableCell align="left">Author</TableCell>
+								<TableCell align="left">Commit Date</TableCell>
+								<TableCell align="left">Commit Message</TableCell>
+								<TableCell align="left">URL</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{selectList.map((row) => (
+								<TableRow
+									key={row.id}
+									sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+								>
+									<TableCell align="left">{row.repo}</TableCell>
+									<TableCell align="left">{row.author}</TableCell>
+									<TableCell align="left">{row.date}</TableCell>
+									<TableCell align="left">{row.message}</TableCell>
+									<TableCell align="center">
+										<a href={row.url} className="underline" target="_blank">
+											link
+										</a>
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<div id="generate-word-cloud" className="flex justify-center">
+					<Button onClick={handleOpen} variant="outlined">
+						<TroubleshootIcon /> &nbsp; Peek at selection
+					</Button>
+					{/* <div id="message-cloud"></div> */}
+					<Modal
+						open={openModal}
+						onClose={handleClose}
+						aria-labelledby="wordcloud"
+						aria-describedby="wordcloud-for-selected-nodes"
+						className="flex items-center justify-center"
+					>
+						<MessageCloud text={selectMessage} />
+					</Modal>
+				</div>
 			</div>
 			{/* <MessageCloud text={selectMessage} /> */}
 			<div
@@ -897,4 +900,20 @@ function assignLane(data) {
 		}
 	}
 	return result;
+}
+
+function descendingComparator(a, b, orderBy) {
+	if (b[orderBy] < a[orderBy]) {
+		return -1;
+	}
+	if (b[orderBy] > a[orderBy]) {
+		return 1;
+	}
+	return 0;
+}
+
+function getComparator(order, orderBy) {
+	return order === "desc"
+		? (a, b) => descendingComparator(a, b, orderBy)
+		: (a, b) => -descendingComparator(a, b, orderBy);
 }

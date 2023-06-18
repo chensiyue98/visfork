@@ -155,6 +155,25 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 				console.log(selectedDates);
 				onSelection(selectedDates);
 			}
+
+			// double click to select all
+			svg.on("dblclick", () => {
+				brush.move(svg.select("g.brush"), [0, width]);
+				selectedDates = xScale.domain();
+				// highlight selected dates
+				svg
+					.selectAll(".bar")
+					.attr("fill", (d) =>
+						selectedDates.includes(d[0]) ? "steelblue" : "gray"
+					);
+				// highlight selected background
+				svg
+					.selectAll(".background")
+					.attr("fill", (d) =>
+						selectedDates.includes(d[0]) ? "steelblue" : "fff"
+					);
+				onSelection(selectedDates);
+			});
 		}
 	}, [raw]);
 

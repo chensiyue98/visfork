@@ -4,15 +4,13 @@ import { useEffect, useRef } from "react";
 import nlp from "compromise/two";
 import { removeStopwords } from "stopword";
 
-// 尝试更改为点击按钮后生成词云
-
 const MessageCloud = (text) => {
 	const svgRef = useRef(null);
 
 	useEffect(() => {
 		// object to text
 		text = text.text;
-		
+
 		const data = generateWordStats(text);
 		
 		const fontFamily = "Arial, Helvetica, sans-serif";
@@ -38,6 +36,7 @@ const MessageCloud = (text) => {
 					(maxFontSize - minFontSize) * (d.value / d3.max(data, (d) => d.value))
 				);
 			})
+			.size([width, height])
 			.on("end", (words) => {
 				d3.select(svgRef.current)
 					.append("g")
@@ -74,8 +73,8 @@ const MessageCloud = (text) => {
 	}, [text]);
 
 	return (
-		<div className="border-blue-200 border-solid border-4">
-			<h1 className="font-bold">Word Cloud</h1>
+		<div className="border-blue-600 border-solid border-4 rounded-lg bg-slate-50">
+			<h1 className="font-bold text-center">Word Cloud</h1>
 			<hr className="my-2" />
 			<svg ref={svgRef} style={{ width: "300px", height: "300px" }}>
 				<g />
