@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useState, use } from "react";
 import * as d3 from "d3";
 import * as d3dag from "d3-dag";
-import { Button } from "@mui/material";
 // import { getParentCounts } from "d3-dag/dist/dag/utils";
 import { generateWordStats } from "./MessageCloud";
 
 import MessageCloud from "./MessageCloud";
 import { parseData, SankeyChart } from "./Sankey";
 import Network from "./Network";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import labella from "labella";
+
+import { Button } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import Modal from "@mui/material/Modal";
 
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // TODO: 增加tag显示
@@ -511,10 +513,15 @@ const DagComponent = ({ data }) => {
 		// console.log("selected nodes: ", selectMessage);
 		// const result = wordsFromText(selectMessage);
 		const result = generateWordStats(selectMessage);
+		handleOpen();
 		console.log("result: ", result);
 		// generate MessageCloud component and display it in the message-cloud div
 		// const messageCloud = d3.select("#message-cloud");
 	}
+
+	const [openModal, setOpenModal] = React.useState(false);
+	const handleOpen = () => setOpenModal(true);
+	const handleClose = () => setOpenModal(false);
 
 	return (
 		<div>
@@ -551,8 +558,16 @@ const DagComponent = ({ data }) => {
 			<div id="generate-word-cloud">
 				<Button onClick={handleGenerate}>Peek at selection</Button>
 				<div id="message-cloud"></div>
+				<Modal
+					open={openModal}
+					onClose={handleClose}
+					aria-labelledby="wordcloud"
+					aria-describedby="wordcloud-for-selected-nodes"
+				>
+					<MessageCloud text={selectMessage} />
+				</Modal>
 			</div>
-			<MessageCloud text={selectMessage} />
+			{/* <MessageCloud text={selectMessage} /> */}
 			<div
 				id="sankey-diagram"
 				className="border-4 h-auto border-blue-200"
