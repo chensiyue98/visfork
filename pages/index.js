@@ -199,7 +199,7 @@ export default function App() {
 	const [endDate, setEndDate] = useState(dayjs());
 
 	return (
-		<div className="p-10">
+		<div className="p-10 bg-gray-50">
 			<Tour></Tour>
 			<form onSubmit={handleSubmit} className="justify-center child:py-1.5">
 				<div className="flex items-center justify-center child:px-1">
@@ -248,7 +248,7 @@ export default function App() {
 				</div>
 				<div className="flex items-center justify-center child:m-2">
 					<Tooltip title="Settings" placement="bottom">
-						<Button size="small" variant="outlined" onClick={handleMenu}>
+						<Button id="settings" size="small" variant="outlined" onClick={handleMenu}>
 							<SettingsIcon />
 						</Button>
 					</Tooltip>
@@ -316,9 +316,9 @@ export default function App() {
 				<DagComponent data={analysisData} />
 			</div>
 			{isSubmit && (
-				<button onClick={handleDownload}>
+				<Button onClick={handleDownload} >
 					<SimCardDownloadIcon /> &nbsp; Download Fetched Data
-				</button>
+				</Button>
 			)}
 		</div>
 	);

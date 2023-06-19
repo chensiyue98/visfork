@@ -199,7 +199,7 @@ export default function App() {
 	const [endDate, setEndDate] = useState(dayjs());
 
 	return (
-		<div className="p-10">
+		<div className="p-10 bg-gray-50">
 			<Tour></Tour>
 			<form onSubmit={handleSubmit} className="justify-center child:py-1.5">
 				<div className="flex items-center justify-center child:px-1">
@@ -281,12 +281,8 @@ export default function App() {
 					</Tooltip>
 					or
 					<Tooltip title="Upload a JSON file exported from this site">
-						<Button
-							variant="outlined"
-							size="small"
-							onClick={handleUpload}
-						>
-							<UploadFileIcon/> &nbsp; upload json
+						<Button variant="outlined" size="small" onClick={handleUpload}>
+							<UploadFileIcon /> &nbsp; upload json
 						</Button>
 					</Tooltip>
 				</div>
@@ -316,7 +312,7 @@ export default function App() {
 					}}
 				/>
 			</div>
-			<div id="demo" className="flex justify-center">
+			<div id="demo" className="flex flex-col justify-center">
 				<DagComponent data={analysisData} />
 			</div>
 			{isSubmit && (

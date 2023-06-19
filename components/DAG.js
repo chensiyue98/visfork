@@ -59,7 +59,16 @@ const DagComponent = ({ data }) => {
 			return new Date(a.date) - new Date(b.date);
 		});
 
-		var dag = d3dag.dagStratify()(data);
+		let dag = null;
+
+		try{
+			dag = d3dag.dagStratify()(data);
+		}
+		catch(err){
+			return;
+		}
+
+		// var dag = d3dag.dagStratify()(data);
 
 		if (grouping === "none") {
 			dag = d3dag.dagStratify()(data);
@@ -538,45 +547,53 @@ const DagComponent = ({ data }) => {
 
 	return (
 		<div id="dag" className="flex flex-col justify-center">
-			<div id="merge-button">
-				<ToggleButtonGroup
-					value={grouping}
-					exclusive
-					onChange={handleGrouping}
-					color="primary"
-					size="small"
-					className="flex items-center justify-center"
-				>
-					<ToggleButton value="none" title="Display all the nodes">
+			<Paper elevation={5} className="m-3 p-3">
+				<div id="merge-buttons" className="">
+					<ToggleButtonGroup
+						value={grouping}
+						exclusive
+						onChange={handleGrouping}
+						color="primary"
+						size="small"
+						className="flex items-center justify-center"
+					>
+						<ToggleButton value="none" title="Display all the nodes">
 							<WorkspacesIcon /> &nbsp; Full View
-					</ToggleButton>
-					<ToggleButton value="month" title="Show the divergent nodes">
-						<GroupWorkIcon /> &nbsp; Merged View
-					</ToggleButton>
-					
-				</ToggleButtonGroup>
-			</div>
-			{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
-			<Paper elevation={5} className="p-5">
+						</ToggleButton>
+						<ToggleButton value="month" title="Show the divergent nodes">
+							<GroupWorkIcon /> &nbsp; Merged View
+						</ToggleButton>
+					</ToggleButtonGroup>
+				</div>
+				{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
 				<div
 					id="overflow-container"
 					className="overflow-x-scroll overflow-y-scroll w-screen-3/4"
 				>
 					<svg ref={svgRef} />
 				</div>
-
 				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
 			<div className="border-2 border-gray-200 border-solid">
-				<TableContainer className="h-96 w-screen-3/4">
-					<Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+				<TableContainer className="h-96 w-screen-3/4 overflow-x-auto">
+					<Table sx={{ minWidth: 800 }} size="small" aria-label="simple table">
 						<TableHead>
 							<TableRow className="child:font-extrabold">
-								<TableCell align="left">Owner/Repo</TableCell>
-								<TableCell align="left">Author</TableCell>
-								<TableCell align="left">Commit Date</TableCell>
-								<TableCell align="left">Commit Message</TableCell>
-								<TableCell align="left">URL</TableCell>
+								<TableCell style={{ width: "20%" }} align="left">
+									Owner/Repo
+								</TableCell>
+								<TableCell style={{ width: "10%" }} align="left">
+									Author
+								</TableCell>
+								<TableCell style={{ width: "17%" }} align="left">
+									Commit Date
+								</TableCell>
+								<TableCell style={{ width: "48%" }} align="left">
+									Commit Message
+								</TableCell>
+								<TableCell style={{ width: "5%" }} align="center">
+									URL
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -585,11 +602,19 @@ const DagComponent = ({ data }) => {
 									key={row.id}
 									sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 								>
-									<TableCell align="left">{row.repo}</TableCell>
-									<TableCell align="left">{row.author}</TableCell>
-									<TableCell align="left">{row.date}</TableCell>
-									<TableCell align="left">{row.message}</TableCell>
-									<TableCell align="center">
+									<TableCell style={{ width: "20%" }} align="left">
+										{row.repo}
+									</TableCell>
+									<TableCell style={{ width: "10%" }} align="left">
+										{row.author}
+									</TableCell>
+									<TableCell style={{ width: "17%" }} align="left">
+										{row.date}
+									</TableCell>
+									<TableCell style={{ width: "48%" }} align="left">
+										{row.message}
+									</TableCell>
+									<TableCell style={{ width: "5%" }} align="center">
 										<a
 											href={row.url}
 											className="underline"
@@ -604,7 +629,7 @@ const DagComponent = ({ data }) => {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<div id="generate-word-cloud" className="flex justify-center">
+				<div id="generate-word-cloud" className="flex justify-center py-2">
 					<Button onClick={handleOpen} variant="outlined">
 						<TroubleshootIcon /> &nbsp; Peek into selected nodes
 					</Button>
@@ -628,7 +653,7 @@ const DagComponent = ({ data }) => {
 				<AccordionDetails>
 					<div
 						id="sankey-diagram"
-						className="border-4 h-auto border-blue-200 flex justify-center"
+						className="border-2 h-auto border-blue-200 flex justify-center"
 					/>
 				</AccordionDetails>
 			</Accordion>

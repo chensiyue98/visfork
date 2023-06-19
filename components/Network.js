@@ -90,7 +90,7 @@ export default function Network(test_data) {
 					>
 						{isPlay ? "Pause" : "Play"}
 					</Button>
-					<div className="border border-solid border-blue-500">
+					<div className="border-2 border-solid border-blue-200">
 						<svg ref={svgRef}></svg>
 					</div>
 				</>
