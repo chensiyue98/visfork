@@ -18,7 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button, TextField, CircularProgress } from "@mui/material";
+import { Button, TextField, CircularProgress, Select } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
 
@@ -68,14 +68,19 @@ export default function App() {
 		// filter data from commitData by brushed date
 		// JavaScript's Date object indexes months from 0 (January) to 11 (December). Off-by-one error may occur.
 		// TODO: Change demo to commitData
-		if (demo.length > 0 && brushedDate.length > 0) {
+		let data = demo;
+		if (isSubmit) {
+			data = commitData;
+		}
+
+		if (data.length > 0 && brushedDate.length > 0) {
 			const brushedDatesFormatted = new Set(
 				brushedDate.map(
 					(date) =>
 						`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`
 				)
 			);
-			const filteredData = demo.filter((d) =>
+			const filteredData = data.filter((d) =>
 				// brushedDate.includes(d3.timeMonths(d.date))
 				brushedDatesFormatted.has(
 					d.date.split("T")[0].slice(0, 7) || d.date.split(" ")[0]
@@ -91,7 +96,7 @@ export default function App() {
 			});
 			// if filteredData is empty, set it to demo
 			if (filteredData.length === 0) {
-				setAnalysisData(demo);
+				setAnalysisData(data);
 			} else {
 				setAnalysisData(filteredData);
 			}
@@ -120,8 +125,9 @@ export default function App() {
 		}
 		try {
 			setIsLoading(true);
-			const response = await getData(repo, token, startDate, endDate);
+			const response = await getData(repo, token, startDate, endDate, numForks, sortForks);
 			setCommitData(response);
+			setAnalysisData(response);
 		} catch (error) {
 			alert(error.message);
 		} finally {
@@ -155,6 +161,7 @@ export default function App() {
 				const content = readerEvent.target.result;
 				const data = JSON.parse(content);
 				setCommitData(data);
+				setAnalysisData(data);
 				setIsSubmit(true);
 			};
 		};
@@ -198,6 +205,9 @@ export default function App() {
 	const [startDate, setStartDate] = useState(dayjs().subtract(1, "year"));
 	const [endDate, setEndDate] = useState(dayjs());
 
+	const [numForks, setNumForks] = useState(5);
+	const [sortForks, setSortForks] = useState("stargazers");
+
 	return (
 		<div className="p-10 bg-gray-50">
 			<Tour></Tour>
@@ -214,6 +224,34 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
+					<Tooltip title="Num of forks" placement="right">
+						<Select
+							id="num-forks"
+							size="small"
+							value={numForks}
+							onChange={(event) => setNumForks(event.target.value)}
+						>
+							{/* Menu item from 1 to 10 */}
+							{[...Array(10).keys()].map((i) => (
+								<MenuItem key={i} value={i + 1}>
+									{i + 1}
+								</MenuItem>
+							))}
+						</Select>
+					</Tooltip>
+					<Tooltip title="Sort order" placement="right">
+						<Select
+							id="sort-forks"
+							size="small"
+							value={sortForks}
+							onChange={(event) => setSortForks(event.target.value)}
+						>
+							<MenuItem value="stargazers">Stargazers</MenuItem>
+							<MenuItem value="newest">Newest</MenuItem>
+							<MenuItem value="oldest">Oldest</MenuItem>
+							<MenuItem value="watchers">Watchers</MenuItem>
+						</Select>
+					</Tooltip>
 				</div>
 				<div className="flex justify-center">
 					<span className="flex items-center">
@@ -248,7 +286,12 @@ export default function App() {
 				</div>
 				<div className="flex items-center justify-center child:m-2">
 					<Tooltip title="Settings" placement="bottom">
-						<Button id="settings" size="small" variant="outlined" onClick={handleMenu}>
+						<Button
+							id="settings"
+							size="small"
+							variant="outlined"
+							onClick={handleMenu}
+						>
 							<SettingsIcon />
 						</Button>
 					</Tooltip>
@@ -287,9 +330,11 @@ export default function App() {
 					</Tooltip>
 				</div>
 			</form>
+			{/* Loading */}
 			<div id="loading" className="flex justify-center">
 				{isLoading && <CircularProgress />}
 			</div>
+			{/* Date Range Slider */}
 			<div id="range" className="flex justify-center">
 				{isSubmit && (
 					<DateRangeSlider
@@ -300,25 +345,32 @@ export default function App() {
 					/>
 				)}
 			</div>
+			{/* DAG */}
 			<div id="submited" className="flex justify-center">
-				{isSubmit && <DagComponent data={commitData} />}
+				{isSubmit && <DagComponent data={analysisData} />}
 			</div>
-
-			<div className="flex justify-center">
-				<DateRangeSlider
-					raw={demo}
-					onSelection={(selectedDates) => {
-						setBrushedDate(selectedDates);
-					}}
-				/>
-			</div>
-			<div id="demo" className="flex justify-center">
-				<DagComponent data={analysisData} />
-			</div>
+			{/* DEMO */}
+			{!isSubmit && (
+				<>
+					<div className="flex justify-center">
+						<DateRangeSlider
+							raw={demo}
+							onSelection={(selectedDates) => {
+								setBrushedDate(selectedDates);
+							}}
+						/>
+					</div>
+					<div id="demo" className="flex justify-center">
+						<DagComponent data={analysisData} />
+					</div>
+				</>
+			)}
 			{isSubmit && (
-				<Button onClick={handleDownload} >
-					<SimCardDownloadIcon /> &nbsp; Download Fetched Data
-				</Button>
+				<div className="flex justify-center">
+					<Button onClick={handleDownload}>
+						<SimCardDownloadIcon /> &nbsp; Download Fetched Data
+					</Button>
+				</div>
 			)}
 		</div>
 	);

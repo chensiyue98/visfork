@@ -41,6 +41,7 @@ const DagComponent = ({ data }) => {
 	// const zoomButtonRef = useRef(null);
 
 	const [grouping, setGrouping] = useState("none");
+	const [isSuccess, setIsSuccess] = useState(false);
 
 	const [selectList, setSelectList] = useState([]);
 	const [selectMessage, setSelectMessage] = useState("empty");
@@ -61,12 +62,15 @@ const DagComponent = ({ data }) => {
 
 		let dag = null;
 
-		try{
+		try {
 			dag = d3dag.dagStratify()(data);
-		}
-		catch(err){
+		} catch (err) {
+			setIsSuccess(false);
+			alert("Error: Please check if the repository is PUBLIC");
+			console.log(err);
 			return;
 		}
+		setIsSuccess(true);
 
 		// var dag = d3dag.dagStratify()(data);
 
@@ -461,6 +465,9 @@ const DagComponent = ({ data }) => {
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
 	useEffect(() => {
+		if (!isSuccess) {
+			return;
+		}
 		const sankeyData = parseData(data);
 		// console.log("sankeyData: ", sankeyData);
 		const nodeSet = new Set();
@@ -492,7 +499,7 @@ const DagComponent = ({ data }) => {
 		d3.select("#sankey-diagram").selectAll("*").remove();
 		// chart is an svg element, append it to the div
 		d3.select("#sankey-diagram").append(() => chart);
-	}, [data]);
+	}, [data, isSuccess]);
 
 	// Network Graph
 	useEffect(() => {
@@ -646,29 +653,33 @@ const DagComponent = ({ data }) => {
 				</div>
 			</div>
 			{/* <MessageCloud text={selectMessage} /> */}
-			<Accordion>
-				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<CategoryIcon /> &nbsp; Commits Classification
-				</AccordionSummary>
-				<AccordionDetails>
-					<div
-						id="sankey-diagram"
-						className="border-2 h-auto border-blue-200 flex justify-center"
-					/>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<ShareIcon /> &nbsp; Network Expansion History
-				</AccordionSummary>
-				<AccordionDetails>
-					{networkData.length > 0 ? (
-						<Network data={networkData} />
-					) : (
-						<div></div>
-					)}
-				</AccordionDetails>
-			</Accordion>
+			{isSuccess && (
+				<>
+					<Accordion>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<CategoryIcon /> &nbsp; Commits Classification
+						</AccordionSummary>
+						<AccordionDetails>
+							<div
+								id="sankey-diagram"
+								className="border-2 h-auto border-blue-200 flex justify-center"
+							/>
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<ShareIcon /> &nbsp; Network Expansion History
+						</AccordionSummary>
+						<AccordionDetails>
+							{networkData.length > 0 ? (
+								<Network data={networkData} />
+							) : (
+								<div></div>
+							)}
+						</AccordionDetails>
+					</Accordion>
+				</>
+			)}
 		</div>
 	);
 };

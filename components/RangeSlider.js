@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
-	// console.log(raw);
 	const ref = useRef();
 	const width = 1000;
 	const height = 100;
@@ -10,7 +9,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 
 	useEffect(() => {
 		// copy raw to data
-		console.log(raw);
+		// console.log(raw);
 		const data = JSON.parse(JSON.stringify(raw));
 		// clear svg
 		d3.select(ref.current).selectAll("*").remove();
@@ -152,7 +151,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 
 			function brushed(event) {
 				if (!event.selection) return;
-				console.log(selectedDates);
+				// console.log(selectedDates);
 				onSelection(selectedDates);
 			}
 

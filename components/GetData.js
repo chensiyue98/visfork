@@ -8,18 +8,22 @@ async function getRepo(repo) {
 	return repo_data;
 }
 
-async function getForks(repo_data) {
+async function getForks(repo_data, numForks, sortForks) {
 	const repo = repo_data.full_name;
 	// sort: stargazers, newest(default), oldest, watchers
 	const response = await axios.get(
-		`https://api.github.com/repos/${repo}/forks?sort=stargazers`
+		`https://api.github.com/repos/${repo}/forks?sort=` + sortForks
 	);
 	const forks = response.data;
-	// TODO: 目前是取前10个forks
-	// filter the 10 most starred forks
+	console.log(`Forks for ${repo}: ${forks.length}`);
+
+	// filter the 1-30 most starred forks
 	const mostStarredForks = forks
 		// .sort((a, b) => b.stargazers_count - a.stargazers_count)
-		.slice(0, 2);
+		.slice(0, numForks);
+
+	console.log(`Most starred forks for ${repo}: ${mostStarredForks.length}`);
+
 	// Map a list of nodes
 	const forks_nodes = mostStarredForks.map((fork) => {
 		return {
@@ -39,6 +43,8 @@ async function getForks(repo_data) {
 
 async function getBranches(forks) {
 	const limit = pLimit(1000); // limit concurrency to 500
+	// const perPage = 100; // Default 30, max 100
+	// const pageNr = 1; // Default 1, max 10
 	const promises = forks.map((fork) =>
 		limit(async () => {
 			try {
@@ -76,13 +82,14 @@ async function getAllCommits(branches, startDate, endDate) {
 }
 
 async function getOneCommits(branch, startDate, endDate) {
-	var query = ``;
+	let query = ``;
 	if (branch.sha) {
-		query = `?sha=${branch.sha}`;
+		query = `&sha=${branch.sha}`;
 	}
+
 	let perPage = 100; // Default 30, max 100
-	let pageNr = 5; // Default 1, max 10
-	
+	let pageNr = 1; // Default 1, max 10
+
 	// Format start and end date to YYYY-MM-DDTHH:MM:SSZ
 	const since = new Date(startDate).toISOString();
 	const until = new Date(endDate).toISOString();
@@ -91,7 +98,8 @@ async function getOneCommits(branch, startDate, endDate) {
 
 	for (let i = 1; i <= pageNr; i++) {
 		const response = await axios.get(
-			`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&page=${i}&since=${since}&until=${until}`
+			`https://api.github.com/repos/${branch.repo}/commits?per_page=${perPage}&page=${i}&since=${since}&until=${until}` +
+				query
 		);
 		commits = commits.concat(response.data);
 	}
@@ -178,7 +186,14 @@ async function getOneCommitsGQL(branch) {
 	return nodes;
 }
 
-export default async function getData(repo, token, startDate, endDate) {
+export default async function getData(
+	repo,
+	token,
+	startDate,
+	endDate,
+	numForks,
+	sortForks
+) {
 	// const token = "Bearer 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";
 	const bearerToken = "Bearer " + token;
 	axios.defaults.headers.common["Authorization"] = bearerToken;
@@ -195,7 +210,7 @@ export default async function getData(repo, token, startDate, endDate) {
 
 		// Get forks
 		// const forks = await getForksGQL(repo_data);
-		const forks = await getForks(repo_data);
+		const forks = await getForks(repo_data, numForks, sortForks);
 		timeStart = new Date().getTime();
 		console.log("Done: getForks ", timeStart - timeEnd, "ms");
 
@@ -207,10 +222,10 @@ export default async function getData(repo, token, startDate, endDate) {
 		// Get commits of branches
 		const commits = await getAllCommits(branches, startDate, endDate);
 		timeStart = new Date().getTime();
-		console.log("Done: getAllCommits ", timeStart - timeEnd, "ms");
 
 		// Clean up data
 		tempData = commits;
+		// remove duplicate commits by id
 		tempData = tempData.reduce((uniqueData, item) => {
 			const index = uniqueData.findIndex((t) => t.id === item.id);
 			if (index === -1) {
@@ -226,13 +241,16 @@ export default async function getData(repo, token, startDate, endDate) {
 			}
 			return uniqueData;
 		}, []);
+
 		// 将tempData中的每一个parentIds与id匹配，如果出现不存在的parentIds，则将其parentIds修改为[]
+		// Match each parentIds in temp Data with id, if there is no parentIds, modify its parentIds to []
 		tempData = tempData.map((item) => {
 			item.parentIds = item.parentIds.filter((parent) => {
 				return tempData.some((item) => item.id === parent);
 			});
 			return item;
 		});
+
 		timeEnd = new Date().getTime();
 		console.log("Done: clean up data ", timeEnd - timeStart, "ms");
 
