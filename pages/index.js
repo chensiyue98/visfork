@@ -21,6 +21,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, CircularProgress, Select } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -125,7 +128,14 @@ export default function App() {
 		}
 		try {
 			setIsLoading(true);
-			const response = await getData(repo, token, startDate, endDate, numForks, sortForks);
+			const response = await getData(
+				repo,
+				token,
+				startDate,
+				endDate,
+				numForks,
+				sortForks
+			);
 			setCommitData(response);
 			setAnalysisData(response);
 		} catch (error) {
@@ -211,7 +221,30 @@ export default function App() {
 	return (
 		<div className="p-10 bg-gray-50">
 			<Tour></Tour>
-			<form onSubmit={handleSubmit} className="justify-center child:py-1.5">
+			<div className="w-screen m-0">
+				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1}}>
+					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
+						<span className="flex items-center">
+							<GitHubIcon /> &nbsp; VisFork
+						</span>
+						<Tooltip title="Settings" placement="bottom">
+							<Button
+								id="settings"
+								size="small"
+								color="inherit"
+								onClick={handleMenu}
+							>
+								<SettingsIcon /> &nbsp; Settings
+							</Button>
+						</Tooltip>
+					</Toolbar>
+				</AppBar>
+			</div>
+
+			<form
+				onSubmit={handleSubmit}
+				className="justify-center mt-16 mb-10 child:py-1.5"
+			>
 				<div className="flex items-center justify-center child:px-1">
 					<label htmlFor="inputField">GitHub Repository:</label>
 					<TextField
@@ -285,18 +318,6 @@ export default function App() {
 					</span>
 				</div>
 				<div className="flex items-center justify-center child:m-2">
-					<Tooltip title="Settings" placement="bottom">
-						<Button
-							id="settings"
-							size="small"
-							variant="outlined"
-							onClick={handleMenu}
-						>
-							<SettingsIcon />
-						</Button>
-					</Tooltip>
-					{/* vertical divider */}
-					<div className="border-l border-gray-400 h-8"></div>
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
 						<Tooltip
 							title="Set your own GitHub API token to retrive repositories"

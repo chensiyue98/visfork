@@ -43,8 +43,8 @@ async function getForks(repo_data, numForks, sortForks) {
 
 async function getBranches(forks) {
 	const limit = pLimit(1000); // limit concurrency to 500
-	// const perPage = 100; // Default 30, max 100
-	// const pageNr = 1; // Default 1, max 10
+	// const perPage = 100; // Default 30, max 100 =>per_page
+	// const pageNr = 1; // Default 1, max 10 =>page
 	const promises = forks.map((fork) =>
 		limit(async () => {
 			try {

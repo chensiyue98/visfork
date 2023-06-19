@@ -2,15 +2,15 @@ import React from "react";
 import JoyRide from "react-joyride";
 const TOUR_STEPS = [
 	{
-		target: "#standard-basic",
-		content:
-			"Supports format: OWNER/REPO or https://github.com/OWNER/REPO. Please note that we only support public repositories",
-		disableBeacon: true,
-	},
-	{
 		target: "#settings",
 		content:
 			"The GitHub API token has a fetching limitation per hour. You can create a new token with your GitHub account",
+		disableBeacon: true,
+	},
+	{
+		target: "#standard-basic",
+		content:
+			"Supports format: OWNER/REPO or https://github.com/OWNER/REPO. Please note that we only support public repositories",
 		disableBeacon: true,
 	},
 	{
@@ -38,8 +38,7 @@ const TOUR_STEPS = [
 	},
 	{
 		target: "#network-history",
-		content:
-			"Explore the collaboration history of the repository.",
+		content: "Explore the collaboration history of the repository.",
 		disableBeacon: true,
 	},
 ];
