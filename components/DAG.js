@@ -637,7 +637,7 @@ const DagComponent = ({ data }) => {
 					</Table>
 				</TableContainer>
 				<div id="generate-word-cloud" className="flex justify-center py-2">
-					<Button onClick={handleOpen} variant="outlined">
+					<Button id="word-cloud-btn" onClick={handleOpen} variant="outlined">
 						<TroubleshootIcon /> &nbsp; Peek into selected nodes
 					</Button>
 					{/* <div id="message-cloud"></div> */}
@@ -656,7 +656,10 @@ const DagComponent = ({ data }) => {
 			{isSuccess && (
 				<>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+						<AccordionSummary
+							id="sankey-classify"
+							expandIcon={<ExpandMoreIcon />}
+						>
 							<CategoryIcon /> &nbsp; Commits Classification
 						</AccordionSummary>
 						<AccordionDetails>
@@ -664,11 +667,19 @@ const DagComponent = ({ data }) => {
 								id="sankey-diagram"
 								className="border-2 h-auto border-blue-200 flex justify-center"
 							/>
+							<ul id="explain-classification" className="px-10 text-xs" style={{ listStyleType: 'disc' }}>
+								<li>Adaptive: Accommodate changes in the environment </li>
+								<li>Corrective: Fix bugs or errors</li>
+								<li>Perfective: Improve the performance or readability</li>
+							</ul>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<ShareIcon /> &nbsp; Network Expansion History
+						<AccordionSummary
+							id="network-history"
+							expandIcon={<ExpandMoreIcon />}
+						>
+							<ShareIcon /> &nbsp; Collaboration Network History
 						</AccordionSummary>
 						<AccordionDetails>
 							{networkData.length > 0 ? (

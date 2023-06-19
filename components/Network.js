@@ -4,6 +4,8 @@ import EditableGraph, { drag } from "./EditableGraph";
 import React, { useState, useEffect, useRef, use } from "react";
 import * as d3 from "d3";
 import { Button, Slider } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 // import jsondata from "./test_data.json";
 // const data = jsondata;
 
@@ -46,6 +48,7 @@ export default function Network(test_data) {
 					setPlay(false);
 				}
 			}, 50);
+			// Play speed: 50ms per date
 			return () => clearInterval(interval);
 		}
 	}, [isPlay, dateIdx]);
@@ -65,7 +68,7 @@ export default function Network(test_data) {
 	return (
 		<div className="flex flex-col items-center">
 			{/* <h1 className="text-xl">Network Graph</h1> */}
-			<h1 className="text-xl">Date</h1>
+			<h1 className="text-l">Date</h1>
 			{dateRange && (
 				<>
 					<div className="w-96">
@@ -73,10 +76,11 @@ export default function Network(test_data) {
 							value={dateIdx}
 							onChange={handleSliderChange}
 							step={1}
+							size="small"
 							max={dateRange.length - 1}
 						/>
 					</div>
-					<label>
+					<label className="text-sm -mt-4">
 						{dateRange[dateIdx].toLocaleDateString("en-US", {
 							month: "long",
 							day: "numeric",
@@ -85,10 +89,21 @@ export default function Network(test_data) {
 					</label>
 					<Button
 						variant="outlined"
-						className="m-5"
+						className="m-2"
+						size="small"
 						onClick={handleButtonClick}
 					>
-						{isPlay ? "Pause" : "Play"}
+						{isPlay ? (
+							<>
+								<PauseCircleIcon /> &nbsp;
+								Pause
+							</>
+						) : (
+							<>
+								<PlayCircleIcon /> &nbsp;
+								Play
+							</>
+						)}
 					</Button>
 					<div className="border-2 border-solid border-blue-200">
 						<svg ref={svgRef}></svg>
@@ -300,7 +315,7 @@ function graph(eg, svgRef) {
 				})
 				.attr("rx", 1)
 				.attr("fill", (d) => (d.type == "repo" ? "DarkSlateGray" : "SlateGray"))
-				.attr("opacity", 0.8)
+				.attr("opacity", 0.7)
 				.lower();
 		}
 
