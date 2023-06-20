@@ -180,7 +180,12 @@ export default function App() {
 	};
 
 	const handleSetting = () => {
-		const newToken = prompt("Please enter your token", token);
+		let encryptedToken =
+			token.slice(0, 5) + "*".repeat(token.length - 10) + token.slice(-5);
+		const newToken = prompt(
+			"Please enter your token.\nYour token will be saved locally.",
+			encryptedToken
+		);
 		if (newToken) {
 			setToken(newToken);
 			Cookies.set("token", newToken);
@@ -192,8 +197,12 @@ export default function App() {
 		axios
 			.get(`/api/getLimit/?token=${token}`)
 			.then((response) => {
+				let encryptedToken =
+					token.slice(0, 5) + "*".repeat(token.length - 10) + token.slice(-5);
 				alert(
-					`Your token: ${token}\nhas ${response.data.rate.remaining} / ${
+					`Your token: ${encryptedToken}\nhas ${
+						response.data.rate.remaining
+					} / ${
 						response.data.rate.limit
 					} remaining requests.\nReset at ${new Date(
 						response.data.rate.reset * 1000
