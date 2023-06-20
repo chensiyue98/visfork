@@ -335,7 +335,7 @@ export default function App() {
 								</LocalizationProvider>
 							</span>
 						</div>
-						<hr className="w-1/2 mt-2 -mb-2 mx-auto border-gray-400" />
+						<hr className="w-1/2 mt-1 -mb-2 mx-auto border-gray-400" />
 					</>
 				)}
 				<div className="flex items-center justify-center child:m-2">

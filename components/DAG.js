@@ -322,55 +322,111 @@ const DagComponent = ({ data }) => {
 			.style("position", "absolute");
 
 		const monthEntries = mergeMonth(dag).keys();
+		const monthMap = mergeMonth(dag);
+		console.log(monthMap);
+		let earliestNodes = [];
+		// for each month in monthMap, find the earliest
+		for (let [key, nodes] of monthMap) {
+			// console.log(key, nodes);
+			let earlist = nodes[0];
+			for (let node of nodes) {
+				if (node.data.date < earlist.data.date) {
+					earlist = node;
+				}
+			}
+			earliestNodes.push(earlist);
+		}
+
+		console.log(earliestNodes);
+		// for each node in earliestNodes, draw a label below it
+		let preNode = earliestNodes[0];
+		for (let [i, node] of earliestNodes.entries()) {
+			let text = graph
+				.append("text")
+				.attr("x", node.y)
+				.attr("y", width)
+				// if the difference between prevTextX and current node.y is less than 20, dy set to -20
+				// .attr("dy", () => {
+				// 	if (node.y - preNode.y < 20) {
+				// 		return "-20px";
+				// 	} else {
+				// 		return "-10px";
+				// 	}
+				// })
+				// .attr("dy", () => {
+				// 	if (i % 2 === 0) {
+				// 		return "-20px";
+				// 	} else {
+				// 		return "-10px";
+				// 	}
+				// })
+				.attr("dy", "-10px")
+				.attr("text-anchor", "middle")
+				.attr("font-size", "10px")
+				.attr("fill", "black")
+				.text(
+					// node.data.date.split("-")[0] + "-" + node.data.date.split("-")[1]
+					// node.data.date to month
+					new Date(node.data.date).toLocaleString("default", {
+						month: "short",
+					})
+				);
+			// add a line from the node to the label
+			let line = graph
+				.append("line")
+				.attr("x1", node.y)
+				.attr("y1", node.x)
+				.attr("x2", node.y)
+				.attr("y2", width - 20)
+				.attr("stroke", "black")
+				.attr("stroke-width", "1px");
+
+			preNode = node;
+		}
+
+		// 直接从mergeMonth(dag)取出node的date，然后判断是否是第一个node，如果是，就在这个node的位置画一个label
 
 		// go through each node. if it's the first node of the month, add a label
-		for (const [i, node] of [...dag].entries()) {
-			// get the month of the current node
-			// var month = node.data.date.split("-")[0]+"-"+node.data.date.split("-")[1];
-			var date = new Date(node.data.date);
+		// for (const [i, node] of [...dag].entries()) {
+		// 	// get the month of the current node
+		// 	// var month = node.data.date.split("-")[0]+"-"+node.data.date.split("-")[1];
+		// 	var date = new Date(node.data.date);
 
-			var key = date.getFullYear() + "-" + (date.getMonth() + 1);
+		// 	var key = date.getFullYear() + "-" + (date.getMonth() + 1);
 
-			var prevTextX = 0;
-			// set next to the first key of the entries
-			if (i === 0) {
-				var next = monthEntries.next().value;
-				prevTextX = node.y;
-			}
-			if (next === key) {
-				let text = graph
-					.append("text")
-					.attr("y", width)
-					.attr("x", node.y)
-					// if the difference between prevTextX and current node.y is less than 20, dy set to -20
-					// .attr("dy", () => {
-					// 	if (node.y - prevTextX < 500) {
-					// 		return "-20px";
-					// 	} else {
-					// 		return "-10px";
-					// 	}
-					// })
-					.attr("dy", "-10px")
-					.style("pointer-events", "none")
-					.attr("text-anchor", "middle")
-					.attr("font-size", "0.8em")
-					.attr("fill", "gray")
-					.text(key);
+		// 	var prevTextX = 0;
+		// 	// set next to the first key of the entries
+		// 	if (i === 0) {
+		// 		var next = monthEntries.next().value;
+		// 		prevTextX = node.y;
+		// 	}
 
-				// add a line
-				let line = graph
-					.append("line")
-					.attr("x1", node.y)
-					.attr("y1", node.x)
-					.attr("x2", node.y)
-					.attr("y2", width - 20)
-					.style("pointer-events", "none")
-					.attr("stroke-width", 1)
-					.attr("stroke", "gray");
+		// 	if (next === key) {
+		// 		let text = graph
+		// 			.append("text")
+		// 			.attr("y", width)
+		// 			.attr("x", node.y)
+		// 			.attr("dy", "-10px")
+		// 			.style("pointer-events", "none")
+		// 			.attr("text-anchor", "middle")
+		// 			.attr("font-size", "0.8em")
+		// 			.attr("fill", "gray")
+		// 			.text(key);
 
-				next = monthEntries.next().value;
-			}
-		}
+		// 		// add a line
+		// 		let line = graph
+		// 			.append("line")
+		// 			.attr("x1", node.y)
+		// 			.attr("y1", node.x)
+		// 			.attr("x2", node.y)
+		// 			.attr("y2", width - 20)
+		// 			.style("pointer-events", "none")
+		// 			.attr("stroke-width", 1)
+		// 			.attr("stroke", "gray");
+
+		// 		next = monthEntries.next().value;
+		// 	}
+		// }
 
 		// allow user using draging to draw a rectangle and log the selected nodes
 		var brushSelection = [];
@@ -667,7 +723,11 @@ const DagComponent = ({ data }) => {
 								id="sankey-diagram"
 								className="border-2 h-auto border-blue-200 flex justify-center"
 							/>
-							<ul id="explain-classification" className="px-10 text-xs" style={{ listStyleType: 'disc' }}>
+							<ul
+								id="explain-classification"
+								className="px-10 text-xs"
+								style={{ listStyleType: "disc" }}
+							>
 								<li>Adaptive: Accommodate changes in the environment </li>
 								<li>Corrective: Fix bugs or errors</li>
 								<li>Perfective: Improve the performance or readability</li>
@@ -839,7 +899,10 @@ function mergeMonth(dag) {
 			merged.set(key, [node]);
 		}
 	}
-	return merged;
+
+	const sortedMap = new Map([...merged.entries()].sort());
+	return sortedMap;
+	// return merged;
 }
 
 export default DagComponent;
