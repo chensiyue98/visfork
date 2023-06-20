@@ -335,7 +335,7 @@ export default function App() {
 								</LocalizationProvider>
 							</span>
 						</div>
-						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />
+						<hr className="w-1/2 mt-2 -mb-2 mx-auto border-gray-400" />
 					</>
 				)}
 				<div className="flex items-center justify-center child:m-2">
@@ -364,7 +364,7 @@ export default function App() {
 							<SendIcon></SendIcon> &nbsp; Submit
 						</Button>
 					</Tooltip>
-					or
+					<span>or</span>
 					<Tooltip title="Upload a JSON file exported from this site">
 						<Button variant="outlined" size="small" onClick={handleUpload}>
 							<UploadFileIcon /> &nbsp; upload json
