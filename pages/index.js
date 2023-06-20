@@ -24,6 +24,7 @@ import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 // TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
@@ -218,6 +219,14 @@ export default function App() {
 	const [numForks, setNumForks] = useState(5);
 	const [sortForks, setSortForks] = useState("stargazers");
 	const [isAdvanced, setIsAdvanced] = useState(false);
+	const [rotation, setRotation] = useState(0);
+	const [rotateDirection, setRotateDirection] = useState(1);
+
+	const handleAdvanced = () => {
+		setIsAdvanced(!isAdvanced);
+		setRotation(rotation + 90 * rotateDirection);
+		setRotateDirection(rotateDirection * -1);
+	};
 
 	return (
 		<div className="p-10 bg-gray-50">
@@ -258,9 +267,18 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
-					<Button onClick={() => setIsAdvanced(!isAdvanced)}>Advanced</Button>
+					<Button onClick={handleAdvanced}>
+						{/* <KeyboardArrowRightIcon /> */}
+						<KeyboardArrowRightIcon
+							style={{
+								transform: `rotate(${rotation}deg)`,
+							}}
+						/>
+						Advanced
+					</Button>
 				</div>
 				{isAdvanced && (
+					// transition: show/hide advanced parameters
 					<>
 						{/* horizontal divider */}
 						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />

@@ -321,9 +321,8 @@ const DagComponent = ({ data }) => {
 			.style("opacity", 0)
 			.style("position", "absolute");
 
-		const monthEntries = mergeMonth(dag).keys();
+
 		const monthMap = mergeMonth(dag);
-		console.log(monthMap);
 		let earliestNodes = [];
 		// for each month in monthMap, find the earliest
 		for (let [key, nodes] of monthMap) {
@@ -337,7 +336,6 @@ const DagComponent = ({ data }) => {
 			earliestNodes.push(earlist);
 		}
 
-		console.log(earliestNodes);
 		// for each node in earliestNodes, draw a label below it
 		let preNode = earliestNodes[0];
 		for (let [i, node] of earliestNodes.entries()) {
@@ -383,50 +381,6 @@ const DagComponent = ({ data }) => {
 
 			preNode = node;
 		}
-
-		// 直接从mergeMonth(dag)取出node的date，然后判断是否是第一个node，如果是，就在这个node的位置画一个label
-
-		// go through each node. if it's the first node of the month, add a label
-		// for (const [i, node] of [...dag].entries()) {
-		// 	// get the month of the current node
-		// 	// var month = node.data.date.split("-")[0]+"-"+node.data.date.split("-")[1];
-		// 	var date = new Date(node.data.date);
-
-		// 	var key = date.getFullYear() + "-" + (date.getMonth() + 1);
-
-		// 	var prevTextX = 0;
-		// 	// set next to the first key of the entries
-		// 	if (i === 0) {
-		// 		var next = monthEntries.next().value;
-		// 		prevTextX = node.y;
-		// 	}
-
-		// 	if (next === key) {
-		// 		let text = graph
-		// 			.append("text")
-		// 			.attr("y", width)
-		// 			.attr("x", node.y)
-		// 			.attr("dy", "-10px")
-		// 			.style("pointer-events", "none")
-		// 			.attr("text-anchor", "middle")
-		// 			.attr("font-size", "0.8em")
-		// 			.attr("fill", "gray")
-		// 			.text(key);
-
-		// 		// add a line
-		// 		let line = graph
-		// 			.append("line")
-		// 			.attr("x1", node.y)
-		// 			.attr("y1", node.x)
-		// 			.attr("x2", node.y)
-		// 			.attr("y2", width - 20)
-		// 			.style("pointer-events", "none")
-		// 			.attr("stroke-width", 1)
-		// 			.attr("stroke", "gray");
-
-		// 		next = monthEntries.next().value;
-		// 	}
-		// }
 
 		// allow user using draging to draw a rectangle and log the selected nodes
 		var brushSelection = [];
