@@ -217,12 +217,13 @@ export default function App() {
 
 	const [numForks, setNumForks] = useState(5);
 	const [sortForks, setSortForks] = useState("stargazers");
+	const [isAdvanced, setIsAdvanced] = useState(false);
 
 	return (
 		<div className="p-10 bg-gray-50">
 			<Tour></Tour>
 			<div className="w-screen m-0">
-				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1}}>
+				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1 }}>
 					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
 						<span className="flex items-center">
 							<GitHubIcon /> &nbsp; VisFork
@@ -257,66 +258,86 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
-					<Tooltip title="Num of forks" placement="right">
-						<Select
-							id="num-forks"
-							size="small"
-							value={numForks}
-							onChange={(event) => setNumForks(event.target.value)}
-						>
-							{/* Menu item from 1 to 10 */}
-							{[...Array(10).keys()].map((i) => (
-								<MenuItem key={i} value={i + 1}>
-									{i + 1}
-								</MenuItem>
-							))}
-						</Select>
-					</Tooltip>
-					<Tooltip title="Sort order" placement="right">
-						<Select
-							id="sort-forks"
-							size="small"
-							value={sortForks}
-							onChange={(event) => setSortForks(event.target.value)}
-						>
-							<MenuItem value="stargazers">Stargazers</MenuItem>
-							<MenuItem value="newest">Newest</MenuItem>
-							<MenuItem value="oldest">Oldest</MenuItem>
-							<MenuItem value="watchers">Watchers</MenuItem>
-						</Select>
-					</Tooltip>
+					<Button onClick={() => setIsAdvanced(!isAdvanced)}>Advanced</Button>
 				</div>
-				<div className="flex justify-center">
-					<span className="flex items-center">
-						Query Date Range: &nbsp;
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker
-								label="From"
-								views={["year", "month"]}
-								openTo="month"
-								// default value is today
-								value={startDate}
-								onChange={(newValue) => setStartDate(newValue)}
-								slotProps={{
-									textField: {
-										style: { width: 150, paddingRight: 10 },
-										size: "small",
-									},
-								}}
-							></DatePicker>
-							<DatePicker
-								label="To"
-								views={["year", "month"]}
-								openTo="month"
-								value={endDate}
-								onChange={(newValue) => setEndDate(newValue)}
-								slotProps={{
-									textField: { style: { width: 150 }, size: "small" },
-								}}
-							></DatePicker>
-						</LocalizationProvider>
-					</span>
-				</div>
+				{isAdvanced && (
+					<>
+						{/* horizontal divider */}
+						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />
+						<div
+							id="advanced-parameter"
+							className="flex items-center justify-center"
+						>
+							<span className="mr-4">
+								<label>Number of forks: &nbsp;</label>
+								<Tooltip title="Num of forks" placement="right">
+									<Select
+										id="num-forks"
+										size="small"
+										value={numForks}
+										onChange={(event) => setNumForks(event.target.value)}
+									>
+										{/* Menu item from 1 to 10 */}
+										{[...Array(10).keys()].map((i) => (
+											<MenuItem key={i} value={i + 1}>
+												{i + 1}
+											</MenuItem>
+										))}
+									</Select>
+								</Tooltip>
+							</span>
+							<span>
+								<label>Sort order: &nbsp;</label>
+								<Tooltip title="Sort order" placement="right">
+									<Select
+										id="sort-forks"
+										size="small"
+										value={sortForks}
+										onChange={(event) => setSortForks(event.target.value)}
+									>
+										<MenuItem value="stargazers">Stargazers</MenuItem>
+										<MenuItem value="newest">Newest</MenuItem>
+										<MenuItem value="oldest">Oldest</MenuItem>
+										<MenuItem value="watchers">Watchers</MenuItem>
+									</Select>
+								</Tooltip>
+							</span>
+						</div>
+
+						<div className="flex justify-center">
+							<span className="flex items-center">
+								Query Date Range: &nbsp;
+								<LocalizationProvider dateAdapter={AdapterDayjs}>
+									<DatePicker
+										label="From"
+										views={["year", "month"]}
+										openTo="month"
+										// default value is today
+										value={startDate}
+										onChange={(newValue) => setStartDate(newValue)}
+										slotProps={{
+											textField: {
+												style: { width: 150, paddingRight: 10 },
+												size: "small",
+											},
+										}}
+									></DatePicker>
+									<DatePicker
+										label="To"
+										views={["year", "month"]}
+										openTo="month"
+										value={endDate}
+										onChange={(newValue) => setEndDate(newValue)}
+										slotProps={{
+											textField: { style: { width: 150 }, size: "small" },
+										}}
+									></DatePicker>
+								</LocalizationProvider>
+							</span>
+						</div>
+						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />
+					</>
+				)}
 				<div className="flex items-center justify-center child:m-2">
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
 						<Tooltip
