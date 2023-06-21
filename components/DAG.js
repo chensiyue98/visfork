@@ -518,7 +518,8 @@ const DagComponent = ({ data }) => {
 			// keep the date and remove the time from the date
 			let date = d.date.split("T")[0];
 			// format the date from "2023-01-01" to "2023-01-01T00:00.000Z"
-			date = date + "T16:00:00.000Z";
+			// TODO: Can cause error in different time zones. Need to fix this.
+			date = date + "T22:00:00.000Z";
 
 			return {
 				author: d.author,
