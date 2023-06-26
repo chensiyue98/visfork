@@ -234,7 +234,7 @@ export default function InformedConsent() {
 				</li>
 			</ol>
 			<p>
-				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO☐
+				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
 			</p>
 			<ol>
 				<li>
@@ -243,7 +243,7 @@ export default function InformedConsent() {
 				</li>
 			</ol>
 			<p>
-				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO☐
+				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
 			</p>
 			<ol>
 				<li>
@@ -252,7 +252,7 @@ export default function InformedConsent() {
 				</li>
 			</ol>
 			<p>
-				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO☐
+				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
 			</p>
 			<p>&nbsp;</p>
 			<p>Name of Participant:</p>
