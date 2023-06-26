@@ -3,7 +3,7 @@ export default function InformedConsent() {
 		<div className="w-3/4 flex flex-col m-auto">
 			<p>&nbsp;</p>
 			<h1 className="font-bold text-2xl">Informed Consent Form</h1>
-			<h1 className="font-bold underline">
+			<h1 className="font-bold underline text-lg">
 				Information sheet for research project &ldquo;Visualizing Differences In
 				Fork Ecosystems&rdquo;
 			</h1>
@@ -201,7 +201,7 @@ export default function InformedConsent() {
 				ethical review committee of Eindhoven University of Technology.
 			</p>
 			<p>&nbsp;</p>
-			<h1 className="underline font-bold text-2xl">
+			<h1 className="underline font-bold text-lg">
 				Consent form for participation by an adult
 			</h1>
 			<p>By signing this consent form I acknowledge the following:</p>
@@ -248,8 +248,8 @@ export default function InformedConsent() {
 					&ndash; without my name being published in these.
 				</li>
 			</ol>
-			<p>☐
-				YES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
+			<p>
+				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
 			</p>
 			<p>&nbsp;</p>
 			<p>Name of Participant:</p>
