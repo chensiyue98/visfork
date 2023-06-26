@@ -176,9 +176,6 @@ export default function InformedConsent() {
 					</tr>
 				</tbody>
 			</table>
-			<p>
-				<em>&nbsp;</em>
-			</p>
 			<p>&nbsp;</p>
 			<h2>9.&nbsp;&nbsp;&nbsp;&nbsp; Confidentiality of data</h2>
 			<p>
@@ -251,8 +248,8 @@ export default function InformedConsent() {
 					&ndash; without my name being published in these.
 				</li>
 			</ol>
-			<p>
-				YES ☐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
+			<p>☐
+				YES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO ☐
 			</p>
 			<p>&nbsp;</p>
 			<p>Name of Participant:</p>
