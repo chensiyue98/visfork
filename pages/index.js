@@ -26,7 +26,6 @@ import AppBar from "@mui/material/AppBar";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
-// TODO: parse url to owner/repo
 // TODO: popup dialog when token is invalid or rate limit is exceeded
 // current key: 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
 

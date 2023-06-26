@@ -183,7 +183,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 				ref={ref}
 				className="border-2 border-blue-300 rounded-md p-1"
 			>
-				Slide to select date range
+				Slide to select a date range
 			</div>
 		</div>
 	);

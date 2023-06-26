@@ -13,6 +13,7 @@ const eg = EditableGraph({ width: 1000 });
 
 export default function Network(test_data) {
 	const data = test_data.data;
+	console.log(data);
 	// const data = jsondata;
 
 	const [isPlay, setPlay] = useState(false);
@@ -124,7 +125,9 @@ function authorsByDate(dateGroupedData, dateRange) {
 	dateRange.forEach((date) => {
 		dateArray.push(cumulativeData);
 		cumulativeData = new Map(cumulativeData);
-		const currentData = dateGroupedData.get(date.toISOString()) || [];
+		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
+		// console.log(dateZeroTime);
+		const currentData = dateGroupedData.get(dateZeroTime) || [];
 		currentData.forEach((datum) => {
 			const key = datum.author;
 			if (!cumulativeData.has(key)) {
@@ -133,6 +136,7 @@ function authorsByDate(dateGroupedData, dateRange) {
 			cumulativeData.set(key, cumulativeData.get(key) + 1);
 		});
 	});
+	console.log(dateArray);
 	return dateArray.map((d) =>
 		Array.from(d).map((t) => ({ id: t[0], type: "author", count: t[1] }))
 	);
@@ -146,7 +150,8 @@ function reposByDate(dateGroupedData, dateRange) {
 		// console.log(date.toISOString());
 		dateArray.push(cumulativeData);
 		cumulativeData = new Map(cumulativeData);
-		const currentData = dateGroupedData.get(date.toISOString()) || [];
+		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
+		const currentData = dateGroupedData.get(dateZeroTime) || [];
 		// if(currentData.length > 0) console.log(currentData);
 		currentData.forEach((datum) => {
 			const key = datum.repo;
@@ -167,7 +172,9 @@ function connectionsByDate(dateGroupedData, dateRange) {
 	dateRange.forEach((date) => {
 		dateArray.push(cumulativeData);
 		cumulativeData = new Map(cumulativeData);
-		const currentData = dateGroupedData.get(date.toISOString()) || [];
+		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
+
+		const currentData = dateGroupedData.get(dateZeroTime) || [];
 		currentData.forEach((datum) => {
 			const key = datum.author + " | " + datum.repo;
 			if (!cumulativeData.has(key)) {
