@@ -298,10 +298,14 @@ const DagComponent = ({ data }) => {
 							opacity: 0.5,
 						})
 					)
-					.style("border-color", "black")
-					.style("border-width", "1px")
-					.style("border-style", "solid")
+					// .style("border-color", "black")
+					// .style("border-width", "1px")
+					// .style("border-style", "solid")
 					.style("border-radius", "5px")
+					// backdrop-blur-md
+					.style("box-shadow", "0 0 5px black")
+					.style("backdrop-filter", "blur(2px)")
+					.style("-webkit-backdrop-filter", "blur(2px)")
 					.style("padding", "5px")
 					.style("left", `${event.pageX - 200}px`)
 					.style("top", `${event.pageY - 120}px`);
