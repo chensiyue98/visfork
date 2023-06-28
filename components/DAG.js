@@ -597,7 +597,7 @@ const DagComponent = ({ data }) => {
 				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
 			<div className="border-2 border-gray-200 border-solid">
-				<TableContainer className="h-96 w-screen-3/4 overflow-x-auto">
+				<TableContainer className="h-60 w-screen-3/4 overflow-x-auto">
 					<Table sx={{ minWidth: 800 }} size="small" aria-label="simple table">
 						<TableHead>
 							<TableRow className="child:font-extrabold">
