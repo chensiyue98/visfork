@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import Head from 'next/head'
+
 import axios from "axios";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
@@ -238,6 +240,11 @@ export default function App() {
 
 	return (
 		<div className="p-10 bg-gray-50">
+			<Head>
+				<title>VisFork</title>
+				<meta name="description" content="Visualize your forked repos" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 			<Tour></Tour>
 			<div className="w-screen m-0">
 				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1 }}>
