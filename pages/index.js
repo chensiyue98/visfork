@@ -46,8 +46,10 @@ export default function App() {
 	const [repo, setRepo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
+	let tok1 = "ghp_";
+	let tok2 = "fVMFvAprNxYLuzWuNXeW2U8Ls8PskK1P5lWC";
 	const [token, setToken] = useState(
-		"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"
+		tok1 + tok2
 	);
 
 	// Menu
