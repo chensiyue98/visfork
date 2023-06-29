@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Analytics } from '@vercel/analytics/react';
 import Head from "next/head";
 
 import axios from "axios";
@@ -249,11 +250,12 @@ export default function App() {
 			<div className="w-screen m-0">
 				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1 }}>
 					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
-						<span className="flex items-center">
+						<span>
 							<a
 								href="https://github.com/chensiyue98/visfork"
 								target="_blank"
 								rel="noreferrer"
+								className="flex items-center"
 							>
 								<GitHubIcon /> &nbsp; VisFork
 							</a>
@@ -453,6 +455,7 @@ export default function App() {
 					</Button>
 				</div>
 			)}
+			<Analytics />
 		</div>
 	);
 }
