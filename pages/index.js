@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Head from 'next/head'
+import Head from "next/head";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -48,9 +48,7 @@ export default function App() {
 	const [isSubmit, setIsSubmit] = useState(false);
 	let tok1 = "ghp_";
 	let tok2 = "fVMFvAprNxYLuzWuNXeW2U8Ls8PskK1P5lWC";
-	const [token, setToken] = useState(
-		tok1 + tok2
-	);
+	const [token, setToken] = useState(tok1 + tok2);
 
 	// Menu
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -252,7 +250,13 @@ export default function App() {
 				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1 }}>
 					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
 						<span className="flex items-center">
-							<GitHubIcon /> &nbsp; VisFork
+							<a
+								href="https://github.com/chensiyue98/visfork"
+								target="_blank"
+								rel="noreferrer"
+							>
+								<GitHubIcon /> &nbsp; VisFork
+							</a>
 						</span>
 						<Tooltip title="Settings" placement="bottom">
 							<Button
