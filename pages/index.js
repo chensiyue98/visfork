@@ -47,7 +47,7 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [token, setToken] = useState(
-		"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"
+		"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"
 	);
 
 	// Menu
