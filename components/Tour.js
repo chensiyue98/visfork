@@ -21,7 +21,13 @@ const TOUR_STEPS = [
 	},
 	{
 		target: "#overflow-container",
-		content: "You can brush over the commits to see the details.",
+		content: (
+			<span>
+				<b>⚫ Node</b>: a commit datapoint; <br /> 
+				<b>◼ Merged node</b>: contains nodes that do not diverged. <br /><br />
+				You can <b>brush</b> over the commits to see the details.
+			</span>
+		),
 		disableBeacon: true,
 	},
 	{

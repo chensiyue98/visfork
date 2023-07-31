@@ -347,21 +347,6 @@ const DagComponent = ({ data }) => {
 				.append("text")
 				.attr("x", node.y)
 				.attr("y", width)
-				// if the difference between prevTextX and current node.y is less than 20, dy set to -20
-				// .attr("dy", () => {
-				// 	if (node.y - preNode.y < 20) {
-				// 		return "-20px";
-				// 	} else {
-				// 		return "-10px";
-				// 	}
-				// })
-				// .attr("dy", () => {
-				// 	if (i % 2 === 0) {
-				// 		return "-20px";
-				// 	} else {
-				// 		return "-10px";
-				// 	}
-				// })
 				.attr("dy", "-10px")
 				.attr("text-anchor", "middle")
 				.attr("font-size", "10px")
@@ -377,10 +362,11 @@ const DagComponent = ({ data }) => {
 			let line = graph
 				.append("line")
 				.attr("x1", node.y)
-				.attr("y1", node.x)
+				.attr("y1", 0)
 				.attr("x2", node.y)
 				.attr("y2", width - 20)
-				.attr("stroke", "black")
+				.attr("stroke", "grey")
+				.attr("stroke-dasharray", "5,5")
 				.attr("stroke-width", "1px");
 
 			preNode = node;
