@@ -16,3 +16,16 @@ yarn dev
 ```
 
 You should see the demo available at http://localhost:3000
+
+## Usage
+
+VisFork will load some preset data for a quick exploration of the tool. To explore other repositories, simply input the name or the URL of a repository in the input field. The name should be in the format:
+```
+Owner/Repo
+```
+
+By default, it will fetch data of the five most stared forks in the past one year. You can alter the query range by changing the parameters in the 'ADVANCED' settings.
+
+Click on the 'SUBMIT' button, you will see visualizations for forks. You can download the queried raw data in JSON format at the bottom of the page, in case you wish to review the data in the future.
+
+To load history data from a JSON file, click on the button 'UPLOAD JSON' and select the .json file you downloaded.
