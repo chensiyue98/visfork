@@ -12,7 +12,7 @@ To host the project locally, make sure you have the [Node.js](https://nodejs.org
 [npm](https://www.npmjs.com/) is the default package manager of Node.js. We recommend to install [Yarn](https://yarnpkg.com/) for package management.
 
 ### Run code
-Clone or download this repository and `cd` into the directory. Run the following command to install dependencies and start the demo:
+Download the [latest release](https://github.com/chensiyue98/visfork/releases/) or clone this repository and `cd` into the directory. Run the following command to install dependencies and start the demo:
 
 ```
 yarn install
