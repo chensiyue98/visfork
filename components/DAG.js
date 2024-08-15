@@ -423,6 +423,7 @@ const DagComponent = ({ data }) => {
 							message: g.__data__.data.message,
 							mergedNodes: g.__data__.data.mergedNodes,
 							url: g.__data__.data.url,
+							hash: g.__data__.data.id,
 						});
 					});
 					setSelectList(selectArray);
@@ -600,7 +601,7 @@ const DagComponent = ({ data }) => {
 									Commit Message
 								</TableCell>
 								<TableCell style={{ width: "5%" }} align="center">
-									URL
+									Hash
 								</TableCell>
 							</TableRow>
 						</TableHead>
@@ -629,7 +630,7 @@ const DagComponent = ({ data }) => {
 											target="_blank"
 											rel="noreferrer"
 										>
-											link
+											{row.hash}
 										</a>
 									</TableCell>
 								</TableRow>
