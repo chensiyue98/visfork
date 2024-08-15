@@ -319,7 +319,7 @@ export default function App() {
 										onChange={(event) => setNumForks(event.target.value)}
 									>
 										{/* Menu item from 1 to 10 */}
-										{[...Array(10).keys()].map((i) => (
+										{[...Array(50).keys()].map((i) => (
 											<MenuItem key={i} value={i + 1}>
 												{i + 1}
 											</MenuItem>
