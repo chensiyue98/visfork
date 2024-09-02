@@ -7,9 +7,9 @@ The project is built with [Next.js](https://nextjs.org/) and hosted on [Vercel](
 ## Project Setup
 
 ### Prerequisite
-To host the project locally, make sure you have the [Node.js](https://nodejs.org/) environment installed.
+To host the project locally, make sure you have the [Node.js](https://nodejs.org/) environment installed. Node.js version >= v22.6.0
 
-[npm](https://www.npmjs.com/) is the default package manager of Node.js. We recommend to install [Yarn](https://yarnpkg.com/) for package management.
+[npm](https://www.npmjs.com/) is the default package manager of Node.js. We recommend to install [Yarn](https://yarnpkg.com/) for package management. Yarn version >= 1.22.22.
 
 ### Run code
 Download the [latest release](https://github.com/chensiyue98/visfork/releases/) or clone this repository and `cd` into the directory. Run the following command to install dependencies and start the demo:
