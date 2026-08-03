@@ -1,5 +1,5 @@
 import React from "react";
-import JoyRide from "react-joyride";
+import JoyRide, { STATUS } from "react-joyride";
 const TOUR_STEPS = [
 	{
 		target: "#settings",
@@ -49,11 +49,19 @@ const TOUR_STEPS = [
 	},
 ];
 
-const Tour = () => {
+const Tour = ({ run, onComplete }) => {
+	const handleCallback = ({ status }) => {
+		if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+			onComplete?.();
+		}
+	};
+
 	return (
 		<>
 			<JoyRide
 				steps={TOUR_STEPS}
+				run={run}
+				callback={handleCallback}
 				continuous={true}
 				showSkipButton={true}
 				showProgress={true}
