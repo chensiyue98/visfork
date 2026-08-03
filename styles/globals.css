@@ -43,7 +43,19 @@ a { color:inherit; }
 .visualization-heading p { margin:0; color:var(--muted); }
 .sample-badge { flex:none; padding:8px 12px; border:1px solid #b9d3f5; color:#1457ae; background:#edf5ff; font-size:.78rem; font-weight:700; }
 .range-card { width:100%; padding:18px 20px 10px; overflow:hidden; }
-.range-slider { width:100%; min-height:120px; }
+.range-slider { width:100%; min-height:194px; }
+.range-slider svg { display:block; width:100%; height:auto; }
+.activity-range-actions { display:flex; align-items:flex-end; flex-direction:column; gap:7px; }
+.activity-range-actions>span { max-width:460px; color:var(--muted); font-size:.72rem; font-variant-numeric:tabular-nums; text-align:right; }
+.activity-grid .tick line { stroke:#e4e9ed; }
+.activity-grid .tick text,.activity-x-axis text { fill:#677681; font-size:10px; }
+.activity-x-axis text { transform:translateY(7px); }
+.activity-y-label { fill:#677681; font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.activity-bar { fill:#1769e0; outline:none; transition:fill .15s ease,opacity .15s ease; }
+.activity-bar.is-muted { fill:#b7c2ca; opacity:.42; }
+.activity-bar:focus { stroke:#17212b; stroke-width:2px; }
+.activity-brush .selection { fill:#1769e0; fill-opacity:.12; stroke:#1769e0; stroke-width:1.5px; }
+.activity-brush .handle { fill:#1769e0; width:5px; }
 .chart-title-row { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; margin-bottom:12px; }
 .chart-title-row div { min-width:0; }
 .chart-title-row strong,.chart-title-row span { display:block; }
@@ -168,6 +180,8 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 	.dataset-stat { padding:14px 10px; }
 	.query-panel,.dag-card,.selection-card { padding:16px!important; }
 	.visualization-heading,.chart-title-row { align-items:flex-start; flex-direction:column; gap:8px; }
+	.activity-range-actions { width:100%; align-items:flex-start; }
+	.activity-range-actions>span { text-align:left; }
 	.query-row { align-items:stretch; flex-direction:column; }
 	.query-row label { margin-bottom:-4px; }
 	.advanced-panel { grid-template-columns:1fr; gap:14px; margin-top:16px; padding:14px; }

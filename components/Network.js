@@ -17,7 +17,7 @@ export default function Network({ data = [] }) {
 	const layout = useMemo(() => buildStableLayout(data), [data]);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [monthIndex, setMonthIndex] = useState(0);
-	const [viewMode, setViewMode] = useState("rolling");
+	const [viewMode, setViewMode] = useState("cumulative");
 	const [layoutMode, setLayoutMode] = useState("bipartite");
 	const [crossForkOnly, setCrossForkOnly] = useState(false);
 
