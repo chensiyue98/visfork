@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import * as d3 from "d3";
-import { Button, Slider } from "@mui/material";
+import { Button, FormControlLabel, Slider, Switch, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
@@ -17,6 +17,8 @@ export default function Network({ data = [] }) {
 	const layout = useMemo(() => buildStableLayout(data), [data]);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [monthIndex, setMonthIndex] = useState(0);
+	const [viewMode, setViewMode] = useState("rolling");
+	const [crossForkOnly, setCrossForkOnly] = useState(false);
 
 	useEffect(() => {
 		setMonthIndex(0);
@@ -41,10 +43,21 @@ export default function Network({ data = [] }) {
 		return <div className="network-empty">No contributor activity is available for this date range.</div>;
 	}
 
-	const snapshot = timeline[Math.min(monthIndex, timeline.length - 1)];
-	const visibleNodeIds = new Set(snapshot.links.flatMap((link) => [link.author, link.repo]));
+	const timelineEntry = timeline[Math.min(monthIndex, timeline.length - 1)];
+	const modeLinks = getLinksForMode(timeline, monthIndex, viewMode);
+	const contributorRepos = d3.group(modeLinks, (link) => link.author);
+	const crossForkAuthors = new Set(
+		Array.from(contributorRepos, ([author, links]) => [author, new Set(links.map((link) => link.repo)).size])
+			.filter(([, repoCount]) => repoCount > 1)
+			.map(([author]) => author)
+	);
+	const visibleLinks = crossForkOnly
+		? modeLinks.filter((link) => crossForkAuthors.has(link.author))
+		: modeLinks;
+	const visibleNodeIds = new Set(visibleLinks.flatMap((link) => [link.author, link.repo]));
 	const visibleAuthors = layout.authors.filter((author) => visibleNodeIds.has(author.id));
 	const visibleRepos = layout.repos.filter((repo) => visibleNodeIds.has(repo.id));
+	const monthSummary = getMonthSummary(timelineEntry);
 
 	const changeMonth = (nextIndex) => {
 		setMonthIndex(Math.max(0, Math.min(timeline.length - 1, nextIndex)));
@@ -56,7 +69,7 @@ export default function Network({ data = [] }) {
 			<div className="network-toolbar">
 				<div>
 					<span className="network-period-label">Monthly snapshot</span>
-					<strong>{d3.timeFormat("%B %Y")(snapshot.month)}</strong>
+					<strong>{d3.timeFormat("%B %Y")(timelineEntry.month)}</strong>
 				</div>
 				<div className="network-controls">
 					<Button aria-label="Previous month" disabled={monthIndex === 0} onClick={() => changeMonth(monthIndex - 1)}><SkipPreviousIcon /></Button>
@@ -65,6 +78,34 @@ export default function Network({ data = [] }) {
 					</Button>
 					<Button aria-label="Next month" disabled={monthIndex === timeline.length - 1} onClick={() => changeMonth(monthIndex + 1)}><SkipNextIcon /></Button>
 				</div>
+			</div>
+
+			<div className="network-summary" aria-label={`Activity summary for ${d3.timeFormat("%B %Y")(timelineEntry.month)}`}>
+				<SummaryMetric value={monthSummary.commits} label="commits" />
+				<SummaryMetric value={monthSummary.authors} label="contributors" />
+				<SummaryMetric value={monthSummary.repos} label="repositories" />
+				<SummaryMetric value={monthSummary.newRelationships} label="new relationships" />
+			</div>
+
+			<div className="network-view-options">
+				<div>
+					<span className="network-option-label">Time window</span>
+					<ToggleButtonGroup
+						value={viewMode}
+						exclusive
+						onChange={(_, value) => value && setViewMode(value)}
+						size="small"
+						aria-label="Collaboration time window"
+					>
+						<ToggleButton value="current">Current month</ToggleButton>
+						<ToggleButton value="rolling">Rolling 3 months</ToggleButton>
+						<ToggleButton value="cumulative">Cumulative</ToggleButton>
+					</ToggleButtonGroup>
+				</div>
+				<FormControlLabel
+					control={<Switch checked={crossForkOnly} onChange={(event) => setCrossForkOnly(event.target.checked)} size="small" />}
+					label="Cross-fork contributors only"
+				/>
 			</div>
 
 			<div className="network-slider-row">
@@ -91,13 +132,13 @@ export default function Network({ data = [] }) {
 				<svg
 					viewBox={`0 0 ${CHART_WIDTH} ${layout.height}`}
 					role="img"
-					aria-label={`Contributor and repository relationships in ${d3.timeFormat("%B %Y")(snapshot.month)}`}
+					aria-label={`Contributor and repository relationships in ${d3.timeFormat("%B %Y")(timelineEntry.month)}`}
 				>
 					<text className="network-column-title" x={LEFT_X} y="26" textAnchor="middle">Contributors</text>
 					<text className="network-column-title" x={RIGHT_X} y="26" textAnchor="middle">Repositories</text>
 
 					<g className="network-links">
-						{snapshot.links.map((link) => {
+						{visibleLinks.map((link) => {
 							const author = layout.authorMap.get(link.author);
 							const repo = layout.repoMap.get(link.repo);
 							if (!author || !repo) return null;
@@ -106,9 +147,9 @@ export default function Network({ data = [] }) {
 									key={`${link.author}|${link.repo}`}
 									className={`network-link network-link-${link.status}`}
 									d={`M${author.x},${author.y} C${author.x + 220},${author.y} ${repo.x - 220},${repo.y} ${repo.x},${repo.y}`}
-									style={{ strokeWidth: Math.min(7, 1.25 + Math.sqrt(link.totalCount)) }}
+									style={{ strokeWidth: Math.min(7, 1.25 + Math.sqrt(link.periodCount)) }}
 								>
-									<title>{`${link.author} → ${link.repo}: ${link.monthCount} commits this month, ${link.totalCount} total`}</title>
+									<title>{`${link.author} → ${link.repo}: ${link.monthCount} commits this month, ${link.periodCount} in this view, ${link.totalCount} total`}</title>
 								</path>
 							);
 						})}
@@ -122,6 +163,10 @@ export default function Network({ data = [] }) {
 			</div>
 		</div>
 	);
+}
+
+function SummaryMetric({ value, label }) {
+	return <div><strong>{value}</strong><span>{label}</span></div>;
 }
 
 function NetworkNode({ node, type }) {
@@ -148,31 +193,72 @@ function buildMonthlyTimeline(data) {
 	const months = d3.timeMonths(start, end);
 	const byMonth = d3.group(validData, (item) => +d3.timeMonth.floor(item.parsedDate));
 	const cumulative = new Map();
+	const firstSeen = new Map();
 
-	return months.map((month) => {
+	return months.map((month, monthIndex) => {
 		const current = new Map();
 		(byMonth.get(+month) || []).forEach((item) => {
 			const key = `${item.author}\u0000${item.repo}`;
 			current.set(key, (current.get(key) || 0) + 1);
 		});
-		const existingKeys = new Set(cumulative.keys());
-		current.forEach((count, key) => cumulative.set(key, (cumulative.get(key) || 0) + count));
+		current.forEach((count, key) => {
+			if (!firstSeen.has(key)) firstSeen.set(key, monthIndex);
+			cumulative.set(key, (cumulative.get(key) || 0) + count);
+		});
 
 		return {
+			index: monthIndex,
 			month,
-			links: Array.from(cumulative, ([key, totalCount]) => {
-				const [author, repo] = key.split("\u0000");
-				const monthCount = current.get(key) || 0;
-				return {
-					author,
-					repo,
-					totalCount,
-					monthCount,
-					status: monthCount === 0 ? "history" : existingKeys.has(key) ? "active" : "new",
-				};
-			}),
+			current: new Map(current),
+			cumulative: new Map(cumulative),
+			firstSeen: new Map(firstSeen),
 		};
 	});
+}
+
+function getLinksForMode(timeline, monthIndex, mode) {
+	const entry = timeline[Math.min(monthIndex, timeline.length - 1)];
+	const periodCounts = new Map();
+	if (mode === "current") {
+		entry.current.forEach((count, key) => periodCounts.set(key, count));
+	} else if (mode === "rolling") {
+		const windowStart = Math.max(0, monthIndex - 2);
+		for (let index = windowStart; index <= monthIndex; index += 1) {
+			timeline[index].current.forEach((count, key) => {
+				periodCounts.set(key, (periodCounts.get(key) || 0) + count);
+			});
+		}
+	} else {
+		entry.cumulative.forEach((count, key) => periodCounts.set(key, count));
+	}
+
+	return Array.from(periodCounts, ([key, periodCount]) => {
+		const [author, repo] = key.split("\u0000");
+		const monthCount = entry.current.get(key) || 0;
+		return {
+			author,
+			repo,
+			periodCount,
+			monthCount,
+			totalCount: entry.cumulative.get(key) || periodCount,
+			status: entry.firstSeen.get(key) === monthIndex ? "new" : monthCount > 0 ? "active" : "history",
+		};
+	});
+}
+
+function getMonthSummary(entry) {
+	const authors = new Set();
+	const repos = new Set();
+	let commits = 0;
+	let newRelationships = 0;
+	entry.current.forEach((count, key) => {
+		const [author, repo] = key.split("\u0000");
+		authors.add(author);
+		repos.add(repo);
+		commits += count;
+		if (entry.firstSeen.get(key) === entry.index) newRelationships += 1;
+	});
+	return { commits, authors: authors.size, repos: repos.size, newRelationships };
 }
 
 function buildStableLayout(data) {

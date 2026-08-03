@@ -72,6 +72,17 @@ a { color:inherit; }
 .network-toolbar strong { margin-top:3px; font-size:1.15rem; letter-spacing:-.02em; }
 .network-period-label { color:var(--blue); font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
 .network-controls { display:flex; align-items:center; gap:2px; }
+.network-summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-top:0; background:#fff; }
+.network-summary div { padding:13px 16px; border-right:1px solid var(--line); }
+.network-summary div:last-child { border-right:0; }
+.network-summary strong,.network-summary span { display:block; }
+.network-summary strong { font-size:1.25rem; font-variant-numeric:tabular-nums; letter-spacing:-.03em; }
+.network-summary span { margin-top:2px; color:var(--muted); font-size:.65rem; letter-spacing:.06em; text-transform:uppercase; }
+.network-view-options { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding:14px 16px 8px; }
+.network-view-options>div:first-child { display:flex; flex-direction:column; gap:5px; }
+.network-option-label { color:var(--muted); font-size:.66rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+.network-view-options .MuiToggleButton-root { padding:5px 10px; font-size:.69rem; text-transform:none; }
+.network-view-options .MuiFormControlLabel-label { color:var(--ink); font-size:.78rem; }
 .network-slider-row { display:grid; grid-template-columns:auto minmax(180px,1fr) auto; align-items:center; gap:14px; padding:12px 16px 4px; color:var(--muted); font-size:.7rem; }
 .network-legend { display:flex; flex-wrap:wrap; gap:16px; padding:8px 16px 12px; color:var(--muted); font-size:.72rem; }
 .network-legend span { display:flex; align-items:center; gap:6px; }
@@ -107,6 +118,11 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 	.lane-count { display:none; }
 	.network-toolbar { align-items:flex-start; flex-direction:column; }
 	.network-controls { width:100%; justify-content:space-between; }
+	.network-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+	.network-summary div:nth-child(2) { border-right:0; }
+	.network-summary div:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+	.network-view-options { align-items:flex-start; flex-direction:column; }
+	.network-view-options .MuiToggleButtonGroup-root { display:grid; grid-template-columns:1fr; }
 	.network-slider-row { grid-template-columns:1fr; gap:2px; }
 	.network-slider-row>span { display:none; }
 }
