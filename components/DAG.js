@@ -5,7 +5,7 @@ import * as d3dag from "d3-dag";
 import { generateWordStats } from "./MessageCloud";
 
 import MessageCloud from "./MessageCloud";
-import { parseData, SankeyChart } from "./Sankey";
+import MaintenanceIntent from "./MaintenanceIntent";
 import Network from "./Network";
 import labella from "labella";
 
@@ -576,44 +576,6 @@ const DagComponent = ({ data, rootRepo }) => {
 		};
 	}, [data, grouping, rootRepo]);
 
-	// draw sankey diagram (repo -> commit_type) when data is updated
-	useEffect(() => {
-		if (!isSuccess) {
-			return;
-		}
-		const sankeyData = parseData(data);
-		// console.log("sankeyData: ", sankeyData);
-		const nodeSet = new Set();
-		const links = [];
-		sankeyData.forEach((d) => {
-			// nodes are the unique repos and commit types
-			// format: {name: "repo_name"} or {name: "commit_type"}
-			// create a set to store the unique nodes
-			nodeSet.add(d.name);
-			nodeSet.add(d.type);
-
-			// links are the connections between repos and commit types
-			links.push({
-				source: d.name,
-				target: d.type,
-				value: d.count,
-			});
-		});
-
-		const chart = SankeyChart(
-			{
-				links: links,
-			},
-			{
-				nodeGroup: (d) => d.id.split(/\W/)[0],
-			}
-		);
-		// remove the previous chart
-		d3.select("#sankey-diagram").selectAll("*").remove();
-		// chart is an svg element, append it to the div
-		d3.select("#sankey-diagram").append(() => chart);
-	}, [data, isSuccess]);
-
 	// Network Graph
 	useEffect(() => {
 		// map author and repo data from the data into {"author": "name", "repo": "name"}
@@ -814,20 +776,8 @@ const DagComponent = ({ data, rootRepo }) => {
 							<CategoryIcon /> &nbsp; Compare maintenance intent
 						</AccordionSummary>
 						<AccordionDetails>
-							<p className="accordion-intro">See how each fork’s commit messages distribute across adaptive, corrective, and perfective maintenance. Categories are inferred from message text.</p>
-							<div
-								id="sankey-diagram"
-								className="border-2 h-auto border-blue-200 flex justify-center"
-							/>
-							<ul
-								id="explain-classification"
-								className="px-10 text-xs"
-								style={{ listStyleType: "disc" }}
-							>
-								<li>Adaptive: Accommodate changes in the environment </li>
-								<li>Corrective: Fix bugs or errors</li>
-								<li>Perfective: Improve the performance or readability</li>
-							</ul>
+							<p className="accordion-intro">Compare each fork’s maintenance mix as normalized share or absolute commit volume.</p>
+							<MaintenanceIntent data={data} rootRepo={rootRepo} />
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
