@@ -128,7 +128,8 @@ a { color:inherit; }
 .network-summary strong { font-size:1.25rem; font-variant-numeric:tabular-nums; letter-spacing:-.03em; }
 .network-summary span { margin-top:2px; color:var(--muted); font-size:.65rem; letter-spacing:.06em; text-transform:uppercase; }
 .network-view-options { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding:14px 16px 8px; }
-.network-view-options>div:first-child { display:flex; flex-direction:column; gap:5px; }
+.network-option-groups { display:flex; align-items:flex-end; flex-wrap:wrap; gap:12px 24px; }
+.network-option-groups>div { display:flex; flex-direction:column; gap:5px; }
 .network-option-label { color:var(--muted); font-size:.66rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
 .network-view-options .MuiToggleButton-root { padding:5px 10px; font-size:.69rem; text-transform:none; }
 .network-view-options .MuiFormControlLabel-label { color:var(--ink); font-size:.78rem; }
@@ -150,6 +151,13 @@ a { color:inherit; }
 .network-node-author rect { fill:#53697a; }
 .network-node-repo rect { fill:#17212b; }
 .network-node text { fill:#fff; font-size:11px; font-weight:650; pointer-events:none; }
+.network-force-canvas { min-height:520px; cursor:grab; }
+.network-force-canvas:active { cursor:grabbing; }
+.force-node { cursor:move; }
+.force-node rect { stroke:#fff; stroke-width:1.5; }
+.force-node-author rect { fill:#53697a; }
+.force-node-repo rect { fill:#17212b; }
+.force-node text { fill:#fff; font-size:11px; font-weight:650; pointer-events:none; }
 .network-empty { padding:40px 20px; text-align:center; color:var(--muted); border:1px dashed var(--line); }
 button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgba(23,105,224,.35); outline-offset:3px; }
 @media (max-width:800px) {
@@ -173,6 +181,7 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 	.network-summary div:nth-child(2) { border-right:0; }
 	.network-summary div:nth-child(-n+2) { border-bottom:1px solid var(--line); }
 	.network-view-options { align-items:flex-start; flex-direction:column; }
+	.network-option-groups { align-items:flex-start; flex-direction:column; width:100%; }
 	.network-view-options .MuiToggleButtonGroup-root { display:grid; grid-template-columns:1fr; }
 	.network-slider-row { grid-template-columns:1fr; gap:2px; }
 	.network-slider-row>span { display:none; }

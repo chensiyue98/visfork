@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Button, FormControlLabel, Slider, Switch, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
@@ -18,6 +18,7 @@ export default function Network({ data = [] }) {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [monthIndex, setMonthIndex] = useState(0);
 	const [viewMode, setViewMode] = useState("rolling");
+	const [layoutMode, setLayoutMode] = useState("bipartite");
 	const [crossForkOnly, setCrossForkOnly] = useState(false);
 
 	useEffect(() => {
@@ -88,19 +89,28 @@ export default function Network({ data = [] }) {
 			</div>
 
 			<div className="network-view-options">
-				<div>
-					<span className="network-option-label">Time window</span>
-					<ToggleButtonGroup
-						value={viewMode}
-						exclusive
-						onChange={(_, value) => value && setViewMode(value)}
-						size="small"
-						aria-label="Collaboration time window"
-					>
-						<ToggleButton value="current">Current month</ToggleButton>
-						<ToggleButton value="rolling">Rolling 3 months</ToggleButton>
-						<ToggleButton value="cumulative">Cumulative</ToggleButton>
-					</ToggleButtonGroup>
+				<div className="network-option-groups">
+					<div>
+						<span className="network-option-label">Layout</span>
+						<ToggleButtonGroup value={layoutMode} exclusive onChange={(_, value) => value && setLayoutMode(value)} size="small" aria-label="Collaboration layout">
+							<ToggleButton value="bipartite">Bipartite</ToggleButton>
+							<ToggleButton value="force">Force network</ToggleButton>
+						</ToggleButtonGroup>
+					</div>
+					<div>
+						<span className="network-option-label">Time window</span>
+						<ToggleButtonGroup
+							value={viewMode}
+							exclusive
+							onChange={(_, value) => value && setViewMode(value)}
+							size="small"
+							aria-label="Collaboration time window"
+						>
+							<ToggleButton value="current">Current month</ToggleButton>
+							<ToggleButton value="rolling">Rolling 3 months</ToggleButton>
+							<ToggleButton value="cumulative">Cumulative</ToggleButton>
+						</ToggleButtonGroup>
+					</div>
 				</div>
 				<FormControlLabel
 					control={<Switch checked={crossForkOnly} onChange={(event) => setCrossForkOnly(event.target.checked)} size="small" />}
@@ -128,7 +138,9 @@ export default function Network({ data = [] }) {
 				<span><i className="relation-history" />Earlier relationship</span>
 			</div>
 
-			<div className="network-canvas">
+			{layoutMode === "force" ? (
+				<ForceNetwork links={visibleLinks} month={timelineEntry.month} />
+			) : <div className="network-canvas">
 				<svg
 					viewBox={`0 0 ${CHART_WIDTH} ${layout.height}`}
 					role="img"
@@ -160,9 +172,117 @@ export default function Network({ data = [] }) {
 						{visibleRepos.map((repo) => <NetworkNode key={repo.id} node={repo} type="repo" />)}
 					</g>
 				</svg>
-			</div>
+			</div>}
 		</div>
 	);
+}
+
+function ForceNetwork({ links, month }) {
+	const svgRef = useRef(null);
+	const positionsRef = useRef(new Map());
+
+	useEffect(() => {
+		const svg = d3.select(svgRef.current);
+		svg.selectAll("*").remove();
+		const height = Math.max(520, Math.min(760, 360 + links.length * 4));
+		svg
+			.attr("viewBox", `0 0 ${CHART_WIDTH} ${height}`)
+			.attr("role", "img")
+			.attr("aria-label", `Force-directed contributor network in ${d3.timeFormat("%B %Y")(month)}`);
+		const viewport = svg.append("g");
+		svg.call(d3.zoom().scaleExtent([0.55, 5]).on("zoom", (event) => viewport.attr("transform", event.transform)));
+
+		const nodeCounts = new Map();
+		links.forEach((link) => {
+			nodeCounts.set(`author:${link.author}`, (nodeCounts.get(`author:${link.author}`) || 0) + link.periodCount);
+			nodeCounts.set(`repo:${link.repo}`, (nodeCounts.get(`repo:${link.repo}`) || 0) + link.periodCount);
+		});
+		const nodes = [
+			...new Set(links.map((link) => link.author)),
+		].map((id) => createForceNode(id, "author", nodeCounts, positionsRef.current, height)).concat(
+			[...new Set(links.map((link) => link.repo))].map((id) => createForceNode(id, "repo", nodeCounts, positionsRef.current, height))
+		);
+		const forceLinks = links.map((link) => ({ ...link, source: `author:${link.author}`, target: `repo:${link.repo}` }));
+
+		const linkSelection = viewport.append("g")
+			.selectAll("line")
+			.data(forceLinks, (link) => `${link.author}|${link.repo}`)
+			.join("line")
+			.attr("class", (link) => `network-link network-link-${link.status}`)
+			.attr("stroke-width", (link) => Math.min(7, 1.25 + Math.sqrt(link.periodCount)));
+		linkSelection.append("title").text((link) => `${link.author} → ${link.repo}: ${link.monthCount} commits this month, ${link.periodCount} in this view, ${link.totalCount} total`);
+
+		const nodeSelection = viewport.append("g")
+			.selectAll("g")
+			.data(nodes, (node) => node.key)
+			.join("g")
+			.attr("class", (node) => `force-node force-node-${node.type}`);
+		nodeSelection.append("rect")
+			.attr("x", (node) => -node.width / 2)
+			.attr("y", -13)
+			.attr("width", (node) => node.width)
+			.attr("height", 26)
+			.attr("rx", 5);
+		nodeSelection.append("text")
+			.attr("text-anchor", "middle")
+			.attr("y", 4)
+			.text((node) => truncate(node.id, 28));
+		nodeSelection.append("title").text((node) => `${node.type === "repo" ? "Repository" : "Contributor"}: ${node.id}\n${node.count} commits in this view`);
+
+		const simulation = d3.forceSimulation(nodes)
+			.force("link", d3.forceLink(forceLinks).id((node) => node.key).distance(120).strength(0.3))
+			.force("charge", d3.forceManyBody().strength(-260))
+			.force("center", d3.forceCenter(CHART_WIDTH / 2, height / 2))
+			.force("collision", d3.forceCollide().radius((node) => node.width / 2 + 14).strength(0.85))
+			.on("tick", () => {
+				linkSelection
+					.attr("x1", (link) => link.source.x)
+					.attr("y1", (link) => link.source.y)
+					.attr("x2", (link) => link.target.x)
+					.attr("y2", (link) => link.target.y);
+				nodeSelection.attr("transform", (node) => `translate(${node.x},${node.y})`);
+				nodes.forEach((node) => positionsRef.current.set(node.key, { x: node.x, y: node.y }));
+			});
+
+		nodeSelection.call(d3.drag()
+			.on("start", (event, node) => {
+				if (!event.active) simulation.alphaTarget(0.25).restart();
+				node.fx = node.x;
+				node.fy = node.y;
+			})
+			.on("drag", (event, node) => {
+				node.fx = event.x;
+				node.fy = event.y;
+			})
+			.on("end", (event, node) => {
+				if (!event.active) simulation.alphaTarget(0);
+				node.fx = null;
+				node.fy = null;
+			}));
+
+		return () => simulation.stop();
+	}, [links, month]);
+
+	return <div className="network-canvas network-force-canvas"><svg ref={svgRef} /></div>;
+}
+
+function createForceNode(id, type, counts, positions, height) {
+	const key = `${type}:${id}`;
+	const prior = positions.get(key);
+	const seed = hashString(key);
+	return {
+		id,
+		key,
+		type,
+		count: counts.get(key) || 0,
+		width: Math.max(82, Math.min(190, truncate(id, 28).length * 7 + 24)),
+		x: prior?.x ?? 180 + (seed % 640),
+		y: prior?.y ?? 80 + ((seed * 17) % Math.max(120, height - 160)),
+	};
+}
+
+function hashString(value) {
+	return [...value].reduce((hash, character) => ((hash << 5) - hash + character.charCodeAt(0)) >>> 0, 0);
 }
 
 function SummaryMetric({ value, label }) {
