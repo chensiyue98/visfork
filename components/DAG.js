@@ -56,14 +56,14 @@ const DagComponent = ({ data }) => {
 		d3.select(svgRef.current).selectAll("*").remove();
 
 		// sort the data by date
-		data.sort((a, b) => {
+		const sortedData = [...data].sort((a, b) => {
 			return new Date(a.date) - new Date(b.date);
 		});
 
 		let dag = null;
 
 		try {
-			dag = d3dag.dagStratify()(data);
+			dag = d3dag.dagStratify()(sortedData);
 		} catch (err) {
 			setIsSuccess(false);
 			alert("Error: Please check if the repository is PUBLIC");
@@ -75,9 +75,9 @@ const DagComponent = ({ data }) => {
 		// var dag = d3dag.dagStratify()(data);
 
 		if (grouping === "none") {
-			dag = d3dag.dagStratify()(data);
+			dag = d3dag.dagStratify()(sortedData);
 		} else if (grouping === "month") {
-			dag = d3dag.dagStratify()(groupNodes(data));
+			dag = d3dag.dagStratify()(groupNodes(sortedData));
 		}
 
 		// console.log("dag: ", dag);
@@ -173,6 +173,8 @@ const DagComponent = ({ data }) => {
 
 		const svgSelection = d3.select(svgRef.current);
 		svgSelection.attr("id", "svgSelection");
+		svgSelection.attr("role", "img");
+		svgSelection.attr("aria-label", "Commit lineage across repository forks");
 		// svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
 		svgSelection.attr("width", height);
 		svgSelection.attr("height", width);
@@ -318,10 +320,11 @@ const DagComponent = ({ data }) => {
 				window.open(`${d.data.url}`);
 			});
 
+		d3.selectAll("body > .dag-tooltip").remove();
 		const tooltip = d3
 			.select("body")
 			.append("div")
-			.attr("class", "tooltip")
+			.attr("class", "tooltip dag-tooltip")
 			.style("opacity", 0)
 			.style("position", "absolute");
 
@@ -462,6 +465,7 @@ const DagComponent = ({ data }) => {
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
+		return () => tooltip.remove();
 	}, [data, grouping]);
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
@@ -555,8 +559,12 @@ const DagComponent = ({ data }) => {
 	const handleClose = () => setOpenModal(false);
 
 	return (
-		<div id="dag" className="flex flex-col justify-center">
-			<Paper elevation={5} className="m-3 p-3">
+		<div id="dag" className="dag-stack">
+			<Paper elevation={0} className="dag-card">
+				<div className="chart-title-row dag-title">
+					<div><strong>Fork evolution map</strong><span>Circles are commits; squares contain collapsed commits. Repository colors stay consistent within this view.</span></div>
+					<span>Drag to select · Click a node to open GitHub</span>
+				</div>
 				<div id="merge-buttons" className="">
 					<ToggleButtonGroup
 						value={grouping}
@@ -566,25 +574,26 @@ const DagComponent = ({ data }) => {
 						size="small"
 						className="flex items-center justify-center"
 					>
-						<ToggleButton value="none" title="Display all the nodes">
-							<WorkspacesIcon /> &nbsp; Full View
+						<ToggleButton value="none" title="Display every commit">
+							<WorkspacesIcon /> &nbsp; All commits
 						</ToggleButton>
-						<ToggleButton value="month" title="Show the divergent nodes">
-							<GroupWorkIcon /> &nbsp; Merged View
+						<ToggleButton value="month" title="Collapse linear commit sequences">
+							<GroupWorkIcon /> &nbsp; Collapse linear history
 						</ToggleButton>
 					</ToggleButtonGroup>
 				</div>
 				{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
 				<div
 					id="overflow-container"
-					className="overflow-x-scroll overflow-y-scroll w-screen-3/4"
+					className="dag-viewport"
 				>
 					<svg ref={svgRef} />
 				</div>
 				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
-			<div className="border-2 border-gray-200 border-solid">
-				<TableContainer className="h-60 w-screen-3/4 overflow-x-auto">
+			<div className="selection-card">
+				<div className="chart-title-row"><div><strong>Selected commits</strong><span>Drag a rectangle over the evolution map to populate this table.</span></div><span>{selectList.length} selected</span></div>
+				<TableContainer className="selection-table">
 					<Table sx={{ minWidth: 800 }} size="small" aria-label="simple table">
 						<TableHead>
 							<TableRow className="child:font-extrabold">
@@ -606,9 +615,12 @@ const DagComponent = ({ data }) => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
+							{selectList.length === 0 && (
+								<TableRow><TableCell colSpan={5} align="center" className="empty-table">No commits selected yet. Drag across nodes in the map above.</TableCell></TableRow>
+							)}
 							{selectList.map((row) => (
 								<TableRow
-									key={row.id}
+									key={row.hash}
 									sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 								>
 									<TableCell style={{ width: "20%" }} align="left">
@@ -639,7 +651,7 @@ const DagComponent = ({ data }) => {
 					</Table>
 				</TableContainer>
 				<div id="generate-word-cloud" className="flex justify-center py-2">
-					<Button id="word-cloud-btn" onClick={handleOpen} variant="outlined">
+					<Button id="word-cloud-btn" onClick={handleOpen} variant="outlined" disabled={selectList.length === 0}>
 						<TroubleshootIcon /> &nbsp; Peek into selected nodes
 					</Button>
 					{/* <div id="message-cloud"></div> */}
@@ -662,9 +674,10 @@ const DagComponent = ({ data }) => {
 							id="sankey-classify"
 							expandIcon={<ExpandMoreIcon />}
 						>
-							<CategoryIcon /> &nbsp; Commits Classification
+							<CategoryIcon /> &nbsp; Compare maintenance intent
 						</AccordionSummary>
 						<AccordionDetails>
+							<p className="accordion-intro">See how each fork’s commit messages distribute across adaptive, corrective, and perfective maintenance. Categories are inferred from message text.</p>
 							<div
 								id="sankey-diagram"
 								className="border-2 h-auto border-blue-200 flex justify-center"
@@ -685,9 +698,10 @@ const DagComponent = ({ data }) => {
 							id="network-history"
 							expandIcon={<ExpandMoreIcon />}
 						>
-							<ShareIcon /> &nbsp; Collaboration Network History
+							<ShareIcon /> &nbsp; Replay contributor collaboration
 						</AccordionSummary>
 						<AccordionDetails>
+							<p className="accordion-intro">Move through time to see which authors contributed to which repositories.</p>
 							{networkData.length > 0 ? (
 								<Network data={networkData} />
 							) : (

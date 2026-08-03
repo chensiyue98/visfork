@@ -21,7 +21,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button, TextField, CircularProgress, Select } from "@mui/material";
+import { Button, TextField, CircularProgress, Select, Alert } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
 import Toolbar from "@mui/material/Toolbar";
@@ -239,16 +239,20 @@ export default function App() {
 		setRotateDirection(rotateDirection * -1);
 	};
 
+	const visibleData = isSubmit ? commitData : demo;
+	const repoCount = new Set(visibleData.map((item) => item.repo)).size;
+	const authorCount = new Set(visibleData.map((item) => item.author)).size;
+
 	return (
-		<div className="p-10 bg-gray-50">
+		<div className="app-shell">
 			<Head>
 				<title>VisFork</title>
 				<meta name="description" content="Visualize your forked repos" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Tour></Tour>
-			<div className="w-screen m-0">
-				<AppBar position="absolute" sx={{ bgcolor: "#25292e", boxShadow: 1 }}>
+			<div>
+				<AppBar position="fixed" sx={{ bgcolor: "#17212b", boxShadow: 0 }}>
 					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
 						<span>
 							<a
@@ -274,12 +278,27 @@ export default function App() {
 				</AppBar>
 			</div>
 
+			<main className="app-main">
+			<section className="intro-panel" aria-labelledby="page-title">
+				<div>
+					<p className="eyebrow">Fork ecosystem explorer</p>
+					<h1 id="page-title">See where a repository’s ideas diverge.</h1>
+					<p className="intro-copy">Trace shared commit history, compare active forks, and find changes that may be worth bringing upstream.</p>
+				</div>
+				<div className="dataset-summary" aria-label="Current dataset summary">
+					<div><strong>{visibleData.length}</strong><span>commits</span></div>
+					<div><strong>{repoCount}</strong><span>repositories</span></div>
+					<div><strong>{authorCount}</strong><span>authors</span></div>
+				</div>
+			</section>
+
 			<form
 				onSubmit={handleSubmit}
-				className="justify-center mt-16 mb-10 child:py-1.5"
+				className="query-panel"
 			>
-				<div className="flex items-center justify-center child:px-1">
-					<label htmlFor="inputField">GitHub Repository:</label>
+				<div className="query-heading"><span className="step-label">01 · Choose a repository</span><p>Enter a public GitHub repository or explore the sample dataset.</p></div>
+				<div className="query-row">
+					<label htmlFor="standard-basic">GitHub repository</label>
 					<TextField
 						id="standard-basic"
 						size="small"
@@ -290,7 +309,7 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
-					<Button onClick={handleAdvanced}>
+					<Button onClick={handleAdvanced} aria-expanded={isAdvanced}>
 						{/* <KeyboardArrowRightIcon /> */}
 						<KeyboardArrowRightIcon
 							style={{
@@ -379,7 +398,7 @@ export default function App() {
 						<hr className="w-1/2 mt-1 -mb-2 mx-auto border-gray-400" />
 					</>
 				)}
-				<div className="flex items-center justify-center child:m-2">
+				<div className="query-actions">
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
 						<Tooltip
 							title="Set your own GitHub API token to retrive repositories"
@@ -401,22 +420,26 @@ export default function App() {
 						</Tooltip>
 					</Menu>
 					<Tooltip title="Submit your query">
-						<Button variant="outlined" type="submit" size="small">
-							<SendIcon></SendIcon> &nbsp; Submit
+						<Button variant="contained" type="submit" size="small">
+							<SendIcon></SendIcon> &nbsp; Explore forks
 						</Button>
 					</Tooltip>
 					<span>or</span>
 					<Tooltip title="Upload a JSON file exported from this site">
 						<Button variant="outlined" size="small" onClick={handleUpload}>
-							<UploadFileIcon /> &nbsp; upload json
+							<UploadFileIcon /> &nbsp; Upload JSON
 						</Button>
 					</Tooltip>
 				</div>
 			</form>
 			{/* Loading */}
-			<div id="loading" className="flex justify-center">
-				{isLoading && <CircularProgress />}
+			<div id="loading" className="loading-state" aria-live="polite">
+				{isLoading && <><CircularProgress size={22} /><span>Fetching forks and commit history…</span></>}
 			</div>
+			<section className="visualization-heading">
+				<div><span className="step-label">02 · Explore the evolution</span><h2>Commit history across forks</h2><p>Brush the activity chart to filter by month, then drag across nodes to inspect individual commits.</p></div>
+				<span className="sample-badge">{isSubmit ? "Live query" : "Sample: iina/iina"}</span>
+			</section>
 			{/* Date Range Slider */}
 			<div id="range" className="flex justify-center">
 				{isSubmit && (
@@ -455,7 +478,11 @@ export default function App() {
 					</Button>
 				</div>
 			)}
+			{isSubmit && commitData.length === 0 && (
+				<Alert severity="info">No commits matched this query. Try a wider date range or include more forks.</Alert>
+			)}
 			<Analytics />
+			</main>
 		</div>
 	);
 }
