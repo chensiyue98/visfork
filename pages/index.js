@@ -12,6 +12,7 @@ import getData from "@/components/GetData";
 
 import dynamic from "next/dynamic";
 const Tour = dynamic(() => import("../components/Tour"), { ssr: false });
+const TOUR_COMPLETED_KEY = "visfork-tour-completed";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -47,6 +48,11 @@ export default function App() {
 	const [repo, setRepo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [datasetSource, setDatasetSource] = useState({
+		type: "Sample dataset",
+		name: "Bundled example",
+	});
+	const [isTourRunning, setIsTourRunning] = useState(false);
 	let tok1 = "ghp_";
 	let tok2 = "fVMFvAprNxYLuzWuNXeW2U8Ls8PskK1P5lWC";
 	const [token, setToken] = useState(tok1 + tok2);
@@ -68,6 +74,21 @@ export default function App() {
 			setToken(savedToken);
 		}
 	}, [token]);
+
+	useEffect(() => {
+		setIsTourRunning(localStorage.getItem(TOUR_COMPLETED_KEY) !== "true");
+	}, []);
+
+	const handleTourComplete = () => {
+		localStorage.setItem(TOUR_COMPLETED_KEY, "true");
+		setIsTourRunning(false);
+	};
+
+	const handleReplayTour = () => {
+		localStorage.removeItem(TOUR_COMPLETED_KEY);
+		setIsTourRunning(true);
+		handleClose();
+	};
 
 	// Update brushed data
 	useEffect(() => {
@@ -141,6 +162,7 @@ export default function App() {
 			);
 			setCommitData(response);
 			setAnalysisData(response);
+			setDatasetSource({ type: "Repository", name: submitRepo });
 		} catch (error) {
 			alert(error.message);
 		} finally {
@@ -175,6 +197,7 @@ export default function App() {
 				const data = JSON.parse(content);
 				setCommitData(data);
 				setAnalysisData(data);
+				setDatasetSource({ type: "Uploaded JSON", name: file.name });
 				setIsSubmit(true);
 			};
 		};
@@ -250,7 +273,7 @@ export default function App() {
 				<meta name="description" content="Visualize your forked repos" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Tour></Tour>
+			<Tour run={isTourRunning} onComplete={handleTourComplete} />
 			<div>
 				<AppBar position="fixed" sx={{ bgcolor: "#17212b", boxShadow: 0 }}>
 					<Toolbar variant="dense" style={{ justifyContent: "space-between" }}>
@@ -285,10 +308,14 @@ export default function App() {
 					<h1 id="page-title">See where a repository’s ideas diverge.</h1>
 					<p className="intro-copy">Trace shared commit history, compare active forks, and find changes that may be worth bringing upstream.</p>
 				</div>
-				<div className="dataset-summary" aria-label="Current dataset summary">
-					<div><strong>{visibleData.length}</strong><span>commits</span></div>
-					<div><strong>{repoCount}</strong><span>repositories</span></div>
-					<div><strong>{authorCount}</strong><span>authors</span></div>
+				<div className="dataset-summary" aria-label={`${datasetSource.type}: ${datasetSource.name} summary`}>
+					<div className="dataset-summary-header">
+						<span>Currently visualizing</span>
+						<strong title={datasetSource.name}>{datasetSource.type} <b>·</b> {datasetSource.name}</strong>
+					</div>
+					<div className="dataset-stat"><strong>{visibleData.length}</strong><span>commits in dataset</span></div>
+					<div className="dataset-stat"><strong>{repoCount}</strong><span>repositories in dataset</span></div>
+					<div className="dataset-stat"><strong>{authorCount}</strong><span>authors in dataset</span></div>
 				</div>
 			</section>
 
@@ -309,7 +336,7 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
-					<Button onClick={handleAdvanced} aria-expanded={isAdvanced}>
+					<Button className="advanced-toggle" onClick={handleAdvanced} aria-expanded={isAdvanced} aria-controls="advanced-parameter">
 						{/* <KeyboardArrowRightIcon /> */}
 						<KeyboardArrowRightIcon
 							style={{
@@ -320,20 +347,14 @@ export default function App() {
 					</Button>
 				</div>
 				{isAdvanced && (
-					// transition: show/hide advanced parameters
-					<>
-						{/* horizontal divider */}
-						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />
-						<div
-							id="advanced-parameter"
-							className="flex items-center justify-center"
-						>
-							<span className="mr-4">
-								<label>Number of forks: &nbsp;</label>
+					<div id="advanced-parameter" className="advanced-panel">
+						<label className="advanced-field" htmlFor="num-forks">
+							<span>Number of forks</span>
 								<Tooltip title="Num of forks" placement="right">
 									<Select
 										id="num-forks"
 										size="small"
+										fullWidth
 										value={numForks}
 										onChange={(event) => setNumForks(event.target.value)}
 									>
@@ -345,13 +366,14 @@ export default function App() {
 										))}
 									</Select>
 								</Tooltip>
-							</span>
-							<span>
-								<label>Sort order: &nbsp;</label>
+						</label>
+						<label className="advanced-field" htmlFor="sort-forks">
+							<span>Sort order</span>
 								<Tooltip title="Sort order" placement="right">
 									<Select
 										id="sort-forks"
 										size="small"
+										fullWidth
 										value={sortForks}
 										onChange={(event) => setSortForks(event.target.value)}
 									>
@@ -361,12 +383,10 @@ export default function App() {
 										<MenuItem value="watchers">Watchers</MenuItem>
 									</Select>
 								</Tooltip>
-							</span>
-						</div>
-
-						<div className="flex justify-center">
-							<span className="flex items-center">
-								Query Date Range: &nbsp;
+						</label>
+						<div className="advanced-field advanced-dates">
+							<span>Query date range</span>
+							<div className="advanced-date-inputs">
 								<LocalizationProvider dateAdapter={AdapterDayjs}>
 									<DatePicker
 										label="From"
@@ -375,9 +395,9 @@ export default function App() {
 										// default value is today
 										value={startDate}
 										onChange={(newValue) => setStartDate(newValue)}
-										slotProps={{
+									slotProps={{
 											textField: {
-												style: { width: 150, paddingRight: 10 },
+												fullWidth: true,
 												size: "small",
 											},
 										}}
@@ -389,14 +409,13 @@ export default function App() {
 										value={endDate}
 										onChange={(newValue) => setEndDate(newValue)}
 										slotProps={{
-											textField: { style: { width: 150 }, size: "small" },
+											textField: { fullWidth: true, size: "small" },
 										}}
 									></DatePicker>
 								</LocalizationProvider>
-							</span>
+							</div>
 						</div>
-						<hr className="w-1/2 mt-1 -mb-2 mx-auto border-gray-400" />
-					</>
+					</div>
 				)}
 				<div className="query-actions">
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
@@ -417,6 +436,9 @@ export default function App() {
 							placement="right"
 						>
 							<MenuItem onClick={handleCreate}>Create new token</MenuItem>
+						</Tooltip>
+						<Tooltip title="Show the product walkthrough again" placement="right">
+							<MenuItem onClick={handleReplayTour}>Replay tour</MenuItem>
 						</Tooltip>
 					</Menu>
 					<Tooltip title="Submit your query">
