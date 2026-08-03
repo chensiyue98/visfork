@@ -1,383 +1,286 @@
-// TODO: Change color of nodes based on type of fork
-
-import EditableGraph, { drag } from "./EditableGraph";
-import React, { useState, useEffect, useRef, use } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as d3 from "d3";
-import { Button, Slider } from "@mui/material";
+import { Button, FormControlLabel, Slider, Switch, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
-// import jsondata from "./test_data.json";
-// const data = jsondata;
+import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 
-const eg = EditableGraph({ width: 1000 });
+const PLAYBACK_INTERVAL = 800;
+const CHART_WIDTH = 1000;
+const COLUMN_GAP = 610;
+const LEFT_X = 205;
+const RIGHT_X = LEFT_X + COLUMN_GAP;
 
-export default function Network(test_data) {
-	const data = test_data.data;
-	console.log(data);
-	// const data = jsondata;
-
-	const [isPlay, setPlay] = useState(false);
-
-	const svgRef = useRef(null);
-	const eg_graph = graph(eg, svgRef);
-
-	const [dateIdx, setDateIdx] = useState(0);
-
-	const dateGroupedData = d3.group(data, (d) => d.date);
-	const dateRange = getDateRange(data);
-	const authorData = authorsByDate(dateGroupedData, dateRange);
-	const repoData = reposByDate(dateGroupedData, dateRange);
-	const connectionData = connectionsByDate(dateGroupedData, dateRange);
+export default function Network({ data = [] }) {
+	const timeline = useMemo(() => buildMonthlyTimeline(data), [data]);
+	const layout = useMemo(() => buildStableLayout(data), [data]);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [monthIndex, setMonthIndex] = useState(0);
+	const [viewMode, setViewMode] = useState("rolling");
+	const [crossForkOnly, setCrossForkOnly] = useState(false);
 
 	useEffect(() => {
-		var nodes = repoData[dateIdx].concat(authorData[dateIdx]);
-		var links = connectionData[dateIdx].map((d) => ({
-			source: d[0].split(" | ")[0],
-			target: d[0].split(" | ")[1],
-			count: d[1],
-		}));
-		var graphData = { nodes, links };
-		updateGraph(eg, graphData);
-	}, [dateIdx]);
+		setMonthIndex(0);
+		setIsPlaying(false);
+	}, [data]);
 
 	useEffect(() => {
-		if (isPlay) {
-			const interval = setInterval(() => {
-				if (dateIdx < dateRange.length - 1) {
-					setDateIdx(dateIdx + 1);
-				} else {
-					setPlay(false);
+		if (!isPlaying || timeline.length === 0) return undefined;
+		const timer = window.setInterval(() => {
+			setMonthIndex((current) => {
+				if (current >= timeline.length - 1) {
+					setIsPlaying(false);
+					return current;
 				}
-			}, 50);
-			// Play speed: 50ms per date
-			return () => clearInterval(interval);
-		}
-	}, [isPlay, dateIdx]);
+				return current + 1;
+			});
+		}, PLAYBACK_INTERVAL);
+		return () => window.clearInterval(timer);
+	}, [isPlaying, timeline.length]);
 
-	const handleSliderChange = (event, newValue) => {
-		setDateIdx(newValue);
-		setPlay(false);
-	};
-	const handleButtonClick = () => {
-		if (isPlay) {
-			setPlay(false);
-		} else {
-			setPlay(true);
-		}
+	if (timeline.length === 0) {
+		return <div className="network-empty">No contributor activity is available for this date range.</div>;
+	}
+
+	const timelineEntry = timeline[Math.min(monthIndex, timeline.length - 1)];
+	const modeLinks = getLinksForMode(timeline, monthIndex, viewMode);
+	const contributorRepos = d3.group(modeLinks, (link) => link.author);
+	const crossForkAuthors = new Set(
+		Array.from(contributorRepos, ([author, links]) => [author, new Set(links.map((link) => link.repo)).size])
+			.filter(([, repoCount]) => repoCount > 1)
+			.map(([author]) => author)
+	);
+	const visibleLinks = crossForkOnly
+		? modeLinks.filter((link) => crossForkAuthors.has(link.author))
+		: modeLinks;
+	const visibleNodeIds = new Set(visibleLinks.flatMap((link) => [link.author, link.repo]));
+	const visibleAuthors = layout.authors.filter((author) => visibleNodeIds.has(author.id));
+	const visibleRepos = layout.repos.filter((repo) => visibleNodeIds.has(repo.id));
+	const monthSummary = getMonthSummary(timelineEntry);
+
+	const changeMonth = (nextIndex) => {
+		setMonthIndex(Math.max(0, Math.min(timeline.length - 1, nextIndex)));
+		setIsPlaying(false);
 	};
 
 	return (
-		<div className="flex flex-col items-center">
-			{/* <h1 className="text-xl">Network Graph</h1> */}
-			<h1 className="text-l">Date</h1>
-			{dateRange && (
-				<>
-					<div className="w-96">
-						<Slider
-							value={dateIdx}
-							onChange={handleSliderChange}
-							step={1}
-							size="small"
-							max={dateRange.length - 1}
-						/>
-					</div>
-					<label className="text-sm -mt-4">
-						{dateRange[dateIdx].toLocaleDateString("en-US", {
-							month: "long",
-							day: "numeric",
-							year: "numeric",
-						})}
-					</label>
-					<Button
-						variant="outlined"
-						className="m-2"
-						size="small"
-						onClick={handleButtonClick}
-					>
-						{isPlay ? (
-							<>
-								<PauseCircleIcon /> &nbsp;
-								Pause
-							</>
-						) : (
-							<>
-								<PlayCircleIcon /> &nbsp;
-								Play
-							</>
-						)}
+		<div className="network-replay">
+			<div className="network-toolbar">
+				<div>
+					<span className="network-period-label">Monthly snapshot</span>
+					<strong>{d3.timeFormat("%B %Y")(timelineEntry.month)}</strong>
+				</div>
+				<div className="network-controls">
+					<Button aria-label="Previous month" disabled={monthIndex === 0} onClick={() => changeMonth(monthIndex - 1)}><SkipPreviousIcon /></Button>
+					<Button variant="outlined" size="small" onClick={() => setIsPlaying((playing) => !playing)}>
+						{isPlaying ? <><PauseCircleIcon />&nbsp; Pause</> : <><PlayCircleIcon />&nbsp; Play</>}
 					</Button>
-					<div className="border-2 border-solid border-blue-200">
-						<svg ref={svgRef}></svg>
-					</div>
-				</>
-			)}
+					<Button aria-label="Next month" disabled={monthIndex === timeline.length - 1} onClick={() => changeMonth(monthIndex + 1)}><SkipNextIcon /></Button>
+				</div>
+			</div>
+
+			<div className="network-summary" aria-label={`Activity summary for ${d3.timeFormat("%B %Y")(timelineEntry.month)}`}>
+				<SummaryMetric value={monthSummary.commits} label="commits" />
+				<SummaryMetric value={monthSummary.authors} label="contributors" />
+				<SummaryMetric value={monthSummary.repos} label="repositories" />
+				<SummaryMetric value={monthSummary.newRelationships} label="new relationships" />
+			</div>
+
+			<div className="network-view-options">
+				<div>
+					<span className="network-option-label">Time window</span>
+					<ToggleButtonGroup
+						value={viewMode}
+						exclusive
+						onChange={(_, value) => value && setViewMode(value)}
+						size="small"
+						aria-label="Collaboration time window"
+					>
+						<ToggleButton value="current">Current month</ToggleButton>
+						<ToggleButton value="rolling">Rolling 3 months</ToggleButton>
+						<ToggleButton value="cumulative">Cumulative</ToggleButton>
+					</ToggleButtonGroup>
+				</div>
+				<FormControlLabel
+					control={<Switch checked={crossForkOnly} onChange={(event) => setCrossForkOnly(event.target.checked)} size="small" />}
+					label="Cross-fork contributors only"
+				/>
+			</div>
+
+			<div className="network-slider-row">
+				<span>{d3.timeFormat("%b %Y")(timeline[0].month)}</span>
+				<Slider
+					value={monthIndex}
+					onChange={(_, value) => changeMonth(value)}
+					step={1}
+					min={0}
+					max={timeline.length - 1}
+					size="small"
+					aria-label="Collaboration month"
+				/>
+				<span>{d3.timeFormat("%b %Y")(timeline[timeline.length - 1].month)}</span>
+			</div>
+
+			<div className="network-legend" aria-label="Relationship legend">
+				<span><i className="relation-new" />New relationship</span>
+				<span><i className="relation-active" />Active this month</span>
+				<span><i className="relation-history" />Earlier relationship</span>
+			</div>
+
+			<div className="network-canvas">
+				<svg
+					viewBox={`0 0 ${CHART_WIDTH} ${layout.height}`}
+					role="img"
+					aria-label={`Contributor and repository relationships in ${d3.timeFormat("%B %Y")(timelineEntry.month)}`}
+				>
+					<text className="network-column-title" x={LEFT_X} y="26" textAnchor="middle">Contributors</text>
+					<text className="network-column-title" x={RIGHT_X} y="26" textAnchor="middle">Repositories</text>
+
+					<g className="network-links">
+						{visibleLinks.map((link) => {
+							const author = layout.authorMap.get(link.author);
+							const repo = layout.repoMap.get(link.repo);
+							if (!author || !repo) return null;
+							return (
+								<path
+									key={`${link.author}|${link.repo}`}
+									className={`network-link network-link-${link.status}`}
+									d={`M${author.x},${author.y} C${author.x + 220},${author.y} ${repo.x - 220},${repo.y} ${repo.x},${repo.y}`}
+									style={{ strokeWidth: Math.min(7, 1.25 + Math.sqrt(link.periodCount)) }}
+								>
+									<title>{`${link.author} → ${link.repo}: ${link.monthCount} commits this month, ${link.periodCount} in this view, ${link.totalCount} total`}</title>
+								</path>
+							);
+						})}
+					</g>
+
+					<g className="network-nodes">
+						{visibleAuthors.map((author) => <NetworkNode key={author.id} node={author} type="author" />)}
+						{visibleRepos.map((repo) => <NetworkNode key={repo.id} node={repo} type="repo" />)}
+					</g>
+				</svg>
+			</div>
 		</div>
 	);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
+function SummaryMetric({ value, label }) {
+	return <div><strong>{value}</strong><span>{label}</span></div>;
+}
 
-// DATA PROCESSING FUNCTIONS
-
-function authorsByDate(dateGroupedData, dateRange) {
-	const dateArray = [];
-	var cumulativeData = new Map();
-	dateRange.forEach((date) => {
-		dateArray.push(cumulativeData);
-		cumulativeData = new Map(cumulativeData);
-		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
-		// console.log(dateZeroTime);
-		const currentData = dateGroupedData.get(dateZeroTime) || [];
-		currentData.forEach((datum) => {
-			const key = datum.author;
-			if (!cumulativeData.has(key)) {
-				cumulativeData.set(key, 0);
-			}
-			cumulativeData.set(key, cumulativeData.get(key) + 1);
-		});
-	});
-	console.log(dateArray);
-	return dateArray.map((d) =>
-		Array.from(d).map((t) => ({ id: t[0], type: "author", count: t[1] }))
+function NetworkNode({ node, type }) {
+	const width = type === "repo" ? 176 : 158;
+	const x = type === "repo" ? node.x : node.x - width;
+	return (
+		<g className={`network-node network-node-${type}`}>
+			<rect x={x} y={node.y - 13} width={width} height="26" rx="5" />
+			<text x={type === "repo" ? x + 10 : node.x - 10} y={node.y + 4} textAnchor={type === "repo" ? "start" : "end"}>{truncate(node.id, 24)}</text>
+			<title>{node.id}</title>
+		</g>
 	);
 }
 
-function reposByDate(dateGroupedData, dateRange) {
-	// console.log(dateGroupedData);
-	const dateArray = [];
-	let cumulativeData = new Map();
-	dateRange.forEach((date) => {
-		// console.log(date.toISOString());
-		dateArray.push(cumulativeData);
-		cumulativeData = new Map(cumulativeData);
-		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
-		const currentData = dateGroupedData.get(dateZeroTime) || [];
-		// if(currentData.length > 0) console.log(currentData);
-		currentData.forEach((datum) => {
-			const key = datum.repo;
-			if (!cumulativeData.has(key)) {
-				cumulativeData.set(key, 0);
-			}
-			cumulativeData.set(key, cumulativeData.get(key) + 1);
+function buildMonthlyTimeline(data) {
+	if (!data.length) return [];
+	const validData = data
+		.map((item) => ({ ...item, parsedDate: new Date(item.date) }))
+		.filter((item) => !Number.isNaN(item.parsedDate.getTime()));
+	if (!validData.length) return [];
+
+	const start = d3.timeMonth.floor(d3.min(validData, (item) => item.parsedDate));
+	const end = d3.timeMonth.offset(d3.timeMonth.floor(d3.max(validData, (item) => item.parsedDate)), 1);
+	const months = d3.timeMonths(start, end);
+	const byMonth = d3.group(validData, (item) => +d3.timeMonth.floor(item.parsedDate));
+	const cumulative = new Map();
+	const firstSeen = new Map();
+
+	return months.map((month, monthIndex) => {
+		const current = new Map();
+		(byMonth.get(+month) || []).forEach((item) => {
+			const key = `${item.author}\u0000${item.repo}`;
+			current.set(key, (current.get(key) || 0) + 1);
 		});
-	});
-	return dateArray.map((d) =>
-		Array.from(d).map((t) => ({ id: t[0], type: "repo", count: t[1] }))
-	);
-}
-
-function connectionsByDate(dateGroupedData, dateRange) {
-	const dateArray = [];
-	let cumulativeData = new Map();
-	dateRange.forEach((date) => {
-		dateArray.push(cumulativeData);
-		cumulativeData = new Map(cumulativeData);
-		let dateZeroTime = date.toISOString().split("T")[0]+"T00:00:00.000Z";
-
-		const currentData = dateGroupedData.get(dateZeroTime) || [];
-		currentData.forEach((datum) => {
-			const key = datum.author + " | " + datum.repo;
-			if (!cumulativeData.has(key)) {
-				cumulativeData.set(key, 0);
-			}
-			cumulativeData.set(key, cumulativeData.get(key) + 1);
+		current.forEach((count, key) => {
+			if (!firstSeen.has(key)) firstSeen.set(key, monthIndex);
+			cumulative.set(key, (cumulative.get(key) || 0) + count);
 		});
+
+		return {
+			index: monthIndex,
+			month,
+			current: new Map(current),
+			cumulative: new Map(cumulative),
+			firstSeen: new Map(firstSeen),
+		};
 	});
-	return dateArray.map((d) => Array.from(d));
 }
 
-function getDateRange(data) {
-	const dateRange = d3.extent(data, (d) => new Date(d.date));
-	let currentDate = new Date(dateRange[0]);
-	currentDate.setHours(0);
-	currentDate.setMinutes(0);
-	currentDate.setSeconds(0);
-	const dateList = [];
-	while (currentDate < dateRange[1]) {
-		dateList.push(new Date(currentDate));
-		currentDate.setDate(currentDate.getDate() + 1);
-	}
-	return dateList;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-// GRAPH FUNCTIONS
-
-function graph(eg, svgRef) {
-	const { nodes, links } = eg.data();
-	const simulation = eg.simulation();
-
-	var mode = "Repo";
-
-	let transform = d3.zoomIdentity;
-	transform.k = 3;
-
-	function zoomed(event) {
-		transform = event.transform;
-		zoomG.attr("transform", transform);
-	}
-
-	d3.select(svgRef.current).selectAll("*").remove();
-
-	const svg = d3
-		.select(svgRef.current)
-		.attr("width", eg.width())
-		.attr("height", eg.height())
-		.append("svg")
-		.attr("viewBox", [
-			-eg.width() / 2,
-			-eg.height() / 2,
-			eg.width(),
-			eg.height(),
-		])
-		.call(d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed))
-		.style("margin-left", "-14px");
-
-	const zoomG = svg.append("g").attr("transform", transform);
-
-	const linksGroup = zoomG.append("g"),
-		nodesGroup = zoomG.append("g");
-
-	let emptyMessage = zoomG
-		.append("text")
-		.attr("font-size", eg.width() < 650 ? 4 : 10)
-		.attr("opacity", 0.5)
-		.attr("text-anchor", "middle")
-		.text("Move slider to start");
-
-	let link = null;
-	let node = null;
-
-	eg.onUpdate(() => {
-		if (nodes.length != 0) {
-			emptyMessage.attr("display", "none");
-		}
-
-		link = linksGroup
-			.selectAll("line")
-			.data(links)
-			.join("line")
-			.attr("stroke", "#999")
-			.attr("stroke-opacity", 0.6)
-			.attr("stroke-width", (d) => Math.sqrt(Math.sqrt(d.count)));
-
-		node = nodesGroup
-			.selectAll("g")
-			.data(nodes)
-			.join("g")
-			.call(drag(simulation))
-			.on("click", (event, data) => {
-				console.log(event, data);
-				// if (event.metaKey) {
-				// 	window.open(getURL(data), "_blank");
-				// }
+function getLinksForMode(timeline, monthIndex, mode) {
+	const entry = timeline[Math.min(monthIndex, timeline.length - 1)];
+	const periodCounts = new Map();
+	if (mode === "current") {
+		entry.current.forEach((count, key) => periodCounts.set(key, count));
+	} else if (mode === "rolling") {
+		const windowStart = Math.max(0, monthIndex - 2);
+		for (let index = windowStart; index <= monthIndex; index += 1) {
+			timeline[index].current.forEach((count, key) => {
+				periodCounts.set(key, (periodCounts.get(key) || 0) + count);
 			});
-
-		node.html("");
-
-		if (mode == "Shapes") {
-			node
-				.filter((d) => d.type == "repo")
-				.append("rect")
-				.attr("stroke", "#fff")
-				.attr("stroke-width", 1)
-				.attr("width", 10)
-				.attr("height", 10)
-				.attr("transform", (d) => `translate(${[-5, -5]})`)
-				.attr("fill", "salmon");
-
-			node
-				.filter((d) => d.type == "author")
-				.append("circle")
-				.attr("stroke", "#fff")
-				.attr("stroke-width", 1)
-				.attr("r", 5)
-				.attr("fill", "CornflowerBlue");
-		} else {
-			const text = node.append("text");
-			const textBBoxDims = {};
-			const textSize = 5;
-
-			text
-				.selectAll("tspan")
-				.data((d) => d.id.split(" ").filter((d) => d))
-				.join("tspan")
-				.attr("fill", "#fff")
-				.attr("text-anchor", "middle")
-				.attr("alignment-baseline", "middle")
-				.style("font", `${textSize}px sans-serif`)
-				.attr("x", 0)
-				.attr("y", (_, i, n) => -textSize * (n.length / 2 - i - 0.5))
-				.text((d) => d);
-
-			const padding = 2;
-			node
-				.append("rect")
-				.each(function (d, i) {
-					if (!textBBoxDims[d.id]) {
-						textBBoxDims[d.id] = getBBox(text.filter((_, i2) => i == i2));
-					}
-					setRect(d3.select(this), textBBoxDims[d.id], padding);
-				})
-				.attr("rx", 1)
-				.attr("fill", (d) => (d.type == "repo" ? "DarkSlateGray" : "SlateGray"))
-				.attr("opacity", 0.7)
-				.lower();
 		}
-
-		node.append("title").text((d) => d.id);
-	});
-
-	simulation.on("tick", () => {
-		link
-			.attr("x1", (d) => d.source.x)
-			.attr("y1", (d) => d.source.y)
-			.attr("x2", (d) => d.target.x)
-			.attr("y2", (d) => d.target.y);
-
-		node.attr("transform", (d) => `translate(${[d.x, d.y]})`);
-	});
-
-	simulation.restart();
-
-	return svg.node();
-}
-
-function updateGraph(eg, graphData) {
-	const currentData = eg.data();
-	if (
-		currentData.nodes.length != graphData.nodes.length ||
-		currentData.links.length != graphData.links.length
-	) {
-		eg.changeData(graphData);
-	}
-}
-
-// https://observablehq.com/@rlesser/automatic-getbbox
-function getBBox(elt) {
-	const clonedElt = elt.clone(true);
-	const svg = d3.create("svg");
-	svg.node().appendChild(clonedElt.node());
-	document.body.appendChild(svg.node());
-	const { x, y, width, height } = clonedElt.node().getBBox();
-	document.body.removeChild(svg.node());
-	return { x, y, width, height };
-}
-function setRect(rect, dims, padding = 0) {
-	rect
-		.attr("x", dims.x - padding / 2)
-		.attr("y", dims.y - padding / 2)
-		.attr("width", dims.width + padding)
-		.attr("height", dims.height + padding);
-}
-const getURL = (node) => {
-	if (node.type == "author") {
-		return `https://github.com/search?type=users&q=${node.id.replace(
-			" ",
-			"+"
-		)}`;
 	} else {
-		return `https://github.com/d3/${node.id}`;
+		entry.cumulative.forEach((count, key) => periodCounts.set(key, count));
 	}
-};
+
+	return Array.from(periodCounts, ([key, periodCount]) => {
+		const [author, repo] = key.split("\u0000");
+		const monthCount = entry.current.get(key) || 0;
+		return {
+			author,
+			repo,
+			periodCount,
+			monthCount,
+			totalCount: entry.cumulative.get(key) || periodCount,
+			status: entry.firstSeen.get(key) === monthIndex ? "new" : monthCount > 0 ? "active" : "history",
+		};
+	});
+}
+
+function getMonthSummary(entry) {
+	const authors = new Set();
+	const repos = new Set();
+	let commits = 0;
+	let newRelationships = 0;
+	entry.current.forEach((count, key) => {
+		const [author, repo] = key.split("\u0000");
+		authors.add(author);
+		repos.add(repo);
+		commits += count;
+		if (entry.firstSeen.get(key) === entry.index) newRelationships += 1;
+	});
+	return { commits, authors: authors.size, repos: repos.size, newRelationships };
+}
+
+function buildStableLayout(data) {
+	const authorStats = d3.rollups(data, (items) => items.length, (item) => item.author)
+		.sort((a, b) => d3.descending(a[1], b[1]));
+	const repoStats = d3.rollups(data, (items) => items.length, (item) => item.repo)
+		.sort((a, b) => d3.descending(a[1], b[1]));
+	const rowCount = Math.max(authorStats.length, repoStats.length, 1);
+	const height = Math.max(440, rowCount * 32 + 72);
+	const yScale = (index, count) => count <= 1 ? height / 2 : 54 + index * ((height - 92) / (count - 1));
+	const authors = authorStats.map(([id, count], index) => ({ id, count, x: LEFT_X, y: yScale(index, authorStats.length) }));
+	const repos = repoStats.map(([id, count], index) => ({ id, count, x: RIGHT_X, y: yScale(index, repoStats.length) }));
+	return {
+		authors,
+		repos,
+		authorMap: new Map(authors.map((node) => [node.id, node])),
+		repoMap: new Map(repos.map((node) => [node.id, node])),
+		height,
+	};
+}
+
+function truncate(value, limit) {
+	if (!value) return "Unknown";
+	return value.length > limit ? `${value.slice(0, limit - 1)}…` : value;
+}

@@ -1,20 +1,3 @@
-const Classify = (text) => {
-	// match the message against the regex
-	// if it matches, return the category
-	// if it doesn't match, return unknown
-	var type = null;
-	if (text.match(adaptive)) {
-		type = "adaptive";
-	} else if (text.match(bug)) {
-		type = "corrective";
-	} else if (text.match(perfective)) {
-		type = "perfective";
-	} else {
-		type = "unknown";
-	}
-	return type;
-};
-
 const core_adaptive_terms = [
 	"add(?:s|ed|ing)?",
 	"creat(?:e|es|ing)",
@@ -69,5 +52,32 @@ const core_perfective_terms = [
 ];
 
 const perfective = new RegExp(core_perfective_terms.join("|"), "i");
+
+const classifiers = [
+	{ type: "corrective", regex: bug },
+	{ type: "perfective", regex: perfective },
+	{ type: "adaptive", regex: adaptive },
+];
+
+// Corrective and perfective matches intentionally take precedence over broad
+// adaptive verbs such as "update". The full result is exposed so the UI can
+// communicate evidence and ambiguity instead of presenting a black-box label.
+export const classifyCommit = (text = "") => {
+	const matches = classifiers
+		.map(({ type, regex }) => {
+			const match = text.match(regex);
+			return match ? { type, evidence: match[0] } : null;
+		})
+		.filter(Boolean);
+
+	return {
+		type: matches[0]?.type || "unknown",
+		evidence: matches[0]?.evidence || null,
+		matches,
+		ambiguous: matches.length > 1,
+	};
+};
+
+const Classify = (text) => classifyCommit(text).type;
 
 export default Classify;
