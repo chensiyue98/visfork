@@ -84,6 +84,8 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 			const labels = new Map(INTENTS.map((intent) => [categoryIds.get(intent.key), intent.label]));
 			const width = Math.max(720, container.clientWidth || 720);
 			const height = Math.max(300, analysis.rows.length * 34 + 36);
+			const longestRepo = Math.max(0, ...analysis.rows.map((row) => row.repo.length));
+			const repoLabelSpace = Math.min(300, Math.max(180, longestRepo * 7 + 28));
 			const chart = SankeyChart(
 				{ nodes, links },
 				{
@@ -91,18 +93,18 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 					height,
 					marginTop: 14,
 					marginBottom: 14,
-					marginLeft: 150,
+					marginLeft: repoLabelSpace,
 					marginRight: 170,
 					nodeId: (node) => node.id,
 					nodeGroup: (node) => node.group,
 					nodeGroups: ["repository", ...INTENTS.map((intent) => intent.key)],
 					colors: ["#53697a", ...INTENTS.map((intent) => intent.color)],
-					nodeLabel: (node) => labels.get(node.id) || shortRepo(node.id),
+					nodeLabel: (node) => labels.get(node.id) || node.id,
 					nodeStroke: "#ffffff",
 					nodeStrokeWidth: 1,
 					linkColor: "target",
 					linkStrokeOpacity: 0.52,
-					linkTitle: (link) => `${shortRepo(link.source.id)} → ${labels.get(link.target.id)}\n${link.value} commits`,
+					linkTitle: (link) => `${link.source.id} → ${labels.get(link.target.id)}\n${link.value} commits`,
 				}
 			);
 			chart.setAttribute("role", "img");
