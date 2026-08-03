@@ -309,7 +309,7 @@ export default function App() {
 						onChange={(event) => setRepo(event.target.value)}
 						required
 					/>
-					<Button onClick={handleAdvanced} aria-expanded={isAdvanced}>
+					<Button className="advanced-toggle" onClick={handleAdvanced} aria-expanded={isAdvanced} aria-controls="advanced-parameter">
 						{/* <KeyboardArrowRightIcon /> */}
 						<KeyboardArrowRightIcon
 							style={{
@@ -320,20 +320,14 @@ export default function App() {
 					</Button>
 				</div>
 				{isAdvanced && (
-					// transition: show/hide advanced parameters
-					<>
-						{/* horizontal divider */}
-						<hr className="w-1/2 -mb-2 mx-auto border-gray-400" />
-						<div
-							id="advanced-parameter"
-							className="flex items-center justify-center"
-						>
-							<span className="mr-4">
-								<label>Number of forks: &nbsp;</label>
+					<div id="advanced-parameter" className="advanced-panel">
+						<label className="advanced-field" htmlFor="num-forks">
+							<span>Number of forks</span>
 								<Tooltip title="Num of forks" placement="right">
 									<Select
 										id="num-forks"
 										size="small"
+										fullWidth
 										value={numForks}
 										onChange={(event) => setNumForks(event.target.value)}
 									>
@@ -345,13 +339,14 @@ export default function App() {
 										))}
 									</Select>
 								</Tooltip>
-							</span>
-							<span>
-								<label>Sort order: &nbsp;</label>
+						</label>
+						<label className="advanced-field" htmlFor="sort-forks">
+							<span>Sort order</span>
 								<Tooltip title="Sort order" placement="right">
 									<Select
 										id="sort-forks"
 										size="small"
+										fullWidth
 										value={sortForks}
 										onChange={(event) => setSortForks(event.target.value)}
 									>
@@ -361,12 +356,10 @@ export default function App() {
 										<MenuItem value="watchers">Watchers</MenuItem>
 									</Select>
 								</Tooltip>
-							</span>
-						</div>
-
-						<div className="flex justify-center">
-							<span className="flex items-center">
-								Query Date Range: &nbsp;
+						</label>
+						<div className="advanced-field advanced-dates">
+							<span>Query date range</span>
+							<div className="advanced-date-inputs">
 								<LocalizationProvider dateAdapter={AdapterDayjs}>
 									<DatePicker
 										label="From"
@@ -375,9 +368,9 @@ export default function App() {
 										// default value is today
 										value={startDate}
 										onChange={(newValue) => setStartDate(newValue)}
-										slotProps={{
+									slotProps={{
 											textField: {
-												style: { width: 150, paddingRight: 10 },
+												fullWidth: true,
 												size: "small",
 											},
 										}}
@@ -389,14 +382,13 @@ export default function App() {
 										value={endDate}
 										onChange={(newValue) => setEndDate(newValue)}
 										slotProps={{
-											textField: { style: { width: 150 }, size: "small" },
+											textField: { fullWidth: true, size: "small" },
 										}}
 									></DatePicker>
 								</LocalizationProvider>
-							</span>
+							</div>
 						</div>
-						<hr className="w-1/2 mt-1 -mb-2 mx-auto border-gray-400" />
-					</>
+					</div>
 				)}
 				<div className="query-actions">
 					<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>

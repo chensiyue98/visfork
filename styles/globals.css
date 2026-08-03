@@ -24,6 +24,13 @@ a { color:inherit; }
 .query-heading p { margin:5px 0 18px; color:var(--muted); }
 .query-row,.query-actions { display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
 .query-row label { font-weight:700; }
+.query-row .MuiTextField-root { width:min(100%,350px); }
+.advanced-toggle .MuiSvgIcon-root { transition:transform .18s ease; }
+.advanced-panel { display:grid; grid-template-columns:minmax(140px,.65fr) minmax(180px,1fr) minmax(360px,1.8fr); gap:18px; width:min(880px,100%); margin:20px auto 0; padding:18px; border:1px solid var(--line); background:#f7fafc; }
+.advanced-field { display:flex; min-width:0; flex-direction:column; gap:7px; }
+.advanced-field>span { color:var(--muted); font-size:.68rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+.advanced-date-inputs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.advanced-panel .MuiInputBase-root { background:#fff; }
 .query-actions { margin-top:18px; }
 .loading-state { min-height:34px; display:flex; justify-content:center; align-items:center; gap:10px; color:var(--muted); }
 .visualization-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; padding:36px 4px 18px; }
@@ -149,7 +156,8 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 	.visualization-heading,.chart-title-row { align-items:flex-start; flex-direction:column; gap:8px; }
 	.query-row { align-items:stretch; flex-direction:column; }
 	.query-row label { margin-bottom:-4px; }
-	#advanced-parameter { flex-wrap:wrap; gap:12px; }
+	.advanced-panel { grid-template-columns:1fr; gap:14px; margin-top:16px; padding:14px; }
+	.advanced-date-inputs { grid-template-columns:1fr; }
 	.dag-map-shell { grid-template-columns:132px minmax(0,1fr); }
 	.dag-lane-label { padding:0 8px; gap:6px; }
 	.lane-count { display:none; }
