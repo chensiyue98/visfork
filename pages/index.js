@@ -453,7 +453,7 @@ export default function App() {
 			</div>
 			{/* DAG */}
 			<div id="submited" className="flex justify-center">
-				{isSubmit && <DagComponent data={analysisData} />}
+				{isSubmit && <DagComponent data={analysisData} rootRepo={repo} />}
 			</div>
 			{/* DEMO */}
 			{!isSubmit && (
@@ -467,7 +467,7 @@ export default function App() {
 						/>
 					</div>
 					<div id="demo" className="flex justify-center">
-						<DagComponent data={analysisData} />
+						<DagComponent data={analysisData} rootRepo="iina/iina" />
 					</div>
 				</>
 			)}

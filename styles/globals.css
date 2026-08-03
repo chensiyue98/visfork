@@ -40,7 +40,14 @@ a { color:inherit; }
 .dag-stack { width:100%; gap:16px; margin-top:16px; }
 .dag-card { width:100%; padding:20px!important; margin:0!important; }
 .dag-title { margin-bottom:18px; }
-.dag-viewport { width:100%; min-height:190px; max-height:540px; overflow:auto; margin-top:14px; border:1px solid var(--line); background:linear-gradient(#fff,#fbfcfd); box-shadow:inset -18px 0 24px -26px #17212b,inset 18px 0 24px -26px #17212b; scrollbar-color:#7f91a0 transparent; scrollbar-width:thin; }
+.dag-map-shell { display:grid; grid-template-columns:190px minmax(0,1fr); width:100%; max-height:540px; margin-top:14px; border:1px solid var(--line); background:#fff; overflow:hidden; }
+.dag-lane-labels { position:relative; z-index:2; min-height:190px; max-height:540px; overflow:hidden; border-right:1px solid var(--line); background:#f8fafb; box-shadow:8px 0 18px -18px #17212b; }
+.dag-lane-labels-inner { padding-top:2px; transition:transform .06s linear; }
+.dag-lane-label { height:56px; display:grid; grid-template-columns:10px minmax(0,1fr) auto; gap:9px; align-items:center; padding:0 12px; border-bottom:1px solid #e9eef1; }
+.lane-color { width:8px; height:8px; border-radius:50%; box-shadow:0 0 0 3px rgba(255,255,255,.9); }
+.lane-name { overflow:hidden; color:var(--ink); font-size:.76rem; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
+.lane-count { color:var(--muted); font-size:.68rem; font-variant-numeric:tabular-nums; }
+.dag-viewport { width:100%; min-height:190px; max-height:540px; overflow:auto; border:0; background:linear-gradient(#fff,#fbfcfd); box-shadow:inset -18px 0 24px -26px #17212b,inset 18px 0 24px -26px #17212b; scrollbar-color:#7f91a0 transparent; scrollbar-width:thin; }
 .dag-viewport::-webkit-scrollbar { height:10px; width:10px; }
 .dag-viewport::-webkit-scrollbar-thumb { background:#8fa0ae; border:3px solid #fff; border-radius:999px; }
 .dag-navigator-block { margin-top:14px; padding:10px 12px 12px; border:1px solid var(--line); background:#f7fafc; }
@@ -70,5 +77,8 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 	.query-row { align-items:stretch; flex-direction:column; }
 	.query-row label { margin-bottom:-4px; }
 	#advanced-parameter { flex-wrap:wrap; gap:12px; }
+	.dag-map-shell { grid-template-columns:132px minmax(0,1fr); }
+	.dag-lane-label { padding:0 8px; gap:6px; }
+	.lane-count { display:none; }
 }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }

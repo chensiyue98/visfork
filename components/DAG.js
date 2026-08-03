@@ -36,11 +36,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
-const DagComponent = ({ data }) => {
+const DagComponent = ({ data, rootRepo }) => {
 	const svgRef = useRef(null);
 	const viewportRef = useRef(null);
 	const overviewRef = useRef(null);
 	const overviewWindowRef = useRef(null);
+	const laneLabelsInnerRef = useRef(null);
 	// const zoomButtonRef = useRef(null);
 
 	const [grouping, setGrouping] = useState("none");
@@ -49,6 +50,7 @@ const DagComponent = ({ data }) => {
 	const [selectList, setSelectList] = useState([]);
 	const [selectMessage, setSelectMessage] = useState("empty");
 	const [networkData, setNetworkData] = useState([]);
+	const [repoLanes, setRepoLanes] = useState([]);
 
 	const [groupedData, setGroupedData] = useState([]);
 
@@ -172,7 +174,44 @@ const DagComponent = ({ data }) => {
 		// .lane(leftLane);
 		const layout = gridTweak(gridCompact(grid));
 
-		const { width, height } = layout(dag);
+		// Run the DAG layout once to preserve its validated topology, then replace
+		// its compact lane assignment with semantic repository swimlanes.
+		layout(dag);
+		const chronologicalNodes = dag.descendants().sort(
+			(a, b) => new Date(a.data.date) - new Date(b.data.date)
+		);
+		const repoNames = [...new Set(chronologicalNodes.map((node) => node.data.repo))];
+		const normalizedRootRepo = rootRepo
+			?.replace(/^https?:\/\/(www\.)?github\.com\//, "")
+			.replace(/\/$/, "");
+		const graphRootRepo = chronologicalNodes.find(
+			(node) => !node.data.parentIds || node.data.parentIds.length === 0
+		)?.data.repo;
+		const preferredRootRepo = repoNames.includes(normalizedRootRepo)
+			? normalizedRootRepo
+			: graphRootRepo;
+		const firstCommitByRepo = new Map();
+		chronologicalNodes.forEach((node) => {
+			if (!firstCommitByRepo.has(node.data.repo)) {
+				firstCommitByRepo.set(node.data.repo, new Date(node.data.date));
+			}
+		});
+		const repoOrder = [...repoNames].sort((a, b) => {
+			if (a === preferredRootRepo) return -1;
+			if (b === preferredRootRepo) return 1;
+			return firstCommitByRepo.get(a) - firstCommitByRepo.get(b);
+		});
+		const laneHeight = 56;
+		const topPadding = 30;
+		const bottomPadding = 42;
+		const horizontalPadding = 30;
+		const commitSpacing = grouping === "month" ? 34 : 22;
+		chronologicalNodes.forEach((node, index) => {
+			node.x = topPadding + repoOrder.indexOf(node.data.repo) * laneHeight;
+			node.y = horizontalPadding + index * commitSpacing;
+		});
+		const width = topPadding + repoOrder.length * laneHeight + bottomPadding;
+		const height = Math.max(1200, horizontalPadding * 2 + chronologicalNodes.length * commitSpacing);
 
 		const svgSelection = d3.select(svgRef.current);
 		svgSelection.attr("id", "svgSelection");
@@ -201,7 +240,6 @@ const DagComponent = ({ data }) => {
 
 		const defs = graph.append("defs"); // For gradients
 
-		const repoNames = [...new Set(data.map((d) => d.repo))];
 		// const steps = dag.size();
 		const steps = repoNames.length;
 		const colorMap = new Map();
@@ -209,14 +247,27 @@ const DagComponent = ({ data }) => {
 		for (const [i, repo] of repoNames.entries()) {
 			colorMap.set(repo, d3.interpolateRainbow(i / steps));
 		}
+		setRepoLanes(
+			repoOrder.map((repo) => ({
+				repo,
+				color: colorMap.get(repo),
+				count: chronologicalNodes.filter((node) => node.data.repo === repo).length,
+			}))
+		);
 
-		// How to draw edges
-		const line = d3
-			.line()
-			.curve(d3.curveCatmullRom)
-			// reverse x and y for horizontal layout
-			.y((d) => d.x)
-			.x((d) => d.y);
+		graph
+			.append("g")
+			.attr("class", "repo-lane-guides")
+			.selectAll("line")
+			.data(repoOrder)
+			.enter()
+			.append("line")
+			.attr("x1", 0)
+			.attr("x2", height)
+			.attr("y1", (_, index) => topPadding + index * laneHeight)
+			.attr("y2", (_, index) => topPadding + index * laneHeight)
+			.attr("stroke", "#e5ebef")
+			.attr("stroke-width", 1);
 
 		// Plot edges
 		graph
@@ -225,7 +276,11 @@ const DagComponent = ({ data }) => {
 			.data(dag.links())
 			.enter()
 			.append("path")
-			.attr("d", ({ points }) => line(points))
+			.attr("d", ({ source, target }) => {
+				const distance = Math.max(16, target.y - source.y);
+				const bend = Math.min(80, distance * 0.45);
+				return `M${source.y},${source.x} C${source.y + bend},${source.x} ${target.y - bend},${target.x} ${target.y},${target.x}`;
+			})
 			.attr("fill", "none")
 			.attr("stroke-width", 2)
 			.attr("stroke", ({ source, target }) => {
@@ -237,10 +292,10 @@ const DagComponent = ({ data }) => {
 					.append("linearGradient")
 					.attr("id", gradId)
 					.attr("gradientUnits", "userSpaceOnUse")
-					.attr("x1", source.x)
-					.attr("x2", target.x)
-					.attr("y1", source.y)
-					.attr("y2", target.y);
+					.attr("x1", source.y)
+					.attr("x2", target.y)
+					.attr("y1", source.x)
+					.attr("y2", target.x);
 				grad
 					.append("stop")
 					.attr("offset", "0%")
@@ -498,6 +553,9 @@ const DagComponent = ({ data }) => {
 					: 0;
 				overviewWindow.style.width = `${widthRatio * 100}%`;
 				overviewWindow.style.left = `${leftRatio * 100}%`;
+				if (laneLabelsInnerRef.current) {
+					laneLabelsInnerRef.current.style.transform = `translateY(${-viewport.scrollTop}px)`;
+				}
 			};
 			updateOverviewWindow();
 			viewport.addEventListener("scroll", updateOverviewWindow, { passive: true });
@@ -516,7 +574,7 @@ const DagComponent = ({ data }) => {
 			tooltip.remove();
 			if (typeof removeNavigatorListeners === "function") removeNavigatorListeners();
 		};
-	}, [data, grouping]);
+	}, [data, grouping, rootRepo]);
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
 	useEffect(() => {
@@ -623,7 +681,7 @@ const DagComponent = ({ data }) => {
 		<div id="dag" className="dag-stack">
 			<Paper elevation={0} className="dag-card">
 				<div className="chart-title-row dag-title">
-					<div><strong>Fork evolution map</strong><span>Circles are commits; squares contain collapsed commits. Repository colors stay consistent within this view.</span></div>
+					<div><strong>Fork evolution map</strong><span>Each row is one repository. Commits move through time from left to right; cross-row curves show fork and merge relationships.</span></div>
 					<span>Drag to select · Click a node to open GitHub</span>
 				</div>
 				<div id="merge-buttons" className="">
@@ -644,12 +702,21 @@ const DagComponent = ({ data }) => {
 					</ToggleButtonGroup>
 				</div>
 				{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
-				<div
-					id="overflow-container"
-					className="dag-viewport"
-					ref={viewportRef}
-				>
-					<svg ref={svgRef} />
+				<div className="dag-map-shell">
+					<div className="dag-lane-labels" aria-label="Repository lanes">
+						<div className="dag-lane-labels-inner" ref={laneLabelsInnerRef}>
+							{repoLanes.map((lane) => (
+								<div className="dag-lane-label" key={lane.repo}>
+									<span className="lane-color" style={{ backgroundColor: lane.color }} />
+									<span className="lane-name" title={lane.repo}>{lane.repo}</span>
+									<span className="lane-count">{lane.count}</span>
+								</div>
+							))}
+						</div>
+					</div>
+					<div id="overflow-container" className="dag-viewport" ref={viewportRef}>
+						<svg ref={svgRef} />
+					</div>
 				</div>
 				<div className="dag-navigator-block">
 					<div className="navigator-label"><span>History navigator</span><span>Click anywhere to jump</span></div>
