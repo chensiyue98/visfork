@@ -36,8 +36,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // Pannable Chart (https://observablehq.com/@d3/pannable-chart)
 // D3-DAG example notebook for doing performance analysis (https://observablehq.com/d/71168767dcb492be)
 
-const DagComponent = ({ data }) => {
+const DagComponent = ({ data, rootRepo }) => {
 	const svgRef = useRef(null);
+	const viewportRef = useRef(null);
+	const overviewRef = useRef(null);
+	const overviewWindowRef = useRef(null);
+	const laneLabelsInnerRef = useRef(null);
 	// const zoomButtonRef = useRef(null);
 
 	const [grouping, setGrouping] = useState("none");
@@ -46,6 +50,7 @@ const DagComponent = ({ data }) => {
 	const [selectList, setSelectList] = useState([]);
 	const [selectMessage, setSelectMessage] = useState("empty");
 	const [networkData, setNetworkData] = useState([]);
+	const [repoLanes, setRepoLanes] = useState([]);
 
 	const [groupedData, setGroupedData] = useState([]);
 
@@ -56,14 +61,14 @@ const DagComponent = ({ data }) => {
 		d3.select(svgRef.current).selectAll("*").remove();
 
 		// sort the data by date
-		data.sort((a, b) => {
+		const sortedData = [...data].sort((a, b) => {
 			return new Date(a.date) - new Date(b.date);
 		});
 
 		let dag = null;
 
 		try {
-			dag = d3dag.dagStratify()(data);
+			dag = d3dag.dagStratify()(sortedData);
 		} catch (err) {
 			setIsSuccess(false);
 			alert("Error: Please check if the repository is PUBLIC");
@@ -75,9 +80,9 @@ const DagComponent = ({ data }) => {
 		// var dag = d3dag.dagStratify()(data);
 
 		if (grouping === "none") {
-			dag = d3dag.dagStratify()(data);
+			dag = d3dag.dagStratify()(sortedData);
 		} else if (grouping === "month") {
-			dag = d3dag.dagStratify()(groupNodes(data));
+			dag = d3dag.dagStratify()(groupNodes(sortedData));
 		}
 
 		// console.log("dag: ", dag);
@@ -169,10 +174,49 @@ const DagComponent = ({ data }) => {
 		// .lane(leftLane);
 		const layout = gridTweak(gridCompact(grid));
 
-		const { width, height } = layout(dag);
+		// Run the DAG layout once to preserve its validated topology, then replace
+		// its compact lane assignment with semantic repository swimlanes.
+		layout(dag);
+		const chronologicalNodes = dag.descendants().sort(
+			(a, b) => new Date(a.data.date) - new Date(b.data.date)
+		);
+		const repoNames = [...new Set(chronologicalNodes.map((node) => node.data.repo))];
+		const normalizedRootRepo = rootRepo
+			?.replace(/^https?:\/\/(www\.)?github\.com\//, "")
+			.replace(/\/$/, "");
+		const graphRootRepo = chronologicalNodes.find(
+			(node) => !node.data.parentIds || node.data.parentIds.length === 0
+		)?.data.repo;
+		const preferredRootRepo = repoNames.includes(normalizedRootRepo)
+			? normalizedRootRepo
+			: graphRootRepo;
+		const firstCommitByRepo = new Map();
+		chronologicalNodes.forEach((node) => {
+			if (!firstCommitByRepo.has(node.data.repo)) {
+				firstCommitByRepo.set(node.data.repo, new Date(node.data.date));
+			}
+		});
+		const repoOrder = [...repoNames].sort((a, b) => {
+			if (a === preferredRootRepo) return -1;
+			if (b === preferredRootRepo) return 1;
+			return firstCommitByRepo.get(a) - firstCommitByRepo.get(b);
+		});
+		const laneHeight = 56;
+		const topPadding = 30;
+		const bottomPadding = 42;
+		const horizontalPadding = 30;
+		const commitSpacing = grouping === "month" ? 34 : 22;
+		chronologicalNodes.forEach((node, index) => {
+			node.x = topPadding + repoOrder.indexOf(node.data.repo) * laneHeight;
+			node.y = horizontalPadding + index * commitSpacing;
+		});
+		const width = topPadding + repoOrder.length * laneHeight + bottomPadding;
+		const height = Math.max(1200, horizontalPadding * 2 + chronologicalNodes.length * commitSpacing);
 
 		const svgSelection = d3.select(svgRef.current);
 		svgSelection.attr("id", "svgSelection");
+		svgSelection.attr("role", "img");
+		svgSelection.attr("aria-label", "Commit lineage across repository forks");
 		// svgSelection.attr("viewBox", [0, 0, width, height].join(" "));
 		svgSelection.attr("width", height);
 		svgSelection.attr("height", width);
@@ -196,7 +240,6 @@ const DagComponent = ({ data }) => {
 
 		const defs = graph.append("defs"); // For gradients
 
-		const repoNames = [...new Set(data.map((d) => d.repo))];
 		// const steps = dag.size();
 		const steps = repoNames.length;
 		const colorMap = new Map();
@@ -204,14 +247,27 @@ const DagComponent = ({ data }) => {
 		for (const [i, repo] of repoNames.entries()) {
 			colorMap.set(repo, d3.interpolateRainbow(i / steps));
 		}
+		setRepoLanes(
+			repoOrder.map((repo) => ({
+				repo,
+				color: colorMap.get(repo),
+				count: chronologicalNodes.filter((node) => node.data.repo === repo).length,
+			}))
+		);
 
-		// How to draw edges
-		const line = d3
-			.line()
-			.curve(d3.curveCatmullRom)
-			// reverse x and y for horizontal layout
-			.y((d) => d.x)
-			.x((d) => d.y);
+		graph
+			.append("g")
+			.attr("class", "repo-lane-guides")
+			.selectAll("line")
+			.data(repoOrder)
+			.enter()
+			.append("line")
+			.attr("x1", 0)
+			.attr("x2", height)
+			.attr("y1", (_, index) => topPadding + index * laneHeight)
+			.attr("y2", (_, index) => topPadding + index * laneHeight)
+			.attr("stroke", "#e5ebef")
+			.attr("stroke-width", 1);
 
 		// Plot edges
 		graph
@@ -220,7 +276,11 @@ const DagComponent = ({ data }) => {
 			.data(dag.links())
 			.enter()
 			.append("path")
-			.attr("d", ({ points }) => line(points))
+			.attr("d", ({ source, target }) => {
+				const distance = Math.max(16, target.y - source.y);
+				const bend = Math.min(80, distance * 0.45);
+				return `M${source.y},${source.x} C${source.y + bend},${source.x} ${target.y - bend},${target.x} ${target.y},${target.x}`;
+			})
 			.attr("fill", "none")
 			.attr("stroke-width", 2)
 			.attr("stroke", ({ source, target }) => {
@@ -232,10 +292,10 @@ const DagComponent = ({ data }) => {
 					.append("linearGradient")
 					.attr("id", gradId)
 					.attr("gradientUnits", "userSpaceOnUse")
-					.attr("x1", source.x)
-					.attr("x2", target.x)
-					.attr("y1", source.y)
-					.attr("y2", target.y);
+					.attr("x1", source.y)
+					.attr("x2", target.y)
+					.attr("y1", source.x)
+					.attr("y2", target.x);
 				grad
 					.append("stop")
 					.attr("offset", "0%")
@@ -318,10 +378,11 @@ const DagComponent = ({ data }) => {
 				window.open(`${d.data.url}`);
 			});
 
+		d3.selectAll("body > .dag-tooltip").remove();
 		const tooltip = d3
 			.select("body")
 			.append("div")
-			.attr("class", "tooltip")
+			.attr("class", "tooltip dag-tooltip")
 			.style("opacity", 0)
 			.style("position", "absolute");
 
@@ -342,7 +403,10 @@ const DagComponent = ({ data }) => {
 
 		// for each node in earliestNodes, draw a label below it
 		let preNode = earliestNodes[0];
+		const labelStride = Math.max(1, Math.ceil(earliestNodes.length / 12));
 		for (let [i, node] of earliestNodes.entries()) {
+			if (i % labelStride !== 0 && i !== earliestNodes.length - 1) continue;
+			const nodeDate = new Date(node.data.date);
 			let text = graph
 				.append("text")
 				.attr("x", node.y)
@@ -354,9 +418,9 @@ const DagComponent = ({ data }) => {
 				.text(
 					// node.data.date.split("-")[0] + "-" + node.data.date.split("-")[1]
 					// node.data.date to month
-					new Date(node.data.date).toLocaleString("default", {
-						month: "short",
-					})
+					i === 0 || nodeDate.getMonth() === 0
+						? nodeDate.toLocaleString("default", { month: "short", year: "numeric" })
+						: nodeDate.toLocaleString("default", { month: "short" })
 				);
 			// add a line from the node to the label
 			let line = graph
@@ -458,11 +522,59 @@ const DagComponent = ({ data }) => {
 				.style("margin-left", "10px");
 		});
 
+		// Build a compact, desaturated navigator for long histories. It mirrors the
+		// graph geometry without duplicating labels, brushes, or gradient IDs.
+		const overview = overviewRef.current;
+		const viewport = viewportRef.current;
+		const overviewWindow = overviewWindowRef.current;
+		if (overview && viewport && overviewWindow) {
+			overview.replaceChildren();
+			const clone = svgRef.current.cloneNode(true);
+			clone.removeAttribute("id");
+			clone.setAttribute("viewBox", `0 0 ${height} ${width}`);
+			clone.setAttribute("preserveAspectRatio", "none");
+			clone.setAttribute("width", "100%");
+			clone.setAttribute("height", "64");
+			clone.setAttribute("aria-hidden", "true");
+			clone.querySelectorAll("defs, text, .overlay, .selection, .handle").forEach((element) => element.remove());
+			clone.querySelectorAll("[id]").forEach((element) => element.removeAttribute("id"));
+			clone.querySelectorAll("path").forEach((path) => {
+				const stroke = path.getAttribute("stroke");
+				if (stroke && stroke !== "none") path.setAttribute("stroke", "#8ca0b1");
+				const fill = path.getAttribute("fill");
+				if (fill && fill !== "none") path.setAttribute("fill", "#1769e0");
+			});
+			overview.appendChild(clone);
+
+			const updateOverviewWindow = () => {
+				const widthRatio = Math.min(1, viewport.clientWidth / viewport.scrollWidth);
+				const leftRatio = viewport.scrollWidth > viewport.clientWidth
+					? viewport.scrollLeft / viewport.scrollWidth
+					: 0;
+				overviewWindow.style.width = `${widthRatio * 100}%`;
+				overviewWindow.style.left = `${leftRatio * 100}%`;
+				if (laneLabelsInnerRef.current) {
+					laneLabelsInnerRef.current.style.transform = `translateY(${-viewport.scrollTop}px)`;
+				}
+			};
+			updateOverviewWindow();
+			viewport.addEventListener("scroll", updateOverviewWindow, { passive: true });
+			window.addEventListener("resize", updateOverviewWindow);
+			var removeNavigatorListeners = () => {
+				viewport.removeEventListener("scroll", updateOverviewWindow);
+				window.removeEventListener("resize", updateOverviewWindow);
+			};
+		}
+
 		// console.log("selected nodes: ", selectList);
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
-	}, [data, grouping]);
+		return () => {
+			tooltip.remove();
+			if (typeof removeNavigatorListeners === "function") removeNavigatorListeners();
+		};
+	}, [data, grouping, rootRepo]);
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
 	useEffect(() => {
@@ -528,6 +640,17 @@ const DagComponent = ({ data }) => {
 		}
 	}
 
+	function handleOverviewClick(event) {
+		const viewport = viewportRef.current;
+		if (!viewport) return;
+		const bounds = event.currentTarget.getBoundingClientRect();
+		const ratio = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+		viewport.scrollTo({
+			left: ratio * viewport.scrollWidth - viewport.clientWidth / 2,
+			behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+		});
+	}
+
 	const [openModal, setOpenModal] = React.useState(false);
 	const handleOpen = () => {
 		setOpenModal(true);
@@ -555,8 +678,12 @@ const DagComponent = ({ data }) => {
 	const handleClose = () => setOpenModal(false);
 
 	return (
-		<div id="dag" className="flex flex-col justify-center">
-			<Paper elevation={5} className="m-3 p-3">
+		<div id="dag" className="dag-stack">
+			<Paper elevation={0} className="dag-card">
+				<div className="chart-title-row dag-title">
+					<div><strong>Fork evolution map</strong><span>Each row is one repository. Commits move through time from left to right; cross-row curves show fork and merge relationships.</span></div>
+					<span>Drag to select · Click a node to open GitHub</span>
+				</div>
 				<div id="merge-buttons" className="">
 					<ToggleButtonGroup
 						value={grouping}
@@ -566,25 +693,44 @@ const DagComponent = ({ data }) => {
 						size="small"
 						className="flex items-center justify-center"
 					>
-						<ToggleButton value="none" title="Display all the nodes">
-							<WorkspacesIcon /> &nbsp; Full View
+						<ToggleButton value="none" title="Display every commit">
+							<WorkspacesIcon /> &nbsp; All commits
 						</ToggleButton>
-						<ToggleButton value="month" title="Show the divergent nodes">
-							<GroupWorkIcon /> &nbsp; Merged View
+						<ToggleButton value="month" title="Collapse linear commit sequences">
+							<GroupWorkIcon /> &nbsp; Collapse linear history
 						</ToggleButton>
 					</ToggleButtonGroup>
 				</div>
 				{/* <div ref={zoomButtonRef} className="absolute top-0 z-10" /> */}{" "}
-				<div
-					id="overflow-container"
-					className="overflow-x-scroll overflow-y-scroll w-screen-3/4"
-				>
-					<svg ref={svgRef} />
+				<div className="dag-map-shell">
+					<div className="dag-lane-labels" aria-label="Repository lanes">
+						<div className="dag-lane-labels-inner" ref={laneLabelsInnerRef}>
+							{repoLanes.map((lane) => (
+								<div className="dag-lane-label" key={lane.repo}>
+									<span className="lane-color" style={{ backgroundColor: lane.color }} />
+									<span className="lane-name" title={lane.repo}>{lane.repo}</span>
+									<span className="lane-count">{lane.count}</span>
+								</div>
+							))}
+						</div>
+					</div>
+					<div id="overflow-container" className="dag-viewport" ref={viewportRef}>
+						<svg ref={svgRef} />
+					</div>
 				</div>
+				<div className="dag-navigator-block">
+					<div className="navigator-label"><span>History navigator</span><span>Click anywhere to jump</span></div>
+					<div className="dag-navigator" onClick={handleOverviewClick} role="button" tabIndex={0} aria-label="Navigate the full commit history" onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") handleOverviewClick({ currentTarget: event.currentTarget, clientX: event.currentTarget.getBoundingClientRect().left }); }}>
+						<div className="dag-navigator-graph" ref={overviewRef} />
+						<div className="dag-navigator-window" ref={overviewWindowRef} />
+					</div>
+				</div>
+				<div className="legend-heading"><span>Repositories</span><span>Color identifies the repository owning each commit</span></div>
 				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
-			<div className="border-2 border-gray-200 border-solid">
-				<TableContainer className="h-60 w-screen-3/4 overflow-x-auto">
+			<div className="selection-card">
+				<div className="chart-title-row"><div><strong>Selected commits</strong><span>Drag a rectangle over the evolution map to populate this table.</span></div><span>{selectList.length} selected</span></div>
+				<TableContainer className="selection-table">
 					<Table sx={{ minWidth: 800 }} size="small" aria-label="simple table">
 						<TableHead>
 							<TableRow className="child:font-extrabold">
@@ -606,9 +752,12 @@ const DagComponent = ({ data }) => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
+							{selectList.length === 0 && (
+								<TableRow><TableCell colSpan={5} align="center" className="empty-table">No commits selected yet. Drag across nodes in the map above.</TableCell></TableRow>
+							)}
 							{selectList.map((row) => (
 								<TableRow
-									key={row.id}
+									key={row.hash}
 									sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 								>
 									<TableCell style={{ width: "20%" }} align="left">
@@ -639,7 +788,7 @@ const DagComponent = ({ data }) => {
 					</Table>
 				</TableContainer>
 				<div id="generate-word-cloud" className="flex justify-center py-2">
-					<Button id="word-cloud-btn" onClick={handleOpen} variant="outlined">
+					<Button id="word-cloud-btn" onClick={handleOpen} variant="outlined" disabled={selectList.length === 0}>
 						<TroubleshootIcon /> &nbsp; Peek into selected nodes
 					</Button>
 					{/* <div id="message-cloud"></div> */}
@@ -662,9 +811,10 @@ const DagComponent = ({ data }) => {
 							id="sankey-classify"
 							expandIcon={<ExpandMoreIcon />}
 						>
-							<CategoryIcon /> &nbsp; Commits Classification
+							<CategoryIcon /> &nbsp; Compare maintenance intent
 						</AccordionSummary>
 						<AccordionDetails>
+							<p className="accordion-intro">See how each fork’s commit messages distribute across adaptive, corrective, and perfective maintenance. Categories are inferred from message text.</p>
 							<div
 								id="sankey-diagram"
 								className="border-2 h-auto border-blue-200 flex justify-center"
@@ -685,9 +835,10 @@ const DagComponent = ({ data }) => {
 							id="network-history"
 							expandIcon={<ExpandMoreIcon />}
 						>
-							<ShareIcon /> &nbsp; Collaboration Network History
+							<ShareIcon /> &nbsp; Replay contributor collaboration
 						</AccordionSummary>
 						<AccordionDetails>
+							<p className="accordion-intro">Move through time to see which authors contributed to which repositories.</p>
 							{networkData.length > 0 ? (
 								<Network data={networkData} />
 							) : (

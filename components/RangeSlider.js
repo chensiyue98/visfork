@@ -57,11 +57,17 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 			const yAxis = d3.axisLeft(yScale).tickSize(0);
 
 			// Create the SVG container
-			const svg = d3
+			const rootSvg = d3
 				.select(ref.current)
 				.append("svg")
-				.attr("width", width + margin.left + margin.right)
-				.attr("height", height + margin.top + margin.bottom)
+				.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+				.attr("preserveAspectRatio", "xMidYMid meet")
+				.attr("role", "img")
+				.attr("aria-label", "Monthly commit activity. Drag to select a date range.")
+				.style("width", "100%")
+				.style("height", "auto");
+
+			const svg = rootSvg
 				.append("g")
 				.attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -177,14 +183,16 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 	}, [raw]);
 
 	return (
-		<div className="text-center">
+		<div className="range-card">
+			<div className="chart-title-row">
+				<div><strong>Activity over time</strong><span>Drag across the bars to focus the evolution map.</span></div>
+				<span>Double-click to reset</span>
+			</div>
 			<div
 				id="range-slider"
 				ref={ref}
-				className="border-2 border-blue-300 rounded-md p-1"
-			>
-				Slide to select a date range
-			</div>
+				className="range-slider"
+			/>
 		</div>
 	);
 };
