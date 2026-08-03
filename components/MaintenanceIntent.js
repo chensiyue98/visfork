@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { classifyCommit } from "./Regex";
+import { SankeyChart } from "./Sankey";
 
 const INTENTS = [
 	{ key: "adaptive", label: "Feature & environment changes", short: "Adaptive", color: "#1769e0" },
@@ -15,6 +16,7 @@ const shortRepo = (repo) => repo?.split("/").pop() || repo;
 export default function MaintenanceIntent({ data, rootRepo }) {
 	const [view, setView] = useState("share");
 	const [sortBy, setSortBy] = useState("total");
+	const flowRef = useRef(null);
 
 	const analysis = useMemo(() => {
 		const repos = new Map();
@@ -63,6 +65,57 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 	const maxTotal = Math.max(1, ...analysis.rows.map((row) => row.total));
 	const coverage = data.length ? analysis.classified / data.length : 0;
 
+	useEffect(() => {
+		if (view !== "flow" || !flowRef.current) return undefined;
+		const container = flowRef.current;
+		const draw = () => {
+			const categoryIds = new Map(INTENTS.map((intent) => [intent.key, `intent:${intent.key}`]));
+			const nodes = [
+				...analysis.rows.map((row) => ({ id: row.repo, group: "repository" })),
+				...INTENTS.map((intent) => ({ id: categoryIds.get(intent.key), group: intent.key })),
+			];
+			const links = analysis.rows.flatMap((row) =>
+				INTENTS.filter((intent) => row[intent.key].length > 0).map((intent) => ({
+					source: row.repo,
+					target: categoryIds.get(intent.key),
+					value: row[intent.key].length,
+				}))
+			);
+			const labels = new Map(INTENTS.map((intent) => [categoryIds.get(intent.key), intent.label]));
+			const width = Math.max(720, container.clientWidth || 720);
+			const height = Math.max(300, analysis.rows.length * 34 + 36);
+			const chart = SankeyChart(
+				{ nodes, links },
+				{
+					width,
+					height,
+					marginTop: 14,
+					marginBottom: 14,
+					marginLeft: 150,
+					marginRight: 170,
+					nodeId: (node) => node.id,
+					nodeGroup: (node) => node.group,
+					nodeGroups: ["repository", ...INTENTS.map((intent) => intent.key)],
+					colors: ["#53697a", ...INTENTS.map((intent) => intent.color)],
+					nodeLabel: (node) => labels.get(node.id) || shortRepo(node.id),
+					nodeStroke: "#ffffff",
+					nodeStrokeWidth: 1,
+					linkColor: "target",
+					linkStrokeOpacity: 0.52,
+					linkTitle: (link) => `${shortRepo(link.source.id)} → ${labels.get(link.target.id)}\n${link.value} commits`,
+				}
+			);
+			chart.setAttribute("role", "img");
+			chart.setAttribute("aria-label", "Commit flow from repositories to maintenance categories");
+			container.replaceChildren(chart);
+		};
+
+		draw();
+		const observer = new ResizeObserver(draw);
+		observer.observe(container);
+		return () => observer.disconnect();
+	}, [analysis.rows, view]);
+
 	return (
 		<div className="maintenance-intent">
 			<div className="maintenance-notice">
@@ -82,6 +135,7 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 					<ToggleButtonGroup value={view} exclusive size="small" onChange={(_, value) => value && setView(value)} aria-label="Maintenance comparison mode">
 						<ToggleButton value="share">Share</ToggleButton>
 						<ToggleButton value="volume">Volume</ToggleButton>
+						<ToggleButton value="flow">Flow</ToggleButton>
 					</ToggleButtonGroup>
 				</div>
 				<label className="maintenance-sort">
@@ -97,7 +151,12 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 				{INTENTS.map((intent) => <span key={intent.key}><i style={{ background: intent.color }} />{intent.label}</span>)}
 			</div>
 
-			<div className="maintenance-chart">
+			{view === "flow" ? (
+				<div className="maintenance-flow-shell">
+					<div className="maintenance-flow-heading"><span>Repositories</span><span>Maintenance intent</span></div>
+					<div className="maintenance-flow" ref={flowRef} />
+				</div>
+			) : <div className="maintenance-chart">
 				<div className="maintenance-scale"><span>Repository</span><span>{view === "share" ? "Share of commits" : `Commit volume · max ${maxTotal}`}</span></div>
 				{analysis.rows.map((row) => {
 					const barWidth = view === "share" ? 100 : (row.total / maxTotal) * 100;
@@ -123,7 +182,7 @@ export default function MaintenanceIntent({ data, rootRepo }) {
 						</div>
 					);
 				})}
-			</div>
+			</div>}
 			<p className="maintenance-footnote">Corrective and perfective evidence takes precedence over broad adaptive verbs such as “update”. Multi-match commits use the highest-priority label and are included in the ambiguity count.</p>
 		</div>
 	);

@@ -175,7 +175,7 @@ function SankeyChart(
 					.attr("stop-color", ({ target: { index: i } }) => color(G[i]))
 			);
 
-	link
+	const linkPathSelection = link
 		.append("path")
 		.attr("d", linkPath)
 		.attr(
@@ -226,14 +226,17 @@ function SankeyChart(
 			d3.select(this).attr("stroke-linejoin", nodeStrokeLinejoin);
 		});
 
-	link
-		.on("mouseover", function (d) {
-			d3.select(this).attr("stroke", "black");
+	linkPathSelection
+		.on("mouseover", function () {
+			const selection = d3.select(this);
+			selection.attr("data-resting-stroke", selection.attr("stroke"));
+			selection.attr("stroke", "black");
 			d3.select(this).attr("stroke-opacity", 1);
 		})
-		.on("mouseout", function (d) {
-			d3.select(this).attr("stroke", linkColor);
-			d3.select(this).attr("stroke-opacity", linkStrokeOpacity);
+		.on("mouseout", function () {
+			const selection = d3.select(this);
+			selection.attr("stroke", selection.attr("data-resting-stroke"));
+			selection.attr("stroke-opacity", null);
 		});
 
 
