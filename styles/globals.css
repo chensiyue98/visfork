@@ -50,6 +50,8 @@ a { color:inherit; }
 .activity-grid .tick line { stroke:#e4e9ed; }
 .activity-grid .tick text,.activity-x-axis text { fill:#677681; font-size:10px; }
 .activity-x-axis text { transform:translateY(7px); }
+.activity-years line { stroke:#b8c4cc; stroke-width:1px; }
+.activity-years text { fill:#334552; font-size:10px; font-weight:800; letter-spacing:.04em; }
 .activity-y-label { fill:#677681; font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
 .activity-bar { fill:#1769e0; outline:none; transition:fill .15s ease,opacity .15s ease; }
 .activity-bar.is-muted { fill:#b7c2ca; opacity:.42; }

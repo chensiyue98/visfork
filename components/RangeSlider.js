@@ -56,7 +56,7 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 
 		const outerWidth = chartWidth;
 		const height = 150;
-		const margin = { top: 12, right: 12, bottom: 32, left: 42 };
+		const margin = { top: 12, right: 12, bottom: 52, left: 42 };
 		const width = Math.max(1, outerWidth - margin.left - margin.right);
 		const xScale = d3.scaleBand(months, [0, width]).padding(0.16);
 		const yScale = d3.scaleLinear([0, Math.max(1, d3.max(activity, (item) => item.commits))], [height, 0]).nice();
@@ -80,14 +80,27 @@ const DateRangeSlider = ({ raw, onSelection = () => {} }) => {
 
 		const tickStride = Math.max(1, Math.ceil(months.length / Math.max(2, Math.floor(width / 76))));
 		const tickValues = months.filter((_, index) => index % tickStride === 0 || index === months.length - 1);
-		const tickFormat = (month, index) => month.getMonth() === 0 || index === 0
-			? d3.timeFormat("%b %Y")(month)
-			: d3.timeFormat("%b")(month);
 		svg.append("g")
 			.attr("class", "activity-x-axis")
 			.attr("transform", `translate(0,${height})`)
-			.call(d3.axisBottom(xScale).tickValues(tickValues).tickFormat(tickFormat).tickSize(0))
+			.call(d3.axisBottom(xScale).tickValues(tickValues).tickFormat(d3.timeFormat("%b")).tickSize(0))
 			.call((group) => group.select(".domain").remove());
+
+		const years = d3.groups(months, (month) => month.getFullYear());
+		const yearGroups = svg.append("g").attr("class", "activity-years")
+			.selectAll("g")
+			.data(years)
+			.join("g");
+		yearGroups.append("line")
+			.attr("x1", ([, yearMonths]) => xScale(yearMonths[0]))
+			.attr("x2", ([, yearMonths]) => xScale(yearMonths[yearMonths.length - 1]) + xScale.bandwidth())
+			.attr("y1", height + 24)
+			.attr("y2", height + 24);
+		yearGroups.append("text")
+			.attr("x", ([, yearMonths]) => (xScale(yearMonths[0]) + xScale(yearMonths[yearMonths.length - 1]) + xScale.bandwidth()) / 2)
+			.attr("y", height + 41)
+			.attr("text-anchor", "middle")
+			.text(([year]) => year);
 
 		const bars = svg.append("g").selectAll("rect")
 			.data(activity)
