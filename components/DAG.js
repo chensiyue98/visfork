@@ -38,6 +38,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const DagComponent = ({ data }) => {
 	const svgRef = useRef(null);
+	const viewportRef = useRef(null);
+	const overviewRef = useRef(null);
+	const overviewWindowRef = useRef(null);
 	// const zoomButtonRef = useRef(null);
 
 	const [grouping, setGrouping] = useState("none");
@@ -345,7 +348,10 @@ const DagComponent = ({ data }) => {
 
 		// for each node in earliestNodes, draw a label below it
 		let preNode = earliestNodes[0];
+		const labelStride = Math.max(1, Math.ceil(earliestNodes.length / 12));
 		for (let [i, node] of earliestNodes.entries()) {
+			if (i % labelStride !== 0 && i !== earliestNodes.length - 1) continue;
+			const nodeDate = new Date(node.data.date);
 			let text = graph
 				.append("text")
 				.attr("x", node.y)
@@ -357,9 +363,9 @@ const DagComponent = ({ data }) => {
 				.text(
 					// node.data.date.split("-")[0] + "-" + node.data.date.split("-")[1]
 					// node.data.date to month
-					new Date(node.data.date).toLocaleString("default", {
-						month: "short",
-					})
+					i === 0 || nodeDate.getMonth() === 0
+						? nodeDate.toLocaleString("default", { month: "short", year: "numeric" })
+						: nodeDate.toLocaleString("default", { month: "short" })
 				);
 			// add a line from the node to the label
 			let line = graph
@@ -461,11 +467,55 @@ const DagComponent = ({ data }) => {
 				.style("margin-left", "10px");
 		});
 
+		// Build a compact, desaturated navigator for long histories. It mirrors the
+		// graph geometry without duplicating labels, brushes, or gradient IDs.
+		const overview = overviewRef.current;
+		const viewport = viewportRef.current;
+		const overviewWindow = overviewWindowRef.current;
+		if (overview && viewport && overviewWindow) {
+			overview.replaceChildren();
+			const clone = svgRef.current.cloneNode(true);
+			clone.removeAttribute("id");
+			clone.setAttribute("viewBox", `0 0 ${height} ${width}`);
+			clone.setAttribute("preserveAspectRatio", "none");
+			clone.setAttribute("width", "100%");
+			clone.setAttribute("height", "64");
+			clone.setAttribute("aria-hidden", "true");
+			clone.querySelectorAll("defs, text, .overlay, .selection, .handle").forEach((element) => element.remove());
+			clone.querySelectorAll("[id]").forEach((element) => element.removeAttribute("id"));
+			clone.querySelectorAll("path").forEach((path) => {
+				const stroke = path.getAttribute("stroke");
+				if (stroke && stroke !== "none") path.setAttribute("stroke", "#8ca0b1");
+				const fill = path.getAttribute("fill");
+				if (fill && fill !== "none") path.setAttribute("fill", "#1769e0");
+			});
+			overview.appendChild(clone);
+
+			const updateOverviewWindow = () => {
+				const widthRatio = Math.min(1, viewport.clientWidth / viewport.scrollWidth);
+				const leftRatio = viewport.scrollWidth > viewport.clientWidth
+					? viewport.scrollLeft / viewport.scrollWidth
+					: 0;
+				overviewWindow.style.width = `${widthRatio * 100}%`;
+				overviewWindow.style.left = `${leftRatio * 100}%`;
+			};
+			updateOverviewWindow();
+			viewport.addEventListener("scroll", updateOverviewWindow, { passive: true });
+			window.addEventListener("resize", updateOverviewWindow);
+			var removeNavigatorListeners = () => {
+				viewport.removeEventListener("scroll", updateOverviewWindow);
+				window.removeEventListener("resize", updateOverviewWindow);
+			};
+		}
+
 		// console.log("selected nodes: ", selectList);
 
 		var endTimer = new Date().getTime();
 		console.log("From DAG.js - Render Time: " + (endTimer - startTimer) + "ms");
-		return () => tooltip.remove();
+		return () => {
+			tooltip.remove();
+			if (typeof removeNavigatorListeners === "function") removeNavigatorListeners();
+		};
 	}, [data, grouping]);
 
 	// draw sankey diagram (repo -> commit_type) when data is updated
@@ -532,6 +582,17 @@ const DagComponent = ({ data }) => {
 		}
 	}
 
+	function handleOverviewClick(event) {
+		const viewport = viewportRef.current;
+		if (!viewport) return;
+		const bounds = event.currentTarget.getBoundingClientRect();
+		const ratio = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+		viewport.scrollTo({
+			left: ratio * viewport.scrollWidth - viewport.clientWidth / 2,
+			behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+		});
+	}
+
 	const [openModal, setOpenModal] = React.useState(false);
 	const handleOpen = () => {
 		setOpenModal(true);
@@ -586,9 +647,18 @@ const DagComponent = ({ data }) => {
 				<div
 					id="overflow-container"
 					className="dag-viewport"
+					ref={viewportRef}
 				>
 					<svg ref={svgRef} />
 				</div>
+				<div className="dag-navigator-block">
+					<div className="navigator-label"><span>History navigator</span><span>Click anywhere to jump</span></div>
+					<div className="dag-navigator" onClick={handleOverviewClick} role="button" tabIndex={0} aria-label="Navigate the full commit history" onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") handleOverviewClick({ currentTarget: event.currentTarget, clientX: event.currentTarget.getBoundingClientRect().left }); }}>
+						<div className="dag-navigator-graph" ref={overviewRef} />
+						<div className="dag-navigator-window" ref={overviewWindowRef} />
+					</div>
+				</div>
+				<div className="legend-heading"><span>Repositories</span><span>Color identifies the repository owning each commit</span></div>
 				<div id="dag-legends">{/* Legends */}</div>
 			</Paper>
 			<div className="selection-card">
